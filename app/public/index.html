@@ -32,20 +32,27 @@
         <p>We'll build your step-by-step path, a printable paperwork checklist, the state rules that protect you, and a realistic timeline for <strong>9 Orange County cities</strong>: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, Irvine, Orange, Santa Ana and Tustin.</p>
       </div>
 
-      <div id="output" hidden>
-        <nav class="tabs" role="tablist">
-          <button role="tab" data-tab="steps" aria-selected="true">Your steps</button>
-          <button role="tab" data-tab="paperwork">Paperwork</button>
-          <button role="tab" data-tab="law">State-law check <span class="badge" id="flag-count"></span></button>
-          <button role="tab" data-tab="timeline">Timeline</button>
-          <button role="tab" data-tab="stale">Old-law checker</button>
-        </nav>
+      <div id="output" class="path-layout" hidden>
+        <aside class="path-nav panel" aria-label="Your path">
+          <h2 class="path-nav-title">Your path</h2>
+          <ol class="ps-list" id="ps-list"></ol>
+          <h2 class="path-nav-title tools-title">Tools</h2>
+          <ul class="ps-tools">
+            <li><button type="button" class="ps-tool" data-view="stale">Old-law checker</button></li>
+            <li><button type="button" class="ps-tool" data-view="ask">Ask a question</button></li>
+          </ul>
+        </aside>
 
-        <div class="tab-panel" id="tab-steps"></div>
-        <div class="tab-panel" id="tab-paperwork" hidden></div>
-        <div class="tab-panel" id="tab-law" hidden></div>
-        <div class="tab-panel" id="tab-timeline" hidden></div>
-        <div class="tab-panel" id="tab-stale" hidden>
+        <div class="path-content">
+        <div class="path-head" id="path-head"></div>
+        <div class="tab-panel step-panel" id="step-1"></div>
+        <div class="tab-panel step-panel" id="step-2" hidden></div>
+        <div class="tab-panel step-panel" id="step-3" hidden></div>
+        <div class="tab-panel step-panel" id="step-4" hidden></div>
+        <div class="tab-panel step-panel" id="step-5" hidden></div>
+        <div class="tab-panel step-panel" id="step-6" hidden></div>
+        <div class="tab-panel step-panel" id="step-7" hidden></div>
+        <div class="tab-panel" id="view-stale" hidden>
           <h2>Is that city form citing old law?</h2>
           <p>California renumbered ADU law in 2024 (SB 477): <code>65852.2</code>, <code>65852.22</code>, <code>65852.23</code> and <code>65852.26</code> became <strong>Gov Code 66310–66342</strong>, and in 2025 <code>66324</code>, <code>66327</code>, <code>66332</code> became <code>66311.5</code>, <code>66313.5</code>, <code>66311.7</code>. Paste text from a city checklist, handout or letter and we'll flag old section numbers.</p>
           <textarea id="stale-input" rows="7" placeholder="Paste text from a city ADU checklist, e.g. “JADU covenant per Government Code Section 65852.22 …”"></textarea>
@@ -54,7 +61,7 @@
           <p class="source">Source: HCD ADU Handbook (March 2026), pp. 13–14. <a href="https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf" target="_blank" rel="noopener">PDF</a> · checked 2026-11-07</p>
         </div>
 
-        <section class="panel ask" id="ask">
+        <section class="tab-panel ask" id="view-ask" hidden>
           <h2>Ask a question <span class="pill">Claude</span></h2>
           <p class="hint">Answers come only from the sourced data on this page, with citations. If our sources don't say, it answers “unknown”.</p>
           <form id="ask-form">
@@ -63,6 +70,7 @@
           </form>
           <div id="ask-out" class="answer" hidden></div>
         </section>
+        </div>
       </div>
     </section>
   </main>
