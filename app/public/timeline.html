@@ -3,58 +3,101 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fast-Path Timeline</title>
-  <meta name="description" content="Prototype: compares a typical (baseline) housing timeline with a ministerial fast path, using statutory decision clocks with citations.">
+  <title>ADU Deadline Calendar</title>
+  <meta name="description" content="Prototype: a calendar of your ADU paperwork goals and the city's legal reply deadlines, with countdowns and an overdue check. Not legal advice.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="proto-banner" role="note"><strong>Prototype — not legal or financial advice.</strong> Baseline durations are assumptions from the event brief; statutory clocks are legal maximums, not predictions. Dollar figures come from your inputs.</div>
+  <div class="proto-banner" role="note"><strong>Prototype — not legal advice.</strong> Deadlines are legal maximums from state law; goal dates are yours to set. Confirm dates with your city's planning division or a licensed professional.</div>
 
   <header class="site-header">
     <div class="brand">
       <svg viewBox="0 0 32 32" aria-hidden="true" class="logo"><path d="M3 15 L13 6 L23 15 V27 H3 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M19 27 V19 H29 V27 Z" fill="currentColor" opacity=".85"/><path d="M17 20.5 L24 14 L31 20.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-      <div>
-        <h1>Four years to two?</h1>
-        <p class="tagline">Baseline vs. fast-path timeline, and what the time is worth</p>
-      </div>
+      <h1>ADU Pathfinder</h1>
     </div>
-    <nav class="site-nav" aria-label="Pages"><a href="/">ADU guide</a><a href="/map.html">Screening map</a><a href="/timeline.html" aria-current="page">Fast-path timeline</a></nav>
+    <nav class="site-nav" aria-label="Pages"><a href="/">ADU guide</a><a href="/map.html">Screening map</a><a href="/timeline.html" aria-current="page">Calendar &amp; deadlines</a></nav>
   </header>
 
   <main class="wide">
-    <section class="panel">
-      <div class="tl-controls">
-        <label>Approval path / project type
-          <select id="t-path"></select>
-        </label>
-        <label>"Plans &amp; plan check" duration
-          <select id="t-plans">
-            <option value="min">Low end of the brief's range</option>
-            <option value="max" selected>High end of the brief's range</option>
-          </select>
-        </label>
-      </div>
+    <div id="project-panel" aria-label="Your project"></div>
 
-      <div class="tl-chart" id="chart" role="img" aria-label="Stacked bar chart comparing baseline and fast-path timelines"></div>
-      <ul class="tl-legend" id="legend"></ul>
+    <div class="results cal-page">
+      <div class="callout info path-note" id="path-note"></div>
 
-      <div class="savings">
-        <div class="stat"><div class="k">Time saved per project</div><div class="v" id="saved">—</div><div class="s" id="saved-sub"></div></div>
-        <div class="stat">
-          <div class="k">Inputs <span class="chip assumption">ASSUMPTION</span></div>
-          <label>Number of homes <input id="t-homes" type="number" min="1" step="1" inputmode="numeric"></label>
-          <label>Carrying cost per home per month ($) <input id="t-cost" type="number" min="0" step="50" inputmode="numeric"></label>
+      <!-- Countdowns -->
+      <section class="countdowns" id="countdowns" aria-label="Countdowns"></section>
+
+      <!-- Is the city late? -->
+      <section class="panel shot-clock" id="shot-clock" aria-label="Is the city late on my application?"></section>
+
+      <!-- Calendar -->
+      <section class="panel cal-panel" aria-label="Calendar">
+        <div class="cal-toolbar">
+          <div class="cal-nav">
+            <button type="button" class="btn ghost" id="cal-prev" aria-label="Previous">‹</button>
+            <button type="button" class="btn ghost" id="cal-today">Today</button>
+            <button type="button" class="btn ghost" id="cal-next" aria-label="Next">›</button>
+            <h2 id="cal-title"></h2>
+          </div>
+          <div class="cal-views" role="group" aria-label="Calendar view">
+            <button type="button" data-view="week">Week</button>
+            <button type="button" data-view="1">Month</button>
+            <button type="button" data-view="2">2 months</button>
+            <button type="button" data-view="3">3 months</button>
+          </div>
         </div>
-        <div class="stat"><div class="k">Carrying-cost savings <span class="chip assumption">ASSUMPTION</span></div><div class="v" id="dollars">—</div><div class="s" id="dollars-sub"></div></div>
-      </div>
-    </section>
+        <ul class="cal-legend">
+          <li><span class="ev-dot goal"></span>Your paperwork goal</li>
+          <li><span class="ev-dot you"></span>You submit</li>
+          <li><span class="ev-dot city"></span>City's legal deadline</li>
+          <li><span class="ev-dot late"></span>Missed deadline</li>
+          <li><span class="ev-dot typical"></span>Typical (historical median, not a deadline)</li>
+        </ul>
+        <div id="cal" class="cal"></div>
+        <div class="row cal-export">
+          <button type="button" class="btn ghost" id="ics-btn">Download calendar file (.ics)</button>
+          <span class="hint">Import it into Apple Calendar, Google Calendar or Outlook. Nothing is sent anywhere.</span>
+        </div>
+      </section>
 
-    <section class="panel" style="margin-top:1rem">
-      <h2>Where these numbers come from</h2>
-      <ul class="cites" id="cites"></ul>
-    </section>
+      <!-- Dates -->
+      <section class="panel cal-inputs" aria-label="Your dates">
+        <h2>Your dates</h2>
+        <p class="hint">Saved only in this browser. Leave "submitted" blank while you're still preparing: deadlines are then shown as projected from your target date.</p>
+        <div class="cal-form">
+          <label>Start gathering paperwork <input type="date" id="d-start"></label>
+          <label>Target submission date <input type="date" id="d-target"></label>
+          <label>Date you submitted <input type="date" id="d-submitted"></label>
+          <label>Date your application became complete
+            <input type="date" id="d-complete">
+            <span class="hint">Usually the submission date. If the city sent an incompleteness list, use the date you turned in the missing items.</span>
+          </label>
+          <label class="check"><input type="checkbox" id="d-responded"> The city told me in writing whether it was complete</label>
+          <label class="check"><input type="checkbox" id="d-decided"> The city has approved or denied my application</label>
+          <label>Expected monthly rent ($) <span class="chip assumption">ASSUMPTION</span>
+            <input type="number" id="d-rent" min="0" step="50" inputmode="numeric">
+            <span class="hint">Your own estimate of what the ADU would rent for. Used only for the cost of delay.</span>
+          </label>
+          <label>Today <input type="date" id="d-today"><span class="hint">Change it to test a scenario.</span></label>
+        </div>
+        <div class="row"><button type="button" class="btn ghost" id="d-example">Load an example (submitted Aug 1, today Nov 7)</button><button type="button" class="btn ghost" id="d-reset">Clear my dates</button></div>
+      </section>
+
+      <!-- Agenda -->
+      <section class="panel" aria-label="Agenda">
+        <h2>Everything on your calendar</h2>
+        <ol class="agenda" id="agenda"></ol>
+      </section>
+
+      <section class="panel" aria-label="Sources">
+        <h2>Where these dates come from</h2>
+        <ul class="cites" id="cites"></ul>
+      </section>
+    </div>
   </main>
 
+  <script src="ui.js"></script>
+  <script src="project-form.js"></script>
   <script src="timeline.js"></script>
 </body>
 </html>

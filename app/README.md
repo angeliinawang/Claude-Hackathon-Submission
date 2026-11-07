@@ -2,8 +2,8 @@
 
 > For Orange County homeowners adding an ADU: shows the city's paperwork, the state rules that protect you, and a realistic timeline in one place, with every fact sourced and dated.
 
-**Team:** [team name]
-**Members:** [names]
+**Team:** [Placeholder]
+**Members:** [Jocelyn, Angelina, Vienna, Joy, Andrew]
 **Lane:** 2 Clear it
 **Built at:** Claude Impact Lab: UCI × SoCal Affordable Housing, November 7, 2026
 
@@ -16,15 +16,16 @@ A first-time homeowner in one Orange County city who wants to add a backyard hom
 
 ## What we built
 
-A web app (no build step) with five views:
+A web app (no build step). The **homeowner guide** (`/`) is written for someone with no legal or planning background:
 
-| View | What it shows |
-|---|---|
-| **Your steps** | Where to submit, the city's own steps in order, then the state clocks (15-business-day completeness check, 60-day decision or 30 days for pre-approved detached plans, coastal permit), JADU deed restriction, Certificate of Occupancy |
-| **Paperwork** | Every form and document the city lists, tagged *Sign / Notarize / Record with County Recorder*, with links to the forms; state-required documents for your project; a printable packet |
-| **State-law check** | Only the state rules that apply to *your* project (type, size, coastal, pre-approved plan, shared bathroom), plus flags: stale citations, possible conflicts with state law, and city pages that disagree with each other |
-| **Timeline** | State legal maximums, city-published step times, and the city's real median build time (permit to Certificate of Occupancy) and ADU permits per year from Annual Progress Report data |
-| **Old-law checker** | Paste text from any city form; it highlights renumbered ADU sections (65852.2, .22, .23, .26, 66324, 66327, 66332) and shows the current numbers |
+- A first-run pop-up asks about the project (city, type, size, house on the lot, coastal zone); a summary bar with **Edit project**, a tap-to-call planning number (or "Find contact info ↗") and the city's ADU page stays on top.
+- A collapsible sidebar shows **7 steps**: Before you apply, Gather paperwork, Submit, City review, Corrections or denial, Fees, Build and move in, with a plain duration when one is known (e.g. "Up to about 3 months", "Typically about 10 months") and a Done checkbox.
+- Each step page: big **number tiles** where a number is the point (15 business days / 60 days; $0 or "Maybe" fees; typical months to move in), **What to do** in at most 3 plain bullets with action buttons, **Your rights for this step** as collapsed rows (plain headline; original wording and citation inside), and Back/Next.
+- Step 1 links to the screening map; Step 2 has the printable **paperwork checklist** with one plain line per item ("what it is, who prepares it") and "Not yet confirmed" tags.
+- Every citation, dataset and city source for a step sits behind its **Sources** button, with checked dates and "Not yet confirmed" where it applies. Terms like ADU, JADU, setbacks or deemed complete have a small **ⓘ** with a 1–2 sentence plain definition.
+- **For cities & builders** menu: Screening map, Fast-path timeline (deadline calendar), and the **Old-law checker** (paste text to flag renumbered ADU sections; also lists each city's City-vs-state comparisons).
+
+Cities covered: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, Irvine, Orange, Santa Ana, Tustin.
 
 Cities covered: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, Irvine, Orange, Santa Ana, Tustin.
 
@@ -37,11 +38,18 @@ Cities covered: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, 
 - Click a lot to see its APN, address, zoning, score, and every test with its result, reason and citation.
 - Filters: minimum acreage, a specific path, hide hazard lots, with a running "X of Y lots shown" count.
 - `map.html?apn=35631101` deep-links to one lot.
+- **Any Orange County ZIP:** type a ZIP and the server fetches that ZIP's lots on demand from the same layers (listed in `lanes/1-find-it/data/DATA-SOURCES.md`), clipped to the U.S. Census 2020 ZIP Code Tabulation Area (an approximation of the USPS ZIP). Orange County is checked against SCAG's Orange County layer. One ZIP at a time, paced requests, a 20,000-lot cap, cached in `data/zips/` (git-ignored). `map.html?zip=92808` deep-links. First load takes ~30–60 s; the county parcel server sometimes times out, in which case the page says to try again.
 - All rules live in `data/screening-rules.json` (editable). The engine (`public/screening.js`) has no thresholds of its own.
 
-### Fast-path timeline (`/timeline.html`)
+### Calendar & deadlines (`/timeline.html`)
 
-Stacked bars compare the brief's **baseline** (rezoning, entitlements, plans, construction: an ASSUMPTION) with a **fast path** for the selected approval path: no rezoning, then the statutory completeness and decision clocks (ADU 15 business days + 60 days; pre-approved detached ADU + 30 days; SB 9 30 + 60 days; SB 684/1123 60 days; SB 4 60 or 90 days; AB 2011 unknown). Plans and construction are the same in both bars. Below the chart: time saved, and a carrying-cost estimate from two user inputs (homes, $/home/month), labelled ASSUMPTION. When a clock is not in our sources it shows "unknown", and savings show only an upper bound.
+Answers "Is the city late on my application, and how much is that costing me?" for the project in the shared **Tell us about your project** panel.
+
+- **Countdowns:** the city's completeness reply (15 business days, Gov. Code § 66317(a)(2)), the approve-or-deny decision (60 days, or 30 for a pre-approved detached plan), and your next paperwork goal. Missed completeness deadline = deemed complete (§ 66317(a)(2)(F)).
+- **Is the city late?** Legal-deadline bar vs. days actually elapsed since your application became complete, with an overdue marker. Past 60 days without a decision, the application is deemed approved (§ 66317(a); HCD ADU Handbook p. 51, AB 3182). A **draft** "deemed approved" confirmation or status-request email to copy: nothing is ever sent. Lost rent = your monthly rent estimate (ASSUMPTION) × months overdue.
+- **Calendar:** Week, Month, 2-month and 3-month views. Your paperwork goals in the city's listed order between your start and target dates (ASSUMPTION: spread evenly), city-published lead times (e.g. Anaheim sewer verification "up to four days") placed before the matching item, the city's legal deadlines (projected until you enter a submission date), and the city's historical median move-in. Download a `.ics` file to add it to any calendar app.
+- Example: submitted Aug 1, today Nov 7 → deadline Sep 30, 98 days so far, 38 days overdue, ≈ $2,497 at $2,000/month. Dates are saved only in the browser.
+- No existing house: no separate ADU clock (unknown), so no overdue or deemed-approved claim.
 
 ## How Claude is used
 
@@ -92,7 +100,7 @@ To rebuild the permit stats from the CSVs: `npm run stats`.
 | Claude Q&A | Working when an API key is set |
 | Printable packet | Working (browser print) |
 | Parcel screening map | Working on real public data for one demo area (2,622 lots); other areas need `npm run fetch-parcels` with a new bounding box |
-| Fast-path timeline chart | Working; durations from config, unknown clocks shown as unknown |
+| Calendar & deadlines | Working; legal clocks from state law, goals from your dates, .ics export; business days skip weekends only (holidays not excluded, ASSUMPTION) |
 
 ## Where it gets things wrong
 
@@ -101,9 +109,10 @@ To rebuild the permit stats from the CSVs: `npm run stats`.
 - Santa Ana's own pages disagree on paper vs. electronic submittal. We show both and don't pick one.
 - Irvine shows very few ADU permits in the dataset, with years missing. This looks like a data gap, and we flag it.
 - Flags such as Irvine's covenant are questions to ask the city, not findings that the city is wrong.
-- The ADU guide does not check zoning, setbacks or lot eligibility for a specific address; the screening map does a partial check for one demo area only.
+-- The ADU guide does not check zoning, setbacks or lot eligibility for a specific address; the screening map does a partial check for one demo area only.
 - Screening map: SCAG zoning is a regional, preliminary dataset; city zoning maps win. The fire layer is the 2011 LRA map. Lots coded Specific Plan (7777) or Unknown (9999) are *unknown*. Year built is only a proxy for "vacant". SB 4 is *unknown* everywhere because ownership isn't in free data. "Likely" means every test we could run passed, not that the path applies.
 - Timeline: the baseline is the brief's rounded typical project, not a measurement, and it includes rezoning even for project types that would not need it.
+- We do not check zoning, setbacks, lot eligibility or fire zones for a specific address.
 
 ## Next steps
 

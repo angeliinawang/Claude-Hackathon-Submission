@@ -96,12 +96,80 @@
     const m = DATA.metadata;
     const L = m.layers;
     const src = (name, l) => `${name} (<a href="${esc(l.url)}" target="_blank" rel="noopener">source</a>, fetched ${esc(l.fetched)})`;
+    const zb = m.zip_boundary;
     $("#caption").innerHTML = `<strong>Screening only — not a legal determination.</strong>
       Lots and zoning: ${src("SCAG 2024 Zoning (preliminary, Oct 2025)", L.zoning)}. Address and year built: ${src("OC Parcels", L.parcels)}.
       Flood: ${src("OC Floodplains / FEMA", L.flood)}; only Special Flood Hazard Areas count. Fire: ${src("OC Fire Hazard Severity Zones, LRA (2011 map)", L.fire)}. CAL FIRE adopted newer LRA maps in 2025 that are not used here.
       Rules: <a href="/data/screening-rules.json" target="_blank">screening-rules.json</a> (HCD fact sheets, April 2026; checked ${esc(RULES.checked)}).
-      Study area: ${esc(m.study_area.name)}. ${esc(m.hazard_method)}
+      Study area: ${esc(m.study_area.name)}.${zb ? ` ZIP boundary: <a href="${esc(zb.source)}" target="_blank" rel="noopener">U.S. Census 2020 ZIP Code Tabulation Area</a> (fetched ${esc(zb.fetched)}, ${esc(zb.land_sq_mi)} sq mi of land). ${esc(zb.note)}` : ""} ${esc(m.hazard_method)}
       <br><strong>This screen does NOT check:</strong> ${RULES.not_checked.map(esc).join("; ")}.`;
+  }
+
+  // ---------- area loading: demo area or one Orange County ZIP ----------
+  let boundary = null;
+  function setData(geo) {
+    DATA = geo;
+    lots = DATA.features.map((feature) => {
+      const screen = Screening.screenLot(feature.properties, RULES);
+      feature.__screen = screen;
+      return { feature, screen };
+    });
+    boundary.clearLayers();
+    const zb = DATA.metadata.zip_boundary;
+    if (zb) L.polygon(zb.rings.map((r) => r.map(([x, y]) => [y, x])), { color: "#1f2a2e", weight: 2, dashArray: "6 5", fill: false, interactive: false }).addTo(boundary);
+    const [w, s, e, n] = DATA.metadata.study_area.bbox;
+    map.closePopup();
+    map.fitBounds([[s, w], [n, e]]);
+    caption();
+    redraw();
+  }
+
+  const zipStatus = (html) => { $("#zip-status").innerHTML = html; };
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  async function loadDemo() {
+    zipStatus("Loading the demo area…");
+    setData(await fetch("/data/parcels.geojson").then((r) => r.json()));
+    $("#zip-demo").hidden = true;
+    zipStatus(`Showing the demo area: ${esc(DATA.metadata.study_area.name)}. Enter any Orange County ZIP to fetch its lots from the public layers listed in this repo (first load takes about 30–60 seconds, then it's cached).`);
+    const u = new URL(location.href); u.searchParams.delete("zip"); history.replaceState(null, "", u);
+  }
+
+  async function loadZip(zip) {
+    zip = String(zip).trim();
+    if (!/^\d{5}$/.test(zip)) { zipStatus(`<span class="zip-err">Enter a 5-digit ZIP code.</span>`); return; }
+    $("#zip-go").disabled = true;
+    try {
+      let r = await fetch(`/api/zip/${zip}`, { method: "POST" });
+      let s = await r.json();
+      const t0 = Date.now();
+      while (s.state === "running") {
+        const secs = Math.round((Date.now() - t0) / 1000);
+        zipStatus(`<span class="spinner" aria-hidden="true"></span> Fetching ZIP ${esc(zip)}: ${esc(s.message || "working…")}${s.expected ? ` (about ${s.expected.toLocaleString()} lots)` : ""} · ${secs}s`);
+        await sleep(2000);
+        s = await fetch(`/api/zip/${zip}`).then((x) => x.json());
+      }
+      if (s.state !== "done") { zipStatus(`<span class="zip-err">${esc(s.error || "Could not load that ZIP.")}</span>`); return; }
+      zipStatus(`Loading ${s.lots ? s.lots.toLocaleString() + " " : ""}lots for ZIP ${esc(zip)}…`);
+      setData(await fetch(s.url).then((x) => x.json()));
+      $("#zip").value = zip;
+      $("#zip-demo").hidden = false;
+      zipStatus(`Showing ZIP <b>${esc(zip)}</b>: ${DATA.features.length.toLocaleString()} lots${s.cities?.length ? ` in ${s.cities.map(esc).join(", ")}` : ""}, fetched ${esc(DATA.metadata.generated)} from the same public layers as the demo area, clipped to the Census ZIP boundary (dashed line).`);
+      const u = new URL(location.href); u.searchParams.set("zip", zip); history.replaceState(null, "", u);
+      refreshZipList();
+    } catch (err) {
+      console.error(err);
+      zipStatus(`<span class="zip-err">Could not reach the server to load ZIP ${esc(zip)}.</span>`);
+    } finally {
+      $("#zip-go").disabled = false;
+    }
+  }
+
+  async function refreshZipList() {
+    try {
+      const { zips } = await fetch("/api/zips").then((r) => r.json());
+      $("#zip-list").innerHTML = zips.map((z) => `<option value="${esc(z.zip)}">${esc(z.cities.join(", "))} · ${z.lots.toLocaleString()} lots (ready)</option>`).join("");
+    } catch {}
   }
 
   function how() {
@@ -110,14 +178,13 @@
   }
 
   async function init() {
-    [RULES, DATA] = await Promise.all([fetch("/data/screening-rules.json").then((r) => r.json()), fetch("/data/parcels.geojson").then((r) => r.json())]);
-    lots = DATA.features.map((feature) => {
-      const screen = Screening.screenLot(feature.properties, RULES);
-      feature.__screen = screen;
-      return { feature, screen };
-    });
+    RULES = await fetch("/data/screening-rules.json").then((r) => r.json());
 
     $("#f-path").insertAdjacentHTML("beforeend", RULES.paths.map((p) => `<option value="${esc(p.id)}">${esc(p.name)} — ${esc(p.short)}</option>`).join(""));
+    // ?embed=1: compact view used inside the ADU guide (step 1). ?path=ADU preselects a path filter.
+    const qs = new URLSearchParams(location.search);
+    if (qs.get("embed") === "1") document.body.classList.add("embed");
+    if (qs.get("path") && RULES.paths.some((p) => p.id === qs.get("path"))) $("#f-path").value = qs.get("path");
 
     map = L.map("map", { preferCanvas: true, scrollWheelZoom: true });
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -127,16 +194,31 @@
     }).addTo(map);
     layer = L.geoJSON(null, {
       style,
-      onEachFeature: (feature, lyr) => lyr.bindPopup(() => popupHtml(feature.properties, feature.__screen), { maxWidth: 420, maxHeight: 420, autoPanPadding: [20, 20] }),
+      onEachFeature: (feature, lyr) => lyr.bindPopup(() => popupHtml(feature.properties, feature.__screen), { maxWidth: 420, autoPanPadding: [20, 20] }),
     }).addTo(map);
-    const [w, s, e, n] = DATA.metadata.study_area.bbox;
-    map.fitBounds([[s, w], [n, e]]);
+
+    // Expanding a path section changes the popup's height; re-measure + re-pan so it stays in view.
+    // Don't call popup.update(): it re-runs the content function and collapses every section.
+    // ("toggle" doesn't bubble, so listen in the capture phase.)
+    map.getContainer().addEventListener("toggle", (ev) => {
+      if (!(ev.target.closest && ev.target.closest(".pp"))) return;
+      const pop = layer.getLayers().map((l) => l.getPopup()).find((p) => p && p.isOpen());
+      if (pop) { pop._updateLayout(); pop._updatePosition(); pop._adjustPan(); }
+    }, true);
+
+
+    boundary = L.layerGroup().addTo(map);
 
     legend();
-    caption();
     how();
     ["input", "change"].forEach((ev) => document.querySelector(".map-controls").addEventListener(ev, redraw));
-    redraw();
+    $("#zip-form").addEventListener("submit", (e) => { e.preventDefault(); loadZip($("#zip").value); });
+    $("#zip-demo").addEventListener("click", () => { $("#zip").value = ""; loadDemo(); });
+    refreshZipList();
+
+    // ?zip=92808 loads that ZIP; otherwise the demo area.
+    if (qs.get("zip")) await loadZip(qs.get("zip"));
+    if (!DATA) await loadDemo();
 
     // Deep link: map.html?apn=12345678 zooms to that lot and opens its popup.
     const apn = new URLSearchParams(location.search).get("apn");
