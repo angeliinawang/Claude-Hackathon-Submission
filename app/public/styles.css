@@ -270,3 +270,29 @@ mark.old { background: var(--bad-soft); color: var(--bad); padding: 0 .15em; bor
 .steps .cite-top { margin-top: .3rem; }
 .steps .cite-top .chip { font-size: .66rem; }
 .mini-compare { display: grid; gap: .15rem; margin-top: .35rem; padding: .4rem .55rem; border-radius: 6px; background: var(--bad-soft); font-size: .85rem; }
+
+/* ---------- project form: first-run modal + summary bar ---------- */
+.pf-summary { display: block; margin-bottom: 1rem; padding: .7rem 1rem; }
+.pf-summary[hidden] { display: none !important; }
+.pf-sum-row { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; justify-content: space-between; }
+.pf-sum-text { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.pf-sum-label { display: inline-block; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-right: .35rem; }
+.pf-dot { color: var(--muted); font-weight: 400; margin: 0 .15rem; }
+.pf-summary .city-card { margin-top: .5rem; padding-top: .5rem; display: flex; flex-wrap: wrap; gap: .2rem 1rem; align-items: baseline; font-size: .85rem; }
+.pf-summary .city-card[hidden] { display: none; }
+.pf-summary .city-card h3 { display: none; }
+.pf-summary .city-card p { margin: 0; }
+
+.pf-dialog { width: min(760px, calc(100vw - 32px)); max-height: calc(100vh - 32px); border: 1px solid var(--line); border-radius: 16px; padding: 0; background: var(--surface); color: var(--ink); box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+.pf-dialog::backdrop { background: rgba(10, 16, 18, .6); }
+.pf-dialog form { padding: 1.4rem 1.5rem 1.2rem; }
+.pf-dialog h2 { font-size: 1.35rem; margin: 0 0 .2rem; }
+.pf-intro { margin: 0 0 .4rem; }
+.pf-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 1.5rem; }
+@media (max-width: 640px) { .pf-grid { grid-template-columns: minmax(0, 1fr); } .pf-dialog form { padding: 1.1rem 1rem; } }
+.pf-actions { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; justify-content: flex-end; margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.pf-actions .hint { margin: 0 auto 0 0; }
+.pf-actions .hint[hidden] { display: none; }
+.pf-actions .btn { min-width: 9rem; }
+.pf-actions .btn:disabled { cursor: not-allowed; opacity: .5; }
+@media print { .pf-summary .btn, .pf-dialog { display: none !important; } }
