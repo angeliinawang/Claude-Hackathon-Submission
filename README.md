@@ -2,8 +2,8 @@
 
 > For Orange County homeowners adding an ADU: shows the city's paperwork, the state rules that protect you, and a realistic timeline in one place, with every fact sourced and dated.
 
-**Team:** [Placeholder]
-**Members:** [Jocelyn, Angelina, Vienna, Joy, Andrew]
+**Team:** Placeholder
+**Members:** Jocelyn, Angelina, Vienna, Joy, Andrew
 **Lane:** 2 Clear it
 **Built at:** Claude Impact Lab: UCI × SoCal Affordable Housing, November 7, 2026
 
