@@ -28,6 +28,21 @@ A web app (no build step) with five views:
 
 Cities covered: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, Irvine, Orange, Santa Ana, Tustin.
 
+### Parcel screening map (`/map.html`)
+
+2,622 real lots in a demo area (Anaheim Hills and adjacent unincorporated land along the Santa Ana River). Each lot is tested against 6 approval paths: ADU, SB 9, SB 684 (multifamily lots), SB 1123 (vacant single-family lots), AB 2011 and SB 4.
+
+- Every test returns **pass / fail / unknown / needs review**, and every path gets a state: **likely / possible / needs review / unknown / no**. A test whose rule or data we lack returns *unknown*; it is never guessed.
+- The lot's **score** is the number of paths rated likely, possible or needs review, colored light grey (0) to dark green (6). An **orange outline** marks lots in a mapped FEMA Special Flood Hazard Area or a Very High Fire Hazard Severity Zone.
+- Click a lot to see its APN, address, zoning, score, and every test with its result, reason and citation.
+- Filters: minimum acreage, a specific path, hide hazard lots, with a running "X of Y lots shown" count.
+- `map.html?apn=35631101` deep-links to one lot.
+- All rules live in `data/screening-rules.json` (editable). The engine (`public/screening.js`) has no thresholds of its own.
+
+### Fast-path timeline (`/timeline.html`)
+
+Stacked bars compare the brief's **baseline** (rezoning, entitlements, plans, construction: an ASSUMPTION) with a **fast path** for the selected approval path: no rezoning, then the statutory completeness and decision clocks (ADU 15 business days + 60 days; pre-approved detached ADU + 30 days; SB 9 30 + 60 days; SB 684/1123 60 days; SB 4 60 or 90 days; AB 2011 unknown). Plans and construction are the same in both bars. Below the chart: time saved, and a carrying-cost estimate from two user inputs (homes, $/home/month), labelled ASSUMPTION. When a clock is not in our sources it shows "unknown", and savings show only an upper bound.
+
 ## How Claude is used
 
 - **Built with Claude Code:** reading city pages and the HCD Handbook, extracting the rules with page cites, and writing the app.
@@ -53,6 +68,17 @@ To rebuild the permit stats from the CSVs: `npm run stats`.
 | Renumbering 65852.2 etc. → 66310–66342; 66324/66327/66332 → 66311.5/66313.5/66311.7 | Same Handbook, pp. 13–14 | 2026-11-07 |
 | City steps, forms, portals, published timelines | Each city page, linked per item in `data/cities.json` with a status: *fetched*, *repo-verified*, or *snippet* | 2026-11-06 / 2026-11-07 |
 | ADU permits per year; median permit-to-CO days | BackyardADU.net `permits_ca.csv`, `build_times.csv` (third party, CC0, derived from HCD APR Table A2). Official source: data.ca.gov APR dataset | 2026-11-07 |
+| Screening map lots, zoning, slope | SCAG Zoning_poly_OR (2024 zoning, preliminary Oct 2025), cached in `data/raw/screening/` | 2026-11-07 |
+| Address, year built (vacancy proxy) | OC Public Works Parcels FeatureServer | 2026-11-07 |
+| Flood hazard | OC Floodplains (FEMA zones); only `SFHA_TF = T` counts as a hazard | 2026-11-07 |
+| Fire hazard | OC Fire Hazard Severity Zones LRA (2011 map). CAL FIRE's 2025 LRA maps were **not** used | 2026-11-07 |
+| Zoning categories (SCAG codes) | SCAG 2024 Land Use Code table in the layer description | 2026-11-07 |
+| SB 9, SB 684/1123, AB 2011, SB 4 rules and clocks | HCD Housing Law Fact Sheets, April 2026 (page cited per rule in `data/screening-rules.json` and `data/timeline-config.json`) | 2026-11-07 |
+| SB 9 split size 2,400 sq ft | Our arithmetic: 2 × 1,200 sq ft lots (fact sheet p. 1). The statute's proportion rule is not encoded | 2026-11-07 |
+| Hazard overlap method | **ASSUMPTION:** a lot is "in" a zone if its centroid or any corner falls inside the zone polygon | 2026-11-07 |
+| Baseline timeline phases | **ASSUMPTION** from the challenge brief (`lanes/2-clear-it/data/timeline.json`) | 2026-11-06 |
+| Day → month conversion | **ASSUMPTION:** 30.44 days/month; business days × 7/5 | 2026-11-07 |
+| Default carrying cost $1,771/home/month | **ASSUMPTION** derived from the brief's mock example ($85k time costs ÷ ~48 months). Users replace it | 2026-11-07 |
 | "Roughly N months" total on the Timeline tab | **ASSUMPTION:** adds the state legal maximum review time (15 business days ≈ 3 weeks + 30/60 days) to the city's historical median build time. A rough guide, not a forecast; excludes design and plan corrections | 2026-11-07 |
 
 ## What is real and what is mocked
@@ -65,6 +91,8 @@ To rebuild the permit stats from the CSVs: `npm run stats`.
 | Old-law checker | Working |
 | Claude Q&A | Working when an API key is set |
 | Printable packet | Working (browser print) |
+| Parcel screening map | Working on real public data for one demo area (2,622 lots); other areas need `npm run fetch-parcels` with a new bounding box |
+| Fast-path timeline chart | Working; durations from config, unknown clocks shown as unknown |
 
 ## Where it gets things wrong
 
@@ -73,7 +101,9 @@ To rebuild the permit stats from the CSVs: `npm run stats`.
 - Santa Ana's own pages disagree on paper vs. electronic submittal. We show both and don't pick one.
 - Irvine shows very few ADU permits in the dataset, with years missing. This looks like a data gap, and we flag it.
 - Flags such as Irvine's covenant are questions to ask the city, not findings that the city is wrong.
-- We do not check zoning, setbacks, lot eligibility or fire zones for a specific address.
+- The ADU guide does not check zoning, setbacks or lot eligibility for a specific address; the screening map does a partial check for one demo area only.
+- Screening map: SCAG zoning is a regional, preliminary dataset; city zoning maps win. The fire layer is the 2011 LRA map. Lots coded Specific Plan (7777) or Unknown (9999) are *unknown*. Year built is only a proxy for "vacant". SB 4 is *unknown* everywhere because ownership isn't in free data. "Likely" means every test we could run passed, not that the path applies.
+- Timeline: the baseline is the brief's rounded typical project, not a measurement, and it includes rezoning even for project types that would not need it.
 
 ## Next steps
 

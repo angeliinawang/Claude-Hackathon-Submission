@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "stats": "node scripts/build-stats.mjs"
+    "stats": "node scripts/build-stats.mjs",
+    "fetch-parcels": "node scripts/fetch-parcels.mjs"
   },
   "license": "MIT",
   "dependencies": {

@@ -1,0 +1,112 @@
+{
+  "about": "Eligibility screening rules for the parcel map. Every threshold or category below carries its source and the date it was checked. A value of null means our sources do not supply it: the test then returns 'unknown'. This is a screen, not a legal determination. Edit this file to add or correct rules; the map reads it at load time.",
+  "checked": "2026-11-07",
+  "sources": {
+    "scag_codes": { "title": "SCAG Zoning_poly_OR layer description: 2024 SCAG Land Use Code table", "url": "https://maps.scag.ca.gov/scaggis/rest/services/LDX/Zoning_poly_OR/MapServer/0", "checked": "2026-11-07" },
+    "hcd_adu_handbook": { "title": "HCD ADU Handbook (March 2026)", "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf", "checked": "2026-11-07" },
+    "hcd_sb9": { "title": "HCD Housing Law Fact Sheet: Duplexes and Lot Splits (SB 9), April 2026", "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/lot-splits-and-duplexes-sb-9.pdf", "checked": "2026-11-07" },
+    "hcd_facts": { "title": "HCD Housing Law Fact Sheets, combined (April 2026)", "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/housing-law-fact-sheets.pdf", "checked": "2026-11-07" },
+    "fema_sfha": { "title": "FEMA flood zones via OC Floodplains layer; SFHA_TF = 'T' marks a Special Flood Hazard Area", "url": "https://www.ocgis.com/arcpub/rest/services/Map_Layers/Floodplains/MapServer/0", "checked": "2026-11-07" }
+  },
+  "zone_categories": {
+    "single_family": { "label": "Single-family residential", "codes": ["1110", "1111", "1112", "1113"], "source": "scag_codes" },
+    "multifamily": { "label": "Multi-family residential", "codes": ["1120", "1121", "1122", "1123", "1124", "1125"], "source": "scag_codes" },
+    "other_residential": { "label": "Other residential (mobile home, mixed residential, rural, general residential)", "codes": ["1100", "1130", "1131", "1132", "1140", "1150"], "source": "scag_codes" },
+    "mixed_use": { "label": "Mixed residential and commercial", "codes": ["1600", "1610", "1620"], "source": "scag_codes" },
+    "commercial_office_parking": { "label": "Office, commercial and public parking", "codes": ["1200", "1210", "1211", "1212", "1213", "1220", "1221", "1222", "1223", "1230", "1231", "1232", "1233", "1247"], "source": "scag_codes" },
+    "religious_or_college": { "label": "Religious facilities or colleges (zoning category, a PROXY for ownership)", "codes": ["1245", "1265"], "source": "scag_codes" }
+  },
+  "unknown_zone_codes": {
+    "7777": "Specific Plan: the specific plan document sets what is allowed. Not evaluated.",
+    "9999": "SCAG code 9999 = Unknown.",
+    "null": "No SCAG zoning code on this parcel."
+  },
+  "paths": [
+    {
+      "id": "ADU",
+      "name": "ADU",
+      "short": "Accessory dwelling unit",
+      "law": "Gov. Code §§ 66310–66342",
+      "tests": [
+        { "id": "adu_zone", "label": "Zoned to allow single-family or multifamily residential use", "kind": "zone_in", "gate": true, "core": true, "categories": ["single_family", "multifamily", "other_residential", "mixed_use"], "source": "hcd_adu_handbook", "cite": "Gov. Code § 66314(d)(2)-(3); Handbook p. 31" },
+        { "id": "adu_dwelling", "label": "Existing or proposed dwelling on the lot", "kind": "has_building", "core": false, "source": "hcd_adu_handbook", "cite": "Gov. Code § 66314(d)(2)-(3); Handbook p. 31", "note": "Year built is a proxy for an existing building. A proposed dwelling also qualifies, so a missing year built is 'unknown', not 'fail'." }
+      ]
+    },
+    {
+      "id": "SB9",
+      "name": "SB 9",
+      "short": "Duplex and/or urban lot split",
+      "law": "Gov. Code §§ 65852.21, 66411.7",
+      "tests": [
+        { "id": "sb9_zone", "label": "Lot is in a single-family residential zone", "kind": "zone_in", "gate": true, "core": true, "categories": ["single_family"], "source": "hcd_sb9", "cite": "SB 9 fact sheet p. 1" },
+        { "id": "sb9_flood", "label": "Not in a Special Flood Hazard Area (exceptions exist)", "kind": "hazard_flood", "core": true, "source": "hcd_sb9", "cite": "SB 9 fact sheet p. 3: excluded hazard lands per Gov. Code § 65913.4(a)(6)(B)-(K), with exceptions", "note": "Sits in a mapped flood hazard area: the excluded-lands list has exceptions, so this needs human review rather than an automatic 'no'." },
+        { "id": "sb9_fire", "label": "Not in a Very High Fire Hazard Severity Zone (exceptions exist)", "kind": "hazard_fire", "core": true, "classes": ["Very High"], "source": "hcd_sb9", "cite": "SB 9 fact sheet p. 3: excluded hazard lands per Gov. Code § 65913.4(a)(6)(B)-(K); HCD letter to Laguna Beach (Sept 19, 2024) on misapplied fire/fault exclusions" },
+        { "id": "sb9_split_size", "label": "Big enough to split into two lots of at least 1,200 sq ft (lot split only)", "kind": "sqft_gte", "core": false, "value": 2400, "source": "hcd_sb9", "cite": "SB 9 fact sheet p. 1 (two 1,200 sq ft lots). 2,400 sq ft is our arithmetic (2 × 1,200), not a stated threshold; the statute also has a proportion rule we did not encode." },
+        { "id": "sb9_urbanized", "label": "Within an urbanized area or urban cluster", "kind": "not_evaluable", "core": false, "source": "hcd_sb9", "cite": "SB 9 fact sheet p. 1", "reason": "We have no urbanized-area layer loaded." },
+        { "id": "sb9_tenancy", "label": "No tenant in the last 3 years; no rent-restricted or rent-controlled housing demolished", "kind": "not_evaluable", "core": false, "source": "hcd_sb9", "cite": "SB 9 fact sheet pp. 2-3", "reason": "Tenancy and rent-restriction history are not in public parcel data." },
+        { "id": "sb9_historic", "label": "Not a historic resource or contributing structure in a historic district", "kind": "not_evaluable", "core": false, "source": "hcd_sb9", "cite": "SB 9 fact sheet p. 3", "reason": "No historic-resource layer loaded." },
+        { "id": "sb9_ellis", "label": "No Ellis Act withdrawal in the last 15 years", "kind": "not_evaluable", "core": false, "source": "hcd_sb9", "cite": "SB 9 fact sheet p. 3", "reason": "Not in public parcel data." }
+      ]
+    },
+    {
+      "id": "SHRA_MF",
+      "name": "SB 684",
+      "short": "Starter homes on multifamily lots (≤10 units)",
+      "law": "Gov. Code §§ 65852.28, 65913.4.5, 66499.41",
+      "tests": [
+        { "id": "shra_zone", "label": "Zoned for multifamily residential use", "kind": "zone_in", "gate": true, "core": true, "categories": ["multifamily", "mixed_use"], "source": "hcd_facts", "cite": "Starter Home Revitalization Act fact sheet p. 67; HCD letter to Hayward (Jan 28, 2025): applies to any district allowing multifamily, incl. mixed-use" },
+        { "id": "shra_acres", "label": "Lot under five acres", "kind": "acres_lt", "core": true, "value": 5, "source": "hcd_facts", "cite": "SHRA fact sheet p. 67" },
+        { "id": "shra_incorporated", "label": "In an incorporated city (or a large urban county)", "kind": "incorporated", "core": true, "source": "hcd_facts", "cite": "SHRA fact sheet p. 67", "note": "Unincorporated land may still qualify under the 'large urban county' clause; we do not know the definition, so it returns unknown." },
+        { "id": "shra_fire", "label": "Not in a fire hazard zone", "kind": "hazard_fire", "core": true, "classes": ["Very High", "High", "Moderate"], "source": "hcd_facts", "cite": "SHRA fact sheet p. 67: fire hazard zones are ineligible (exact classes not stated in the fact sheet)" },
+        { "id": "shra_flood", "label": "Flood hazard area rule", "kind": "hazard_flood", "core": false, "rule_supplied": false, "source": "hcd_facts", "cite": "SHRA fact sheet p. 67 lists farmland, wetlands and fire zones; it does not say how flood zones are treated" },
+        { "id": "shra_tenancy", "label": "No displacement of rent-controlled or tenant-occupied housing", "kind": "not_evaluable", "core": false, "source": "hcd_facts", "cite": "SHRA fact sheet p. 67", "reason": "Tenancy is not in public parcel data." },
+        { "id": "shra_wetlands", "label": "Not farmland or wetlands", "kind": "not_evaluable", "core": false, "source": "hcd_facts", "cite": "SHRA fact sheet p. 67", "reason": "No farmland or wetlands layer loaded." }
+      ]
+    },
+    {
+      "id": "SHRA_SF",
+      "name": "SB 1123",
+      "short": "Starter homes on vacant single-family lots (≤10 units)",
+      "law": "Gov. Code §§ 65852.28, 66499.41 (as amended by SB 1123)",
+      "tests": [
+        { "id": "sb1123_zone", "label": "Single-family zone", "kind": "zone_in", "gate": true, "core": true, "categories": ["single_family"], "source": "hcd_facts", "cite": "SHRA fact sheet p. 68 (SB 1123, effective July 1, 2025)" },
+        { "id": "sb1123_vacant", "label": "Lot is vacant", "kind": "vacant_proxy", "core": true, "source": "hcd_facts", "cite": "SHRA fact sheet p. 68: 'vacant single-family lots'", "note": "Proxy: the county parcel layer's year built. A year built means a building is recorded; no year built is 'unknown', not 'vacant'." },
+        { "id": "sb1123_other", "label": "Other SB 1123 lot criteria (size limits etc.)", "kind": "rule_missing", "core": true, "source": "hcd_facts", "cite": "Not in the fact sheet; read Gov. Code § 66499.41", "reason": "The fact sheet does not list SB 1123's lot criteria, so we do not apply any." },
+        { "id": "sb1123_fire", "label": "Not in a fire hazard zone", "kind": "hazard_fire", "core": true, "classes": ["Very High", "High", "Moderate"], "source": "hcd_facts", "cite": "SHRA fact sheet p. 67" }
+      ]
+    },
+    {
+      "id": "AB2011",
+      "name": "AB 2011",
+      "short": "Housing on commercially zoned land",
+      "law": "Gov. Code §§ 65912.100–65912.140",
+      "tests": [
+        { "id": "ab2011_zone", "label": "Zone allows commercial uses (office, retail or parking)", "kind": "zone_in", "gate": true, "core": true, "categories": ["commercial_office_parking", "mixed_use"], "source": "hcd_facts", "cite": "AB 2011 fact sheet p. 5" },
+        { "id": "ab2011_site", "label": "Other site criteria (environmental, vacant-site limits, densities, corridor rules)", "kind": "rule_missing", "core": true, "source": "hcd_facts", "cite": "AB 2011 fact sheet p. 5 names these criteria but does not give the tests", "reason": "Site criteria not supplied in our sources; read Gov. Code § 65912.111 and following." },
+        { "id": "ab2011_flood", "label": "Flood hazard area", "kind": "hazard_flood", "core": true, "source": "hcd_facts", "cite": "AB 2011 fact sheet p. 5 ('environmental criteria'); specific hazard tests not stated" },
+        { "id": "ab2011_fire", "label": "Fire hazard zone", "kind": "hazard_fire", "core": true, "classes": ["Very High", "High", "Moderate"], "source": "hcd_facts", "cite": "AB 2011 fact sheet p. 5 ('environmental criteria'); specific hazard tests not stated" }
+      ]
+    },
+    {
+      "id": "SB4",
+      "name": "SB 4",
+      "short": "Affordable housing on faith or college land",
+      "law": "Gov. Code § 65913.16",
+      "tests": [
+        { "id": "sb4_proxy", "label": "Zoning category suggests religious or college use (proxy)", "kind": "zone_in", "gate": true, "core": true, "categories": ["religious_or_college"], "on_mismatch": "unknown", "source": "scag_codes", "cite": "SCAG codes 1245, 1265. PROXY only: SB 4 depends on ownership, not zoning (SB 4 fact sheet p. 7: permitted in all zones)." },
+        { "id": "sb4_owner", "label": "Owned by a religious institution or independent college as of Jan 1, 2024", "kind": "not_evaluable", "core": true, "source": "hcd_facts", "cite": "SB 4 fact sheet p. 7", "reason": "Ownership is not in the free county parcel data (needs the Assessor roll)." }
+      ]
+    }
+  ],
+  "not_checked": [
+    "Tenant occupancy or rent-control history",
+    "Historic resources and historic districts",
+    "Wetlands, farmland, habitat and other environmental exclusions",
+    "Ownership (needed for SB 4)",
+    "Easements, CC&Rs and HOA rules",
+    "Slope, liquefaction, landslide and earthquake fault zones",
+    "Utility capacity and access",
+    "Local objective standards (setbacks, height, parking, density)",
+    "Coastal zone status"
+  ]
+}
