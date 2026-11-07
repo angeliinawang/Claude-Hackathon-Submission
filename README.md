@@ -27,8 +27,6 @@ A web app (no build step). The **homeowner guide** (`/`) is written for someone 
 
 Cities covered: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, Irvine, Orange, Santa Ana, Tustin.
 
-Cities covered: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, Irvine, Orange, Santa Ana, Tustin.
-
 ### Parcel screening map (`/map.html`)
 
 2,622 real lots in a demo area (Anaheim Hills and adjacent unincorporated land along the Santa Ana River). Each lot is tested against 6 approval paths: ADU, SB 9, SB 684 (multifamily lots), SB 1123 (vacant single-family lots), AB 2011 and SB 4.
