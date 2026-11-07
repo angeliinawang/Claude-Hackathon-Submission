@@ -2,8 +2,8 @@
 
 > For Orange County homeowners adding an ADU: shows the city's paperwork, the state rules that protect you, and a realistic timeline in one place, with every fact sourced and dated.
 
-**Team:** [team name]
-**Members:** [names]
+**Team:** [Placeholder]
+**Members:** [Jocelyn, Angelina, Vienna, Joy, Andrew]
 **Lane:** 2 Clear it
 **Built at:** Claude Impact Lab: UCI × SoCal Affordable Housing, November 7, 2026
 
@@ -24,6 +24,8 @@ A web app (no build step). The **homeowner guide** (`/`) is written for someone 
 - Step 1 links to the screening map; Step 2 has the printable **paperwork checklist** with one plain line per item ("what it is, who prepares it") and "Not yet confirmed" tags.
 - Every citation, dataset and city source for a step sits behind its **Sources** button, with checked dates and "Not yet confirmed" where it applies. Terms like ADU, JADU, setbacks or deemed complete have a small **ⓘ** with a 1–2 sentence plain definition.
 - **For cities & builders** menu: Screening map, Fast-path timeline (deadline calendar), and the **Old-law checker** (paste text to flag renumbered ADU sections; also lists each city's City-vs-state comparisons).
+
+Cities covered: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, Irvine, Orange, Santa Ana, Tustin.
 
 Cities covered: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, Irvine, Orange, Santa Ana, Tustin.
 
@@ -107,9 +109,10 @@ To rebuild the permit stats from the CSVs: `npm run stats`.
 - Santa Ana's own pages disagree on paper vs. electronic submittal. We show both and don't pick one.
 - Irvine shows very few ADU permits in the dataset, with years missing. This looks like a data gap, and we flag it.
 - Flags such as Irvine's covenant are questions to ask the city, not findings that the city is wrong.
-- The ADU guide does not check zoning, setbacks or lot eligibility for a specific address; the screening map does a partial check for one demo area only.
+-- The ADU guide does not check zoning, setbacks or lot eligibility for a specific address; the screening map does a partial check for one demo area only.
 - Screening map: SCAG zoning is a regional, preliminary dataset; city zoning maps win. The fire layer is the 2011 LRA map. Lots coded Specific Plan (7777) or Unknown (9999) are *unknown*. Year built is only a proxy for "vacant". SB 4 is *unknown* everywhere because ownership isn't in free data. "Likely" means every test we could run passed, not that the path applies.
 - Timeline: the baseline is the brief's rounded typical project, not a measurement, and it includes rezoning even for project types that would not need it.
+- We do not check zoning, setbacks, lot eligibility or fire zones for a specific address.
 
 ## Next steps
 

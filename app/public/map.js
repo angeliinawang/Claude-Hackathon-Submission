@@ -194,8 +194,18 @@
     }).addTo(map);
     layer = L.geoJSON(null, {
       style,
-      onEachFeature: (feature, lyr) => lyr.bindPopup(() => popupHtml(feature.properties, feature.__screen), { maxWidth: 420, maxHeight: 420, autoPanPadding: [20, 20] }),
+      onEachFeature: (feature, lyr) => lyr.bindPopup(() => popupHtml(feature.properties, feature.__screen), { maxWidth: 420, autoPanPadding: [20, 20] }),
     }).addTo(map);
+
+    // Expanding a path section changes the popup's height; re-measure + re-pan so it stays in view.
+    // Don't call popup.update(): it re-runs the content function and collapses every section.
+    // ("toggle" doesn't bubble, so listen in the capture phase.)
+    map.getContainer().addEventListener("toggle", (ev) => {
+      if (!(ev.target.closest && ev.target.closest(".pp"))) return;
+      const pop = layer.getLayers().map((l) => l.getPopup()).find((p) => p && p.isOpen());
+      if (pop) { pop._updateLayout(); pop._updatePosition(); pop._adjustPan(); }
+    }, true);
+
 
     boundary = L.layerGroup().addTo(map);
 
