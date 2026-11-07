@@ -21,8 +21,25 @@
     return `${clock.days} ${clock.unit === "business" ? "business " : ""}days`;
   }
 
+  // The approval path comes from the shared project panel, not a separate picker.
+  function pathFor(project) {
+    if (!project.existing) return "ADU_NEW_HOME";
+    if (project.type === "jadu") return "JADU";
+    if (ProjectForm.usesPreapprovedDetached(project)) return "ADU_PRE";
+    return "ADU";
+  }
+
+  function pathNote(project, path) {
+    const what = ProjectForm.TYPE_LABEL[project.type] || "ADU";
+    const where = project.city ? ` in ${esc(project.city)}` : "";
+    const coastal = project.coastal !== "no" ? ` <br><span class="hint">Coastal Zone${project.coastal === "unsure" ? " (not sure)" : ""}: a Coastal Development Permit may also be needed, decided within 60 days of a complete application (Gov. Code § 66329). It is not added to the bar because it can run alongside the ADU review.</span>` : "";
+    $("#path-note").innerHTML = `<strong>Fast path for your project: ${esc(what)}${where}</strong>Clock used: <b>${esc(path.label)}</b>. Change your project on the left to change the clock.${coastal}`;
+  }
+
   function build() {
-    const path = CFG.paths.find((p) => p.id === $("#t-path").value) || CFG.paths[0];
+    const project = ProjectForm.read();
+    const path = CFG.paths.find((p) => p.id === pathFor(project)) || CFG.paths[0];
+    pathNote(project, path);
     const end = $("#t-plans").value;
     const b = CFG.baseline.phases;
     const plans = end === "min" ? b.plans.months_min : b.plans.months_max;
@@ -132,22 +149,22 @@
     drawChart(m);
     savings(m);
     cites(m);
-    try { localStorage.setItem("tl-inputs", JSON.stringify({ path: m.path.id, plans: $("#t-plans").value, homes: $("#t-homes").value, cost: $("#t-cost").value })); } catch {}
+    try { localStorage.setItem("tl-inputs", JSON.stringify({ plans: $("#t-plans").value, homes: $("#t-homes").value, cost: $("#t-cost").value })); } catch {}
   }
 
   async function init() {
-    CFG = await fetch("/data/timeline-config.json").then((r) => r.json());
-    $("#t-path").innerHTML = CFG.paths.map((p) => `<option value="${esc(p.id)}">${esc(p.label)}</option>`).join("");
+    let cities;
+    [CFG, { cities }] = await Promise.all([fetch("/data/timeline-config.json").then((r) => r.json()), fetch("/data/cities.json").then((r) => r.json())]);
+    ProjectForm.mount($("#project-panel"), cities.map((c) => c.name).sort());
+    ProjectForm.onChange(render);
     $("#t-homes").value = CFG.carrying_cost_default.homes;
     $("#t-cost").value = CFG.carrying_cost_default.per_home_per_month;
     try {
       const s = JSON.parse(localStorage.getItem("tl-inputs") || "null");
-      if (s) { if (s.path) $("#t-path").value = s.path; if (s.plans) $("#t-plans").value = s.plans; if (s.homes) $("#t-homes").value = s.homes; if (s.cost) $("#t-cost").value = s.cost; }
+      if (s) { if (s.plans) $("#t-plans").value = s.plans; if (s.homes) $("#t-homes").value = s.homes; if (s.cost) $("#t-cost").value = s.cost; }
     } catch {}
-    const qs = new URLSearchParams(location.search);
-    if (qs.get("path")) $("#t-path").value = qs.get("path");
     legend();
-    ["input", "change"].forEach((ev) => document.querySelector("main").addEventListener(ev, render));
+    ["input", "change"].forEach((ev) => document.querySelector(".results").addEventListener(ev, render));
     render();
   }
 

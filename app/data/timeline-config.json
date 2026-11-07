@@ -1,12 +1,27 @@
 {
-  "about": "Inputs for the baseline vs. fast-path timeline chart. Baseline phase durations are ASSUMPTIONS from the challenge brief, not law. Fast-path clocks are statutory maximums with their source. A null value means our sources do not supply it, and the chart shows 'unknown'.",
+  "about": "Inputs for the baseline vs. fast-path timeline chart. Baseline phase durations are ASSUMPTIONS from the challenge brief, not law. Fast-path clocks are statutory maximums with their source. A null value means our sources do not supply it, and the chart shows 'unknown'. The page picks the path from the shared project panel (type, pre-approved plan, existing home). SB 9 / SB 684 / SB 4 / AB 2011 entries are kept for future project types but are not selectable today.",
   "checked": "2026-11-07",
   "segments": [
-    { "id": "rezoning", "label": "Rezoning" },
-    { "id": "completeness", "label": "Completeness check" },
-    { "id": "decision", "label": "Approval / entitlement decision" },
-    { "id": "plans", "label": "Plans & plan check" },
-    { "id": "build", "label": "Construction" }
+    {
+      "id": "rezoning",
+      "label": "Rezoning"
+    },
+    {
+      "id": "completeness",
+      "label": "Completeness check"
+    },
+    {
+      "id": "decision",
+      "label": "Approval / entitlement decision"
+    },
+    {
+      "id": "plans",
+      "label": "Plans & plan check"
+    },
+    {
+      "id": "build",
+      "label": "Construction"
+    }
   ],
   "baseline": {
     "label": "Baseline (typical project)",
@@ -14,15 +29,34 @@
     "basis": "Rounded estimates for a typical project from the event challenge brief (lanes/2-clear-it/data/timeline.json, docs/background.md): rezoning about 1 year, entitlements about 1 year, plans 6 to 12 months, build about 1 year. Not measurements, not law.",
     "source_url": "../lanes/2-clear-it/data/timeline.json",
     "phases": {
-      "rezoning": { "months": 12, "text": "about 1 year" },
-      "completeness": { "months": 0, "text": "not broken out in the brief (inside entitlements)" },
-      "decision": { "months": 12, "text": "entitlements, about 1 year" },
-      "plans": { "months_min": 6, "months_max": 12, "text": "6 to 12 months" },
-      "build": { "months": 12, "text": "about 1 year" }
+      "rezoning": {
+        "months": 12,
+        "text": "about 1 year"
+      },
+      "completeness": {
+        "months": 0,
+        "text": "not broken out in the brief (inside entitlements)"
+      },
+      "decision": {
+        "months": 12,
+        "text": "entitlements, about 1 year"
+      },
+      "plans": {
+        "months_min": 6,
+        "months_max": 12,
+        "text": "6 to 12 months"
+      },
+      "build": {
+        "months": 12,
+        "text": "about 1 year"
+      }
     }
   },
   "fast_path_rules": {
-    "rezoning": { "months": 0, "basis": "Fast path starts on land already zoned correctly (challenge brief fast path, step 1)." },
+    "rezoning": {
+      "months": 0,
+      "basis": "Fast path starts on land already zoned correctly (challenge brief fast path, step 1)."
+    },
     "plans": "same as baseline",
     "build": "same as baseline"
   },
@@ -35,44 +69,158 @@
     {
       "id": "ADU",
       "label": "ADU (lot with an existing home)",
-      "completeness": { "days": 15, "unit": "business", "cite": "Gov. Code § 66317(a)(2)(A)", "source": "HCD ADU Handbook (Mar 2026) p. 14", "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf" },
-      "decision": { "days": 60, "unit": "calendar", "cite": "Gov. Code § 66317(a)(3)", "source": "HCD ADU Handbook (Mar 2026) pp. 11, 35", "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf" }
+      "completeness": {
+        "days": 15,
+        "unit": "business",
+        "cite": "Gov. Code § 66317(a)(2)(A)",
+        "source": "HCD ADU Handbook (Mar 2026) p. 14",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+      },
+      "decision": {
+        "days": 60,
+        "unit": "calendar",
+        "cite": "Gov. Code § 66317(a)(3)",
+        "source": "HCD ADU Handbook (Mar 2026) pp. 11, 35",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+      }
     },
     {
       "id": "ADU_PRE",
       "label": "ADU, detached, pre-approved plan",
-      "completeness": { "days": 15, "unit": "business", "cite": "Gov. Code § 66317(a)(2)(A)", "source": "HCD ADU Handbook (Mar 2026) p. 14", "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf" },
-      "decision": { "days": 30, "unit": "calendar", "cite": "Gov. Code § 65852.27 (AB 1332)", "source": "HCD ADU Handbook (Mar 2026) p. 50", "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf" }
+      "completeness": {
+        "days": 15,
+        "unit": "business",
+        "cite": "Gov. Code § 66317(a)(2)(A)",
+        "source": "HCD ADU Handbook (Mar 2026) p. 14",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+      },
+      "decision": {
+        "days": 30,
+        "unit": "calendar",
+        "cite": "Gov. Code § 65852.27 (AB 1332)",
+        "source": "HCD ADU Handbook (Mar 2026) p. 50",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+      }
+    },
+    {
+      "id": "ADU_NEW_HOME",
+      "label": "ADU or JADU built together with a new home",
+      "completeness": {
+        "days": 15,
+        "unit": "business",
+        "cite": "Gov. Code § 66317(a)(2)(A)",
+        "source": "HCD ADU Handbook (Mar 2026) p. 14",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+      },
+      "decision": {
+        "days": null,
+        "cite": "Gov. Code §§ 66317(a)(3); 66335(a)(3)",
+        "source": "No separate ADU clock: the city may decide the ADU together with the new home's permit (HCD ADU Handbook p. 11). The new home's own approval time is not in our sources.",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+      }
+    },
+    {
+      "id": "JADU",
+      "label": "Junior ADU (JADU), lot with an existing home",
+      "completeness": {
+        "days": 15,
+        "unit": "business",
+        "cite": "Gov. Code § 66317(a)(2)(A)",
+        "source": "HCD ADU Handbook (Mar 2026) p. 14",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+      },
+      "decision": {
+        "days": 60,
+        "unit": "calendar",
+        "cite": "Gov. Code § 66335(a)(3)",
+        "source": "HCD ADU Handbook (Mar 2026) p. 11",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+      }
     },
     {
       "id": "SB9",
       "label": "SB 9 duplex or urban lot split",
-      "completeness": { "days": 30, "unit": "calendar", "cite": "Permit Streamlining Act (as described in the fact sheet)", "source": "HCD SB 9 fact sheet (Apr 2026) p. 2", "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/lot-splits-and-duplexes-sb-9.pdf" },
-      "decision": { "days": 60, "unit": "calendar", "cite": "Gov. Code §§ 65852.21, 66411.7", "source": "HCD SB 9 fact sheet (Apr 2026) p. 2", "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/lot-splits-and-duplexes-sb-9.pdf" }
+      "completeness": {
+        "days": 30,
+        "unit": "calendar",
+        "cite": "Permit Streamlining Act (as described in the fact sheet)",
+        "source": "HCD SB 9 fact sheet (Apr 2026) p. 2",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/lot-splits-and-duplexes-sb-9.pdf"
+      },
+      "decision": {
+        "days": 60,
+        "unit": "calendar",
+        "cite": "Gov. Code §§ 65852.21, 66411.7",
+        "source": "HCD SB 9 fact sheet (Apr 2026) p. 2",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/lot-splits-and-duplexes-sb-9.pdf"
+      }
     },
     {
       "id": "SHRA",
       "label": "SB 684 / SB 1123 starter homes (≤10 units)",
-      "completeness": { "days": null, "cite": null, "source": "Not stated in the SHRA fact sheet", "url": null },
-      "decision": { "days": 60, "unit": "calendar", "cite": "Gov. Code §§ 65852.28, 66499.41 (deemed approved if no action)", "source": "HCD Housing Law Fact Sheets (Apr 2026) p. 67", "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/housing-law-fact-sheets.pdf" }
+      "completeness": {
+        "days": null,
+        "cite": null,
+        "source": "Not stated in the SHRA fact sheet",
+        "url": null
+      },
+      "decision": {
+        "days": 60,
+        "unit": "calendar",
+        "cite": "Gov. Code §§ 65852.28, 66499.41 (deemed approved if no action)",
+        "source": "HCD Housing Law Fact Sheets (Apr 2026) p. 67",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/housing-law-fact-sheets.pdf"
+      }
     },
     {
       "id": "SB4_SMALL",
       "label": "SB 4 faith/college land, 150 units or fewer",
-      "completeness": { "days": null, "cite": null, "source": "Not stated in the SB 4 fact sheet", "url": null },
-      "decision": { "days": 60, "unit": "calendar", "cite": "Gov. Code § 65913.16 (written notice of any conflict with objective standards, else deemed consistent)", "source": "HCD Housing Law Fact Sheets (Apr 2026) p. 10", "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/housing-law-fact-sheets.pdf" }
+      "completeness": {
+        "days": null,
+        "cite": null,
+        "source": "Not stated in the SB 4 fact sheet",
+        "url": null
+      },
+      "decision": {
+        "days": 60,
+        "unit": "calendar",
+        "cite": "Gov. Code § 65913.16 (written notice of any conflict with objective standards, else deemed consistent)",
+        "source": "HCD Housing Law Fact Sheets (Apr 2026) p. 10",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/housing-law-fact-sheets.pdf"
+      }
     },
     {
       "id": "SB4_LARGE",
       "label": "SB 4 faith/college land, more than 150 units",
-      "completeness": { "days": null, "cite": null, "source": "Not stated in the SB 4 fact sheet", "url": null },
-      "decision": { "days": 90, "unit": "calendar", "cite": "Gov. Code § 65913.16", "source": "HCD Housing Law Fact Sheets (Apr 2026) p. 10", "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/housing-law-fact-sheets.pdf" }
+      "completeness": {
+        "days": null,
+        "cite": null,
+        "source": "Not stated in the SB 4 fact sheet",
+        "url": null
+      },
+      "decision": {
+        "days": 90,
+        "unit": "calendar",
+        "cite": "Gov. Code § 65913.16",
+        "source": "HCD Housing Law Fact Sheets (Apr 2026) p. 10",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/housing-law-fact-sheets.pdf"
+      }
     },
     {
       "id": "AB2011",
       "label": "AB 2011 commercial-zone housing",
-      "completeness": { "days": null, "cite": null, "source": "Not stated in the AB 2011 fact sheet", "url": null },
-      "decision": { "days": null, "cite": null, "source": "Not stated in the AB 2011 fact sheet; read Gov. Code § 65912.100 and following", "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/housing-law-fact-sheets.pdf" }
+      "completeness": {
+        "days": null,
+        "cite": null,
+        "source": "Not stated in the AB 2011 fact sheet",
+        "url": null
+      },
+      "decision": {
+        "days": null,
+        "cite": null,
+        "source": "Not stated in the AB 2011 fact sheet; read Gov. Code § 65912.100 and following",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/planning-and-community/housing-law-fact-sheets.pdf"
+      }
     }
   ],
   "carrying_cost_default": {

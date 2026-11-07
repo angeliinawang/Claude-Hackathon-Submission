@@ -21,12 +21,12 @@
     <nav class="site-nav" aria-label="Pages"><a href="/">ADU guide</a><a href="/map.html">Screening map</a><a href="/timeline.html" aria-current="page">Fast-path timeline</a></nav>
   </header>
 
-  <main class="wide">
+  <main class="layout">
+    <aside class="panel form-panel" id="project-panel" aria-label="Your project"></aside>
+    <div class="results">
     <section class="panel">
+      <div class="callout info path-note" id="path-note"></div>
       <div class="tl-controls">
-        <label>Approval path / project type
-          <select id="t-path"></select>
-        </label>
         <label>"Plans &amp; plan check" duration
           <select id="t-plans">
             <option value="min">Low end of the brief's range</option>
@@ -53,8 +53,10 @@
       <h2>Where these numbers come from</h2>
       <ul class="cites" id="cites"></ul>
     </section>
+    </div>
   </main>
 
+  <script src="project-form.js"></script>
   <script src="timeline.js"></script>
 </body>
 </html>

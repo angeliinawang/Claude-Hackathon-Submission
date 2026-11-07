@@ -41,7 +41,7 @@ Cities covered: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, 
 
 ### Fast-path timeline (`/timeline.html`)
 
-Stacked bars compare the brief's **baseline** (rezoning, entitlements, plans, construction: an ASSUMPTION) with a **fast path** for the selected approval path: no rezoning, then the statutory completeness and decision clocks (ADU 15 business days + 60 days; pre-approved detached ADU + 30 days; SB 9 30 + 60 days; SB 684/1123 60 days; SB 4 60 or 90 days; AB 2011 unknown). Plans and construction are the same in both bars. Below the chart: time saved, and a carrying-cost estimate from two user inputs (homes, $/home/month), labelled ASSUMPTION. When a clock is not in our sources it shows "unknown", and savings show only an upper bound.
+Stacked bars compare the brief's **baseline** (rezoning, entitlements, plans, construction: an ASSUMPTION) with a **fast path** for the project set in the shared **Tell us about your project** panel (the same panel as the ADU guide; selections sync between the two pages and across open tabs). The fast path has no rezoning, then the statutory completeness and decision clocks for that project: ADU 15 business days + 60 days; pre-approved detached ADU + 30 days; JADU + 60 days (§ 66335); no existing house = decided with the new home's permit (unknown). Clocks for SB 9, SB 684/1123, SB 4 and AB 2011 are kept in `data/timeline-config.json` for future project types. Plans and construction are the same in both bars. Below the chart: time saved, and a carrying-cost estimate from two user inputs (homes, $/home/month), labelled ASSUMPTION. When a clock is not in our sources it shows "unknown", and savings show only an upper bound.
 
 ## How Claude is used
 

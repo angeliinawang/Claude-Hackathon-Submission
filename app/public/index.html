@@ -24,44 +24,7 @@
   </header>
 
   <main class="layout">
-    <aside class="panel form-panel" aria-label="Your project">
-      <h2>1. Tell us about your project</h2>
-      <form id="project-form" autocomplete="off">
-        <label>City
-          <select id="city" required>
-            <option value="">Choose your city…</option>
-          </select>
-        </label>
-
-        <fieldset>
-          <legend>What are you building?</legend>
-          <label class="radio"><input type="radio" name="type" value="detached" checked> New detached ADU (backyard cottage)</label>
-          <label class="radio"><input type="radio" name="type" value="attached"> Attached ADU (addition to the house)</label>
-          <label class="radio"><input type="radio" name="type" value="conversion"> Convert existing space (garage, room, accessory building)</label>
-          <label class="radio"><input type="radio" name="type" value="garage_replace"> Tear down a detached garage &amp; build an ADU</label>
-          <label class="radio"><input type="radio" name="type" value="jadu"> Junior ADU (JADU, inside the house, up to 500 sq ft)</label>
-        </fieldset>
-
-        <label>Interior living space (sq ft)
-          <input id="size" type="number" min="100" max="2000" step="10" value="600" inputmode="numeric">
-        </label>
-
-        <label class="check" id="preapproved-wrap"><input id="preapproved" type="checkbox"> Using a city or state pre-approved plan</label>
-        <label class="check" id="shared-bath-wrap" hidden><input id="sharedbath" type="checkbox"> JADU shares a bathroom with the main house</label>
-        <label class="check"><input id="existing" type="checkbox" checked> There is already a house on the lot</label>
-
-        <label>In the Coastal Zone?
-          <select id="coastal">
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-            <option value="unsure">Not sure</option>
-          </select>
-        </label>
-        <p class="hint">Not sure about the coastal zone? Ask your city's planning division; the Coastal Commission also maps it.</p>
-      </form>
-
-      <div class="city-card" id="city-card" hidden></div>
-    </aside>
+    <aside class="panel form-panel" id="project-panel" aria-label="Your project"></aside>
 
     <section class="results" aria-live="polite">
       <div class="empty" id="empty">
@@ -108,6 +71,7 @@
     <p><strong>Sources:</strong> HCD ADU Handbook (March 2026); California Government Code via <a href="https://leginfo.legislature.ca.gov" target="_blank" rel="noopener">leginfo</a>; each city's own ADU pages (linked per item); ADU permit and build-time data from <a href="https://backyardadu.net/data/" target="_blank" rel="noopener">BackyardADU.net</a> (third party, derived from HCD Annual Progress Reports). No personal information is collected or stored. This tool never submits anything to a city.</p>
   </footer>
 
+  <script src="project-form.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

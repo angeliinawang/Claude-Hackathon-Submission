@@ -74,17 +74,7 @@ function sideCite(side) {
 }
 
 // ---------- read form ----------
-function readForm() {
-  return {
-    city: $("#city").value,
-    type: $('input[name="type"]:checked').value,
-    size: Number($("#size").value) || 0,
-    preapproved: $("#preapproved").checked,
-    sharedBath: $("#sharedbath").checked,
-    existing: $("#existing").checked,
-    coastal: $("#coastal").value,
-  };
-}
+function readForm() { return ProjectForm.read(); }
 
 // Which state-law rules apply to this project?
 function applies(rule, p) {
@@ -336,19 +326,14 @@ function renderCityCard(city) {
 // ---------- wiring ----------
 function render() {
   const p = readForm();
-  $("#shared-bath-wrap").hidden = p.type !== "jadu";
-  $("#preapproved-wrap").hidden = p.type === "jadu" || p.type === "conversion";
-  if (p.type === "jadu" && p.size > 500) $("#size").value = 500;
   const city = CITIES.find((c) => c.name === p.city);
-  try { localStorage.setItem("adu-form", JSON.stringify(p)); } catch {}
   if (!city) { $("#empty").hidden = false; $("#output").hidden = true; $("#city-card").hidden = true; return; }
   $("#empty").hidden = true; $("#output").hidden = false;
-  const q = readForm();
   renderCityCard(city);
-  renderSteps(city, q);
-  renderPaperwork(city, q);
-  renderLaw(city, q);
-  renderTimeline(city, q);
+  renderSteps(city, p);
+  renderPaperwork(city, p);
+  renderLaw(city, p);
+  renderTimeline(city, p);
 }
 
 function selectTab(name) {
@@ -359,30 +344,15 @@ function selectTab(name) {
 async function init() {
   [LAW, { cities: CITIES }, STATS] = await Promise.all(["state-law.json", "cities.json", "city-stats.json"].map((f) => fetch(`/data/${f}`).then((r) => r.json())));
   CITIES.sort((a, b) => a.name.localeCompare(b.name));
-  $("#city").insertAdjacentHTML("beforeend", CITIES.map((c) => `<option>${esc(c.name)}</option>`).join(""));
-
-  try {
-    const saved = JSON.parse(localStorage.getItem("adu-form") || "null");
-    if (saved) {
-      $("#city").value = saved.city || "";
-      const r = $(`input[name="type"][value="${saved.type}"]`); if (r) r.checked = true;
-      if (saved.size) $("#size").value = saved.size;
-      $("#preapproved").checked = !!saved.preapproved; $("#sharedbath").checked = !!saved.sharedBath;
-      $("#existing").checked = saved.existing !== false; $("#coastal").value = saved.coastal || "no";
-    }
-  } catch {}
-
-  $("#project-form").addEventListener("input", render);
-  $("#project-form").addEventListener("change", render);
+  const qs = new URLSearchParams(location.search);
+  ProjectForm.mount($("#project-panel"), CITIES.map((c) => c.name), { city: qs.get("city") ?? undefined, type: qs.get("type") || undefined });
+  ProjectForm.onChange(render);
   $$(".tabs button").forEach((b) => b.addEventListener("click", () => selectTab(b.dataset.tab)));
   $("#stale-run").onclick = runStale;
   $("#stale-sample").onclick = () => { $("#stale-input").value = "A JADU covenant shall be recorded per Government Code Section 65852.22. ADUs shall comply with Gov. Code 65852.2 and fees per Section 66324."; runStale(); };
   $("#ask-form").addEventListener("submit", ask);
 
   fetch("/api/status").then((r) => r.json()).then((s) => { if (!s.qa) $("#ask-status").textContent = "Q&A is off on this server (no API key). Everything else works."; }).catch(() => {});
-  const qs = new URLSearchParams(location.search);
-  if (qs.get("city")) { $("#city").value = qs.get("city"); }
-  if (qs.get("type")) { const r = $(`input[name="type"][value="${qs.get("type")}"]`); if (r) r.checked = true; }
   render();
   if (qs.get("tab")) selectTab(qs.get("tab"));
 }
