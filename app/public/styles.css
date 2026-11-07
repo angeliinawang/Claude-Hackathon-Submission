@@ -338,3 +338,17 @@ mark.old { background: var(--bad-soft); color: var(--bad); padding: 0 .15em; bor
 .city-steps { margin-top: .3rem; }
 .step-next { justify-content: flex-end; margin-top: 1.2rem; }
 @media print { .path-nav, .path-head, .step-top, .step-dur, .step-next { display: none !important; } .path-layout { display: block; } }
+
+/* ---------- screening map embedded in the ADU guide (map.html?embed=1) ---------- */
+body.embed .site-header { display: none; }
+body.embed .proto-banner { font-size: .8rem; padding: .4rem 12px; }
+body.embed .wide { padding: .7rem 12px 1rem; }
+body.embed .map-controls { padding: .7rem .8rem; }
+body.embed .map-wrap { grid-template-columns: minmax(0, 1fr) 220px; }
+@media (max-width: 560px) { body.embed .map-wrap { grid-template-columns: minmax(0, 1fr); } }
+body.embed #map { height: 430px; min-height: 300px; }
+body.embed .legend { padding: .8rem; font-size: .9rem; }
+
+/* Map card inside step 1 */
+.map-card .map-frame { display: block; width: 100%; height: 760px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); margin-top: .6rem; }
+.map-card .row { margin-top: .5rem; }

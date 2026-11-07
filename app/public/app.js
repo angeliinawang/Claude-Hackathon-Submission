@@ -178,6 +178,15 @@ function buildPath(city, p) {
   // ----- What to do (from the old "Your steps" tab) -----
   S[1].push(item(`City rule: ${cityPage(city.adu_page)}`, "Before you apply: confirm eligibility with the city",
     `Ask ${esc(city.name)}'s planning division which local objective standards apply to your lot.${city.contact ? ` Contact: ${esc(city.contact.text)} ${chip(city.contact.status)}` : ""}${city.programs.length ? ` Programs: ${city.programs.map((g) => `<a href="${esc(g.url)}" target="_blank" rel="noopener">${esc(g.name)}</a>`).join("; ")}.` : ""}`));
+  // Screening map: zoning and hazard checks belong before you apply.
+  const inDemoArea = city.name === "Anaheim";
+  S[1].push(`<div class="rule map-card">${citeTop(`Data: <a href="https://maps.scag.ca.gov/scaggis/rest/services/LDX/Zoning_poly_OR/MapServer/0" target="_blank" rel="noopener">SCAG 2024 zoning</a> · <a href="https://www.ocgis.com/arcpub/rest/services/Map_Layers/Parcels/FeatureServer/0" target="_blank" rel="noopener">OC Parcels</a> · <a href="https://www.ocgis.com/arcpub/rest/services/Map_Layers/Floodplains/MapServer/0" target="_blank" rel="noopener">FEMA flood zones (OC)</a> · <a href="https://www.ocgis.com/arcpub/rest/services/Map_Layers/Fire_Hazard_Severity_Zones_LRA/MapServer/0" target="_blank" rel="noopener">OC fire hazard zones (2011)</a>`, "Screening map")}
+    <h3>Check your lot's zoning and hazards</h3>
+    <p>Zoning and hazard zones decide which approval paths are open to a lot. The screening map tests real lots against six state paths (ADU, SB 9, SB 684, SB 1123, AB 2011, SB 4) and outlines lots in flood or fire hazard zones. Click a lot to see every test, its result and its citation. Rules: <a href="/data/screening-rules.json" target="_blank" rel="noopener">screening-rules.json</a> (HCD fact sheets, April 2026).</p>
+    <div class="callout ${inDemoArea ? "info" : "warn"}"><strong>Coverage: one demo area only</strong>Anaheim Hills and nearby unincorporated land along the Santa Ana River (2,622 lots). ${inDemoArea ? "Part of Anaheim is in the demo area; if your lot is outside it, check Anaheim's zoning map and ask the planning division." : `${esc(city.name)} is not covered yet. For your lot, check ${esc(city.name)}'s zoning map and ask the planning division.`}</div>
+    <div id="map-slot"></div>
+    <div class="row"><a class="btn ghost" href="/map.html" target="_blank" rel="noopener">Open the full map</a><span class="hint">Screening only — not a legal determination.</span></div>
+  </div>`);
   if (p.coastal !== "no") S[1].push(item(gov("Gov. Code § 66329", "66329"), `Coastal Zone${p.coastal === "unsure" ? " (not sure)" : ""}: Coastal Development Permit`,
     `You may need a Coastal Development Permit; it must be decided within 60 days of a complete application.${p.coastal === "unsure" ? " Ask the city whether your parcel is in the Coastal Zone." : ""}`));
   if (pre) S[1].push(item(gov("Gov. Code § 65852.27", "65852.27"), "Pre-approved detached plan", "The city must approve or deny within <strong>30 days</strong> when you use a plan it (or another California agency) pre-approved."));
@@ -331,6 +340,7 @@ function showView(view) {
 let LAST = null;
 function renderPath(city, p) {
   const { S, DUR, flagCount } = buildPath(city, p);
+  parkMap(); // keep the embedded map alive while step 1 is re-rendered
   for (const s of PATH_STEPS) {
     const next = PATH_STEPS.find((x) => x.n === s.n + 1);
     $(`#step-${s.n}`).innerHTML = `
@@ -346,6 +356,34 @@ function renderPath(city, p) {
   const pb = $("#print-btn"); if (pb) pb.onclick = () => printTab(2);
   LAST = { DUR, flagCount };
   renderSidebar(DUR, flagCount);
+  attachMap();
+}
+
+// One embedded map, created once and placed in step 1's slot (lazy: loads when step 1 is shown).
+// The map does not depend on the project, so re-renders move the same iframe instead of
+// reloading it (moveBefore keeps its state where the browser supports it).
+let MAP_FRAME = null;
+function mapPark() {
+  let park = $("#map-park");
+  if (!park) { park = document.createElement("div"); park.id = "map-park"; park.hidden = true; document.body.appendChild(park); }
+  return park;
+}
+function moveFrame(target) {
+  if (MAP_FRAME.isConnected && typeof target.moveBefore === "function") target.moveBefore(MAP_FRAME, null);
+  else target.appendChild(MAP_FRAME);
+}
+function parkMap() { if (MAP_FRAME && MAP_FRAME.isConnected) moveFrame(mapPark()); }
+function attachMap() {
+  const slot = $("#map-slot");
+  if (!slot) return;
+  if (!MAP_FRAME) {
+    MAP_FRAME = document.createElement("iframe");
+    MAP_FRAME.className = "map-frame";
+    MAP_FRAME.title = "Parcel screening map (demo area)";
+    MAP_FRAME.loading = "lazy";
+    MAP_FRAME.src = "/map.html?embed=1";
+  }
+  moveFrame(slot);
 }
 
 function printTab(n) {

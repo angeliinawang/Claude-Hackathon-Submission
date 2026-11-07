@@ -118,6 +118,10 @@
     });
 
     $("#f-path").insertAdjacentHTML("beforeend", RULES.paths.map((p) => `<option value="${esc(p.id)}">${esc(p.name)} — ${esc(p.short)}</option>`).join(""));
+    // ?embed=1: compact view used inside the ADU guide (step 1). ?path=ADU preselects a path filter.
+    const qs = new URLSearchParams(location.search);
+    if (qs.get("embed") === "1") document.body.classList.add("embed");
+    if (qs.get("path") && RULES.paths.some((p) => p.id === qs.get("path"))) $("#f-path").value = qs.get("path");
 
     map = L.map("map", { preferCanvas: true, scrollWheelZoom: true });
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
