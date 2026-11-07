@@ -1,0 +1,15 @@
+{
+  "name": "adu-pathfinder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Prototype: helps Orange County homeowners see the paperwork, state-law rules and timelines for permitting an ADU. Not legal advice.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "stats": "node scripts/build-stats.mjs"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.6.0"
+  }
+}

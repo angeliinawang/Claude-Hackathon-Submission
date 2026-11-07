@@ -1,0 +1,295 @@
+{
+  "about": "California state ADU/JADU rules used by ADU Pathfinder. Every rule is quoted or closely paraphrased from the HCD ADU Handbook (March 2026) with the Government Code section the Handbook cites and the Handbook page. This is a summary, not the law: read the section on leginfo before relying on it.",
+  "primary_source": {
+    "title": "HCD Accessory Dwelling Unit Handbook (March 2026)",
+    "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf",
+    "checked": "2026-11-07"
+  },
+  "leginfo_section_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=",
+  "renumbering": {
+    "note": "SB 477 (Chapter 7, Statutes of 2024) renumbered ADU/JADU law from Gov Code 65852.2, 65852.22, 65852.23 and 65852.26 to Gov Code 66310-66342. In 2025, 66324, 66327 and 66332 became 66311.5, 66313.5 and 66311.7, and 66333.5 was added.",
+    "source": "HCD ADU Handbook (March 2026), pages 13-14",
+    "checked": "2026-11-07",
+    "old_to_new": [
+      { "old": "65852.2", "new": "66310-66342 (ADU law; the Handbook does not give a one-to-one subsection map)" },
+      { "old": "65852.22", "new": "66310-66342 (JADU provisions are now in 66333 onward, per the Handbook's JADU citations)" },
+      { "old": "65852.23", "new": "66310-66342 (no one-to-one map given in the Handbook)" },
+      { "old": "65852.26", "new": "66310-66342 (no one-to-one map given in the Handbook)" },
+      { "old": "66324", "new": "66311.5 (fees)" },
+      { "old": "66327", "new": "66313.5 (HCD guideline authority)" },
+      { "old": "66332", "new": "66311.7 (unpermitted ADUs)" }
+    ]
+  },
+  "rules": [
+    {
+      "id": "completeness-15",
+      "topic": "Timeline",
+      "applies": "all",
+      "title": "City must decide whether your application is complete within 15 business days",
+      "plain": "The permitting agency must tell you in writing whether your ADU/JADU application is complete no later than 15 business days after receiving it. If it is incomplete, the notice must list the missing items and how to fix them. If the city misses the 15-business-day deadline, the application is deemed complete.",
+      "cite": "Gov. Code § 66317(a)(2)(A), (a)(2)(B), (a)(2)(F)",
+      "section": "66317",
+      "handbook_page": "14, 35"
+    },
+    {
+      "id": "decision-60",
+      "topic": "Timeline",
+      "applies": "existing_dwelling",
+      "title": "City must approve or deny within 60 days of a complete application",
+      "plain": "If there is an existing single-family or multifamily home on the lot, the permitting agency must approve or deny an application to create an ADU or JADU within 60 days of receiving a complete application. You may ask for a delay; the 60 days pauses during it.",
+      "cite": "Gov. Code §§ 66317(a)(3); 66335(a)(3), (a)(5)",
+      "section": "66317",
+      "handbook_page": "11, 35"
+    },
+    {
+      "id": "concurrent-new-home",
+      "topic": "Timeline",
+      "applies": "no_existing_dwelling",
+      "title": "Building the ADU together with a new house",
+      "plain": "If the ADU is submitted together with a new single-family or multifamily home, the agency may approve or deny them at the same time. The ADU part is still considered without discretionary review or a hearing.",
+      "cite": "Gov. Code §§ 66317(a)(3); 66335(a)(3)",
+      "section": "66317",
+      "handbook_page": "11"
+    },
+    {
+      "id": "preapproved-30",
+      "topic": "Timeline",
+      "applies": "preapproved_detached",
+      "title": "Pre-approved detached plans: decision within 30 days",
+      "plain": "A local agency must approve or deny within 30 days an application for a detached ADU that uses a plan preapproved by the local agency or another agency in the state, or a plan identical to one in a previously approved detached ADU application. The plan must be valid under the current triennial California Building Standards Code cycle.",
+      "cite": "Gov. Code § 65852.27 (AB 1332, Chapter 759, Statutes of 2023)",
+      "section": "65852.27",
+      "handbook_page": "13, 50"
+    },
+    {
+      "id": "denial-comments",
+      "topic": "Your rights",
+      "applies": "all",
+      "title": "A denial must come with a written fix-it list",
+      "plain": "If the agency denies the application, it must return in writing a full set of comments listing what is defective or deficient and how you can fix it, within the 60-day period.",
+      "cite": "Gov. Code §§ 66317(b); 66335(b)",
+      "section": "66317",
+      "handbook_page": "11"
+    },
+    {
+      "id": "appeal",
+      "topic": "Your rights",
+      "applies": "all",
+      "title": "You can appeal an incomplete finding or a denial",
+      "plain": "The agency must offer an appeal process for incompleteness findings and denials, and give a final written decision no later than 60 business days after receiving your written appeal.",
+      "cite": "Gov. Code § 66317(d)(1)",
+      "section": "66317",
+      "handbook_page": "14"
+    },
+    {
+      "id": "ministerial",
+      "topic": "Your rights",
+      "applies": "all",
+      "title": "Review is ministerial: checklists, no hearing",
+      "plain": "A ministerial review checks your application against objective standards only, with no discretionary judgment or subjective standards. Agencies (planning, building, fire, utilities) often review using only checklists.",
+      "cite": "Gov. Code §§ 66316, 66317, 66320",
+      "section": "66317",
+      "handbook_page": "35"
+    },
+    {
+      "id": "impact-fee-750",
+      "topic": "Fees",
+      "applies": "adu_size_le_750",
+      "title": "No impact fees for an ADU of 750 sq ft or less",
+      "plain": "An ADU with 750 square feet or less of interior livable space is exempt from impact fees from local agencies, special districts and water corporations.",
+      "cite": "Gov. Code § 66311.5(c)",
+      "section": "66311.5",
+      "handbook_page": "15, 22"
+    },
+    {
+      "id": "impact-fee-over-750",
+      "topic": "Fees",
+      "applies": "adu_size_gt_750",
+      "title": "Over 750 sq ft: impact fees must be proportional",
+      "plain": "If the ADU has more than 750 square feet of interior livable space, impact fees must be charged in proportion to the ADU's square footage relative to the primary dwelling's square footage.",
+      "cite": "Gov. Code § 66311.5(c)",
+      "section": "66311.5",
+      "handbook_page": "15, 22"
+    },
+    {
+      "id": "impact-fee-jadu-500",
+      "topic": "Fees",
+      "applies": "jadu",
+      "title": "JADU of 500 sq ft or less: no impact fees",
+      "plain": "A JADU with 500 square feet or less of interior livable space is exempt from impact fees from local agencies, special districts and water corporations.",
+      "cite": "Gov. Code § 66311.5(c)",
+      "section": "66311.5",
+      "handbook_page": "15, 22"
+    },
+    {
+      "id": "utility-connection",
+      "topic": "Fees",
+      "applies": "all",
+      "title": "ADUs are not a 'new residential use' for utility connection fees",
+      "plain": "A local agency, special district or water corporation shall not treat an ADU or JADU as a new residential use when calculating connection fees or capacity charges for water and sewer, unless it is built at the same time as a new single-family home.",
+      "cite": "Gov. Code § 66311.5(d)",
+      "section": "66311.5",
+      "handbook_page": "22"
+    },
+    {
+      "id": "school-fees",
+      "topic": "Fees",
+      "applies": "all",
+      "title": "School fees: only over 500 sq ft, and optional for the district",
+      "plain": "School districts may (but do not have to) levy impact fees on ADUs larger than 500 square feet of interior livable space. ADUs and JADUs under 500 square feet are not subject to school impact fees.",
+      "cite": "Education Code § 17620; Gov. Code § 66000 (as described in the Handbook)",
+      "section": "66000",
+      "handbook_page": "22"
+    },
+    {
+      "id": "size-setback-800",
+      "topic": "Size & placement",
+      "applies": "adu",
+      "title": "The city must allow at least an 800 sq ft ADU with 4-ft side and rear setbacks",
+      "plain": "A local agency may not use limits such as lot coverage, floor area ratio, open space, front setbacks, minimum lot size, or size as a percentage of the main house in a way that blocks an 800 square foot ADU with four-foot side and rear setbacks that otherwise meets local standards.",
+      "cite": "Gov. Code § 66321(b)(3)",
+      "section": "66321",
+      "handbook_page": "11"
+    },
+    {
+      "id": "height-detached",
+      "topic": "Size & placement",
+      "applies": "detached",
+      "title": "Detached ADU height: at least 16 ft (18 ft in some cases)",
+      "plain": "Base height limit for a detached ADU is 16 feet. It rises to 18 feet within a half-mile walk of a major transit stop or high-quality transit corridor (plus up to 2 more feet to match the main house's roof pitch), or on a lot with a multifamily, multistory dwelling.",
+      "cite": "Gov. Code §§ 66321(b)(4)(A), (b)(4)(B); 66323(a)(2)(B)",
+      "section": "66321",
+      "handbook_page": "11"
+    },
+    {
+      "id": "height-attached",
+      "topic": "Size & placement",
+      "applies": "attached",
+      "title": "Attached ADU height: up to 25 ft (or the main house's limit if lower)",
+      "plain": "The maximum height limit a local agency may impose on an attached ADU is 25 feet, or the primary dwelling's height limit if lower. The city does not have to allow more than two stories.",
+      "cite": "Gov. Code § 66321(b)(4)(D)",
+      "section": "66321",
+      "handbook_page": "11"
+    },
+    {
+      "id": "parking",
+      "topic": "Parking",
+      "applies": "adu",
+      "title": "Parking: at most 1 space per unit or bedroom, and no replacement spaces",
+      "plain": "ADU parking may not exceed one space per unit or bedroom, whichever is less, and may be tandem on a driveway. No guest parking. The city may not require replacement parking when a garage, carport or parking space is demolished or converted for the ADU. State law also bars parking requirements in several situations.",
+      "cite": "Gov. Code §§ 66314(d)(10)(A), (d)(10)(B), (d)(11); 66322(a)",
+      "section": "66314",
+      "handbook_page": "11, 33"
+    },
+    {
+      "id": "parking-jadu",
+      "topic": "Parking",
+      "applies": "jadu",
+      "title": "No parking can be required for a JADU",
+      "plain": "Local agencies may not require parking as a condition of a JADU permit, even when it is converted from an attached garage.",
+      "cite": "Gov. Code § 66334(a)",
+      "section": "66334",
+      "handbook_page": "28"
+    },
+    {
+      "id": "owner-occ-adu",
+      "topic": "Occupancy & deed",
+      "applies": "adu",
+      "title": "No owner-occupancy requirement for an ADU",
+      "plain": "A local agency cannot require the owner to live on the property for an ADU (the only exception is ADUs sold separately to a qualified buyer under 66341(c)(3)). The city may require rentals to be 30 days or longer.",
+      "cite": "Gov. Code § 66315",
+      "section": "66315",
+      "handbook_page": "21, 32"
+    },
+    {
+      "id": "no-deed-adu",
+      "topic": "Occupancy & deed",
+      "applies": "adu",
+      "title": "No deed restriction can be imposed on an ADU",
+      "plain": "HCD's position: a local agency cannot impose a deed restriction on an ADU, because 66314 sets the maximum standards and a deed restriction is not one of them. If your city form asks for an ADU covenant, ask the city which law it relies on.",
+      "cite": "Gov. Code §§ 66314(b)(1), 66315 (HCD interpretation)",
+      "section": "66315",
+      "handbook_page": "21"
+    },
+    {
+      "id": "jadu-deed",
+      "topic": "Occupancy & deed",
+      "applies": "jadu",
+      "title": "JADU: a deed restriction must be recorded",
+      "plain": "A JADU ordinance must require recording a deed restriction that only (1) bars selling the JADU separately from the house and (2) limits the JADU's size and attributes to what state law allows.",
+      "cite": "Gov. Code § 66333(c)(1), (c)(2)",
+      "section": "66333",
+      "handbook_page": "21"
+    },
+    {
+      "id": "jadu-owner",
+      "topic": "Occupancy & deed",
+      "applies": "jadu_shared_bath",
+      "title": "JADU sharing a bathroom with the house: owner must live there",
+      "plain": "If the JADU shares sanitation facilities with the main house, owner-occupancy is required (the owner lives in the house or the JADU). If it has its own bathroom, owner-occupancy is not required.",
+      "cite": "Gov. Code § 66333(b)",
+      "section": "66333",
+      "handbook_page": "14, 32-33"
+    },
+    {
+      "id": "jadu-rental",
+      "topic": "Occupancy & deed",
+      "applies": "jadu",
+      "title": "JADU: no short-term rentals",
+      "plain": "JADUs cannot be used as short-term rentals; if rented, the term must be longer than 30 days.",
+      "cite": "Gov. Code § 66333(g)",
+      "section": "66333",
+      "handbook_page": "33"
+    },
+    {
+      "id": "coastal",
+      "topic": "Coastal zone",
+      "applies": "coastal",
+      "title": "Coastal zone: a Coastal Development Permit decision within 60 days",
+      "plain": "ADU law applies in the Coastal Zone but does not override Coastal Act protections. The local government (if it has a certified Local Coastal Program with ADU provisions) or the Coastal Commission must approve or deny an ADU Coastal Development Permit within 60 days of a complete application, without being required to hold a public hearing.",
+      "cite": "Gov. Code § 66329",
+      "section": "66329",
+      "handbook_page": "14, 21"
+    },
+    {
+      "id": "garage-demo",
+      "topic": "Size & placement",
+      "applies": "garage",
+      "title": "Detached garage demolition is permitted together with the ADU",
+      "plain": "The agency must review and issue a demolition permit for a detached garage being replaced with an ADU at the same time as the ADU permit, and cannot require a notice or placard for that demolition unless the property is in an architecturally and historically significant district.",
+      "cite": "Gov. Code § 66314(e), (f)",
+      "section": "66314",
+      "handbook_page": "11"
+    },
+    {
+      "id": "sprinklers",
+      "topic": "Size & placement",
+      "applies": "all",
+      "title": "Building an ADU does not trigger fire sprinklers in the main house",
+      "plain": "Building an ADU cannot trigger a requirement to install fire sprinklers in the existing primary dwelling.",
+      "cite": "Gov. Code § 66314(d)(12)",
+      "section": "66314",
+      "handbook_page": "10"
+    },
+    {
+      "id": "nonconforming",
+      "topic": "Your rights",
+      "applies": "all",
+      "title": "Existing non-conforming conditions are usually not a reason to deny",
+      "plain": "For most ADUs, an agency may deny a permit because of existing zoning non-conformance only when it threatens public health and safety and is affected by building the ADU.",
+      "cite": "Gov. Code § 66322(b)",
+      "section": "66322",
+      "handbook_page": "32"
+    },
+    {
+      "id": "co",
+      "topic": "Timeline",
+      "applies": "all",
+      "title": "You need a Certificate of Occupancy before anyone moves in",
+      "plain": "Property owners must get a Certificate of Occupancy from the local agency before anyone lives in an ADU or JADU.",
+      "cite": "Gov. Code § 66328; 2022 CBC § 111",
+      "section": "66328",
+      "handbook_page": "35"
+    }
+  ]
+}

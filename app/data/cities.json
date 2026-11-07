@@ -1,0 +1,678 @@
+{
+  "about": "City-specific ADU process data for 9 Orange County cities. Every item carries a source URL, how it was confirmed, and the date checked. 'fetched' = page opened and read by the team on the date shown. 'repo-verified' = listed VERIFIED / VERIFIED-EXA in lanes/2-clear-it/data/DATA-SOURCES.md (compiled 2026-11-06). 'snippet' = seen only in a search-engine summary because the city site blocks automated fetching; open the link and confirm before relying on it. Anything not listed is UNKNOWN.",
+  "status_key": {
+    "fetched": "Page opened and read on the date shown.",
+    "repo-verified": "Confirmed in the event's DATA-SOURCES.md (2026-11-06).",
+    "snippet": "Only seen in a search summary. City site blocked automated reading. Confirm by opening the link."
+  },
+  "cities": [
+    {
+      "name": "Irvine",
+      "adu_page": {
+        "url": "https://cityofirvine.gov/building-permits-and-inspections/project-constructing-accessory-dwelling-unit-adu",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "portal": {
+        "name": "IrvineReady! Online Permit Submittal Portal",
+        "url": "https://gopost-irvine.eplansoftreview.com/#/login?portal=irvine",
+        "note": "City says it works best in Google Chrome.",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "steps": [
+        "Contact the Planning Team (planning@cityofirvine.org) to get the ADU Verification Form and ask questions.",
+        "Prepare the required documents (see paperwork list).",
+        "Log in to or create an account in IrvineReady!.",
+        "Start a new submittal (green plus button) and choose Project Type \"For Permitting--Other\".",
+        "Upload the application package and submit online.",
+        "City reviews for completeness (about 2 business days). You are notified if more is needed.",
+        "Pay fees through the link the city emails you.",
+        "After payment, the project is processed for review."
+      ],
+      "steps_source": {
+        "url": "https://cityofirvine.gov/building-permits-and-inspections/project-constructing-accessory-dwelling-unit-adu",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "documents": [
+        {
+          "name": "ADU Verification Form",
+          "how": "Request from the Planning Team (planning@cityofirvine.org)",
+          "physical": true
+        },
+        {
+          "name": "ADU Permit Application (also called the Residential Accessory Dwelling Unit / RADU application)",
+          "physical": true
+        },
+        {
+          "name": "Building plans, calculations and construction documents",
+          "physical": false
+        },
+        {
+          "name": "Development Standards Checklist for Site Plan",
+          "physical": true
+        },
+        {
+          "name": "Hold Harmless Affidavit",
+          "physical": true,
+          "sign": true
+        },
+        {
+          "name": "Covenant",
+          "how": "Obtained from Planning. Must be notarized and recorded with the County of Orange Recorder when your case planner tells you.",
+          "physical": true,
+          "sign": true,
+          "notary": true,
+          "record": true,
+          "law_flag": "no-deed-adu"
+        },
+        {
+          "name": "Signed affidavit from the property owner and applicant",
+          "physical": true,
+          "sign": true
+        },
+        {
+          "name": "Electronic Signature Disclosure (if signing digitally)",
+          "physical": true,
+          "sign": true
+        },
+        {
+          "name": "Developer Deposit Case Set-Up form (electronic or wet signature)",
+          "physical": true,
+          "sign": true
+        },
+        {
+          "name": "School Fee Determination Form (in the ADU Permit Application package)",
+          "physical": true
+        },
+        {
+          "name": "Transportation Corridor Agency Form (in the ADU Permit Application package)",
+          "physical": true
+        },
+        {
+          "name": "Address Application (in the ADU Permit Application package)",
+          "physical": true
+        }
+      ],
+      "documents_source": {
+        "url": "https://cityofirvine.gov/building-permits-and-inspections/project-constructing-accessory-dwelling-unit-adu",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "published_timelines": [
+        {
+          "step": "Completeness review",
+          "value": "About 2 business days after submittal",
+          "source": "https://cityofirvine.gov/building-permits-and-inspections/project-constructing-accessory-dwelling-unit-adu",
+          "status": "fetched",
+          "checked": "2026-11-07"
+        }
+      ],
+      "fees": [
+        {
+          "item": "ADU planning review",
+          "value": "Hourly: $210.70/hr, $1,500 deposit (per the city fee PDF). Fees rose Aug 15, 2025.",
+          "source": "https://www.cityofirvine.gov/community-development/fee-schedule",
+          "status": "repo-verified",
+          "checked": "2026-11-06"
+        }
+      ],
+      "programs": [
+        {
+          "name": "Pre-Approved ADU Plans Program (AB 1332)",
+          "detail": "Lists plan vendors. Site-specific review is still required.",
+          "url": "https://cityofirvine.gov/building-permits-and-inspections/pre-approved-adu-plans-program",
+          "status": "repo-verified",
+          "checked": "2026-11-06"
+        }
+      ],
+      "flags": [
+        {
+          "type": "state-law",
+          "text": "Irvine's submittal list includes a notarized, recorded Covenant. HCD's Handbook (p. 21) says a local agency cannot impose a deed restriction on an ADU (it is required for a JADU). Ask Planning what the covenant covers and which law it relies on.",
+          "rule": "no-deed-adu"
+        },
+        {
+          "type": "missing",
+          "text": "Irvine's ADU page cites no state law sections."
+        }
+      ]
+    },
+    {
+      "name": "Santa Ana",
+      "adu_page": {
+        "url": "https://santa-ana.gov/pre-approved-adu-plans/",
+        "status": "repo-verified",
+        "checked": "2026-11-06"
+      },
+      "portal": {
+        "name": "Unclear: paper over-the-counter vs. electronic plan check (city pages conflict)",
+        "url": "https://www.santa-ana.org/question/step-2-submit-a-request-for-an-electronic-plan-check/",
+        "status": "snippet",
+        "checked": "2026-11-07"
+      },
+      "steps": [
+        "Determine eligibility: a site with a single-family home, not in flood zone A or AE, not in listed historic districts.",
+        "Pre-submittal consultation with Planning is strongly advised (planning@santa-ana.org).",
+        "Submit the application (see the conflict flag: paper over-the-counter or electronic plan check).",
+        "Over-the-counter review by Planning, Building & Safety and Public Works. A complete, compliant pre-approved submittal may be approved in as little as one day.",
+        "Begin construction."
+      ],
+      "steps_source": {
+        "url": "https://santa-ana.gov/pre-approved-adu-plan-submittal-process/",
+        "status": "repo-verified + snippet",
+        "checked": "2026-11-07"
+      },
+      "documents": [
+        {
+          "name": "Pre-Approved ADU plan set (choose one of 10 city plans, ZIP download)",
+          "how": "https://santa-ana.gov/pre-approved-adu-plans/",
+          "physical": true
+        },
+        {
+          "name": "Site plan and cover sheet, minimum 24\" x 36\"",
+          "physical": true
+        },
+        {
+          "name": "Grading permit exemption form (completed)",
+          "physical": true
+        },
+        {
+          "name": "Submittal Checklist (Pre-Approved ADU)",
+          "how": "https://storage.googleapis.com/proudcity/santaanaca/2023/07/Submittal-Checklist-Pre-Approved-ADU1.pdf",
+          "physical": true
+        }
+      ],
+      "documents_source": {
+        "url": "https://www.santa-ana.org/topics/pre-approved-adu-submital",
+        "status": "snippet",
+        "checked": "2026-11-07"
+      },
+      "published_timelines": [
+        {
+          "step": "Pre-approved plan, over-the-counter review",
+          "value": "\"As little as one day\"",
+          "source": "https://santa-ana.gov/pre-approved-adu-plan-submittal-process/",
+          "status": "repo-verified",
+          "checked": "2026-11-06"
+        },
+        {
+          "step": "Response to electronic plan check request",
+          "value": "Up to 3 business days",
+          "source": "https://www.santa-ana.org/question/step-2-submit-a-request-for-an-electronic-plan-check/",
+          "status": "snippet",
+          "checked": "2026-11-07"
+        }
+      ],
+      "fees": [],
+      "programs": [
+        {
+          "name": "Pre-Approved ADU Plans (10 plans)",
+          "detail": "Eligibility screens: not in flood zone A/AE, not in listed historic districts.",
+          "url": "https://santa-ana.gov/pre-approved-adu-plans/",
+          "status": "repo-verified",
+          "checked": "2026-11-06"
+        }
+      ],
+      "flags": [
+        {
+          "type": "conflict",
+          "text": "Santa Ana's own pages disagree: one step page says pre-approved projects may only be submitted over-the-counter with paper copies; another says pre-approved plans can only be submitted via electronic plan check. Call Planning at (714) 647-5804 (number from the city page summary) before you go."
+        }
+      ]
+    },
+    {
+      "name": "Anaheim",
+      "adu_page": {
+        "url": "https://www.anaheim.net/6349/ADU-Anaheim",
+        "status": "repo-verified",
+        "checked": "2026-11-06"
+      },
+      "portal": {
+        "name": "AnaheimNext / Building Division submittal (see anaheim.net/building)",
+        "url": "https://www.anaheim.net/building",
+        "status": "snippet",
+        "checked": "2026-11-07"
+      },
+      "steps": [
+        "Check eligibility with the city's ADU Express Eligibility Tool (enter your address). Only detached ADUs from the Pre-Approved Plan Catalogue qualify for ADU Express; attached ADUs go through standard review.",
+        "Before plan check: get written sewer capacity verification from Public Works (ADUs and JADUs).",
+        "Before plan check: send a New Address Request Application and site plan to BusinessAssistance@anaheim.net.",
+        "Submit to the Building Division (ADU Express or standard track).",
+        "Pay school fees; for ADU Express, staff aim to issue the permit within one day after that."
+      ],
+      "steps_source": {
+        "url": "https://www.anaheim.gov/6350/ADU-Express-Process",
+        "status": "snippet",
+        "checked": "2026-11-07"
+      },
+      "documents": [
+        {
+          "name": "ADU Submittal Requirements Checklist (Nov 2025)",
+          "how": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist",
+          "physical": true
+        },
+        {
+          "name": "Written sewer capacity verification from Public Works",
+          "physical": true
+        },
+        {
+          "name": "New Address Request Application + site plan",
+          "how": "Email to BusinessAssistance@anaheim.net",
+          "physical": true
+        },
+        {
+          "name": "Grant deed (heading appears in the checklist; exact requirement not confirmed)",
+          "physical": true
+        },
+        {
+          "name": "JADU covenant / deed restriction (JADU only)",
+          "physical": true,
+          "sign": true,
+          "record": true,
+          "jadu_only": true,
+          "cite": "State rule: Gov. Code § 66333(c) (Anaheim's checklist still cites old 65852.22)"
+        }
+      ],
+      "documents_source": {
+        "url": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist",
+        "status": "repo-verified + snippet",
+        "checked": "2026-11-07"
+      },
+      "published_timelines": [
+        {
+          "step": "ADU Express review (eligible detached pre-approved plans)",
+          "value": "1 to 3 days",
+          "source": "https://www.anaheim.net/6349/ADU-Anaheim",
+          "status": "repo-verified",
+          "checked": "2026-11-06"
+        },
+        {
+          "step": "Sewer capacity verification",
+          "value": "Up to four days",
+          "source": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist",
+          "status": "repo-verified",
+          "checked": "2026-11-06"
+        },
+        {
+          "step": "Meter spot inspection",
+          "value": "Within two to three business days",
+          "source": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist",
+          "status": "repo-verified",
+          "checked": "2026-11-06"
+        }
+      ],
+      "fees": [],
+      "programs": [
+        {
+          "name": "ADU Express",
+          "detail": "Detached ADUs from the Pre-Approved Plan Catalogue only; plans cannot be modified.",
+          "url": "https://www.anaheim.gov/6350/ADU-Express-Process",
+          "status": "snippet",
+          "checked": "2026-11-07"
+        },
+        {
+          "name": "Pre-Approved Plan Catalogue",
+          "detail": "4 free plans, 224 to 1,199 sq ft.",
+          "url": "https://www.anaheim.net/6351/Pre-Approved-Plan-Catalogue",
+          "status": "repo-verified",
+          "checked": "2026-11-06"
+        }
+      ],
+      "flags": [
+        {
+          "type": "stale-citation",
+          "text": "Anaheim's November 2025 ADU checklist still cites Gov Code 65852.2 and 65852.22 for the JADU covenant. Those sections were renumbered to 66310-66342 by SB 477 (2024). The current JADU deed restriction rule is Gov Code 66333(c).",
+          "rule": "jadu-deed"
+        }
+      ]
+    },
+    {
+      "name": "Costa Mesa",
+      "adu_page": {
+        "url": "https://www.costamesaca.gov/government/departments-and-divisions/economic-and-development-services/planning/accessory-dwelling-units-adu",
+        "status": "repo-verified",
+        "checked": "2026-11-06"
+      },
+      "portal": {
+        "name": "TESSA (a TESSA profile is required to submit or access a project)",
+        "url": "https://www.costamesaca.gov/government/departments-and-divisions/economic-and-development-services/building-safety/submittal-requirements",
+        "status": "snippet",
+        "checked": "2026-11-07"
+      },
+      "steps": [
+        "Create a TESSA profile.",
+        "Prepare plans per the city's ADU building plan handout and planning e-submittal requirements (revised 2/13/26).",
+        "Submit, pay and track the application through TESSA."
+      ],
+      "steps_source": {
+        "url": "https://www.costamesaca.gov/government/departments-and-divisions/economic-and-development-services/building-safety/submittal-requirements",
+        "status": "snippet",
+        "checked": "2026-11-07"
+      },
+      "documents": [
+        {
+          "name": "Property Owner Authorization/Affidavit Form (if the applicant is not the owner)",
+          "physical": true,
+          "sign": true
+        },
+        {
+          "name": "Plan set formatted per the city's e-submittal requirements (unit counts by bedroom, open space calculation)",
+          "physical": false
+        }
+      ],
+      "documents_source": {
+        "url": "https://www.costamesaca.gov/government/departments-and-divisions/economic-and-development-services/building-safety/submittal-requirements",
+        "status": "snippet",
+        "checked": "2026-11-07"
+      },
+      "published_timelines": [],
+      "fees": [],
+      "programs": [
+        {
+          "name": "Pre-Engineered ADUs and Safe ADU Legalization Program (AB 2533 path for unpermitted ADUs)",
+          "detail": "Plans were listed as \"coming soon\" in the page text seen; may be stale. Approved plans must be resubmitted after each triennial building code update.",
+          "url": "https://www.costamesaca.gov/government/departments-and-divisions/economic-and-development-services/planning/accessory-dwelling-units-adu/pre-engineered-adus",
+          "status": "repo-verified",
+          "checked": "2026-11-06"
+        }
+      ],
+      "flags": [
+        {
+          "type": "stale",
+          "text": "Costa Mesa's pre-engineered ADU page said plans were \"coming soon\" (early 2025). Confirm whether they are available now."
+        }
+      ]
+    },
+    {
+      "name": "Fullerton",
+      "adu_page": {
+        "url": "https://www.cityoffullerton.com/government/departments/community-and-economic-development/planning-zoning/zoning/accessory-dwelling-units-granny-units",
+        "status": "repo-verified",
+        "checked": "2026-11-06"
+      },
+      "portal": {
+        "name": "EasyDev (per DATA-SOURCES; not confirmed for ADUs)",
+        "url": null,
+        "status": "repo-verified",
+        "checked": "2026-11-06"
+      },
+      "steps": [],
+      "steps_source": null,
+      "documents": [],
+      "documents_source": null,
+      "published_timelines": [],
+      "fees": [],
+      "programs": [
+        {
+          "name": "Building information bulletins: ADU guidelines, AB 2533 process guide and checklist",
+          "detail": "",
+          "url": "https://www.cityoffullerton.com/government/departments/community-and-economic-development/building-and-safety/information-bulletins",
+          "status": "repo-verified",
+          "checked": "2026-11-06"
+        }
+      ],
+      "contact": {
+        "text": "Planning Division (714) 738-6559",
+        "status": "snippet",
+        "checked": "2026-11-07"
+      },
+      "flags": [
+        {
+          "type": "stale-citation",
+          "text": "Older Fullerton ordinance documents say the ADU/JADU rules follow Gov Code 65852.2 and 65852.22 (now renumbered to 66310-66342). The city's ADU page links Ordinance 3343 (June 17, 2025); check which one is current."
+        },
+        {
+          "type": "missing",
+          "text": "Step-by-step process and submittal checklist not found online by our team. UNKNOWN: ask the Planning Division."
+        }
+      ]
+    },
+    {
+      "name": "Huntington Beach",
+      "adu_page": {
+        "url": "https://www.huntingtonbeachca.gov/departments/community_development/planning_zoning/accessory_dwelling_units_%28adus%29.php",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "portal": null,
+      "steps": [],
+      "steps_source": null,
+      "documents": [
+        {
+          "name": "ADU Handout (development standards; referenced but not linked on the city page)",
+          "physical": true
+        },
+        {
+          "name": "HB Pre-Approved ADU Plan Set (if using the pre-approved plan)",
+          "how": "https://www.huntingtonbeachca.gov/Documents/Departments/Community%20Development/Building%20Permit%20Application/Huntington%20Beach%20ADU%20-%20Public%20Set.pdf",
+          "physical": true
+        },
+        {
+          "name": "Coastal Development Permit application (Coastal Zone only)",
+          "physical": true,
+          "coastal_only": true
+        }
+      ],
+      "documents_source": {
+        "url": "https://www.huntingtonbeachca.gov/departments/community_development/planning_zoning/accessory_dwelling_units_%28adus%29.php",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "published_timelines": [],
+      "fees": [],
+      "programs": [
+        {
+          "name": "HB Pre-Approved ADU Plan (AB 1332)",
+          "detail": "One plan: 1-story, detached, 490 sq ft. No modifications or deviations allowed.",
+          "url": "https://www.huntingtonbeachca.gov/Documents/Departments/Community Development/Building Permit Application/Huntington Beach Pre-Approved Program Brochure.pdf",
+          "status": "fetched",
+          "checked": "2026-11-07"
+        }
+      ],
+      "flags": [
+        {
+          "type": "history",
+          "text": "In February 2023 the city voted to stop accepting ADU and SB 9 applications; the state sued March 8, 2023 and the council resumed processing March 21, 2023. The city page now says it provides ministerial review for all ADUs and JADUs.",
+          "source": "https://www.hcd.ca.gov/about-hcd/newsroom/california-sues-huntington-beach-violating-state-housing-element-law"
+        },
+        {
+          "type": "stale-citation",
+          "text": "The city page describes state ADU law as \"effective January 1, 2020\" and cites no current Gov Code sections. State ADU law has changed several times since (now Gov Code 66310-66342)."
+        },
+        {
+          "type": "missing",
+          "text": "No process steps, timelines, portal or fees on the city's ADU page. UNKNOWN: ask Planning."
+        }
+      ]
+    },
+    {
+      "name": "Garden Grove",
+      "adu_page": {
+        "url": "https://ggcity.org/adu",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "portal": {
+        "name": "GG Ready (pre-approved plan projects must be submitted online here)",
+        "url": "https://ggcity.org/development-access",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "steps": [
+        "Contact the Planning Division first.",
+        "Choose a plan: City Pre-Approved ADU plan (free) or your own/architect plan. Pre-approved: property may not be in Special Flood Hazard Area (Flood Zone A).",
+        "For city plans, prepare a site-specific site plan, Title 24 documents, structural plans and structural calculations (city plans are architectural only).",
+        "Submit online through GG Ready."
+      ],
+      "steps_source": {
+        "url": "https://ggcity.org/adu-go",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "documents": [
+        {
+          "name": "ADU Application (fillable PDF, revised March 2023)",
+          "how": "https://ggcity.org/sites/default/files/2023-03/adu-checklist-application-revised-march-2023-fillable.pdf",
+          "physical": true,
+          "sign": true
+        },
+        {
+          "name": "ADU Water Meter Application",
+          "how": "https://ggcity.org/sites/default/files/ADU-WATER-METER-APPLICATION.pdf",
+          "physical": true
+        },
+        {
+          "name": "Grading plan (city provides an ADU Sample Grading Plan)",
+          "how": "https://ggcity.org/sites/default/files/SAMPLE-GRADING-PLAN-Redacted.pdf",
+          "physical": false
+        },
+        {
+          "name": "Site-specific Site Plan",
+          "physical": false
+        },
+        {
+          "name": "Title 24 documents",
+          "physical": false
+        },
+        {
+          "name": "Structural plans and structural calculations",
+          "physical": false
+        }
+      ],
+      "documents_source": {
+        "url": "https://ggcity.org/adu-go",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "published_timelines": [],
+      "fees": [
+        {
+          "item": "City Pre-Approved ADU plans",
+          "value": "Free",
+          "source": "https://ggcity.org/adu-go",
+          "status": "fetched",
+          "checked": "2026-11-07"
+        },
+        {
+          "item": "Public Works impact fees",
+          "value": "See the ADU PW Impact Fees PDF (amounts not shown on the page)",
+          "source": "https://ggcity.org/sites/default/files/adupwfees.pdf",
+          "status": "fetched",
+          "checked": "2026-11-07"
+        }
+      ],
+      "programs": [
+        {
+          "name": "ADU Go: City Pre-Approved Plans",
+          "detail": "Four sizes: 447 sf (studio), 630 sf (1 bed), 750 sf (2 bed), 1,000 sf (3 bed). Handouts in English, Vietnamese, Spanish and Korean.",
+          "url": "https://ggcity.org/adu-go",
+          "status": "fetched",
+          "checked": "2026-11-07"
+        }
+      ],
+      "flags": [
+        {
+          "type": "note",
+          "text": "Garden Grove's 1,000 sf pre-approved plan is over 750 sq ft, so impact fees may apply (proportionally) under Gov Code 66311.5(c). The 447, 630 and 750 sf plans are at or under 750 sq ft and exempt from impact fees.",
+          "rule": "impact-fee-750"
+        }
+      ]
+    },
+    {
+      "name": "Orange",
+      "adu_page": {
+        "url": "https://www.cityoforange.org/business/planning-division",
+        "status": "repo-verified",
+        "checked": "2026-11-06"
+      },
+      "portal": {
+        "name": "Civic Portal (per DATA-SOURCES; not confirmed in the packet)",
+        "url": null,
+        "status": "repo-verified",
+        "checked": "2026-11-06"
+      },
+      "steps": [
+        "Complete the ADU or JADU Project Application (typed and signed) and the submittal checklist.",
+        "A planner reviews materials before acceptance; incomplete applications are not accepted.",
+        "City acts on the application within 60 days of it being deemed complete."
+      ],
+      "steps_source": {
+        "url": "https://www.cityoforange.org/home/showpublisheddocument/5096/638672551774300000",
+        "status": "snippet",
+        "checked": "2026-11-07"
+      },
+      "documents": [
+        {
+          "name": "ADU or JADU Project Application (typed, signed)",
+          "how": "https://www.cityoforange.org/home/showpublisheddocument/5096/638672551774300000",
+          "physical": true,
+          "sign": true
+        },
+        {
+          "name": "Submittal checklist (in the same packet)",
+          "physical": true
+        }
+      ],
+      "documents_source": {
+        "url": "https://www.cityoforange.org/home/showpublisheddocument/5096/638672551774300000",
+        "status": "snippet",
+        "checked": "2026-11-07"
+      },
+      "published_timelines": [
+        {
+          "step": "Decision after application deemed complete",
+          "value": "Within 60 days",
+          "source": "https://www.cityoforange.org/home/showpublisheddocument/5096/638672551774300000",
+          "status": "snippet",
+          "checked": "2026-11-07"
+        }
+      ],
+      "fees": [],
+      "programs": [],
+      "contact": {
+        "text": "Planning Division (714) 744-7220",
+        "status": "snippet",
+        "checked": "2026-11-07"
+      },
+      "flags": []
+    },
+    {
+      "name": "Tustin",
+      "adu_page": {
+        "url": "https://www.tustinca.org/1378/Accessory-Dwelling-Units",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "portal": {
+        "name": "General city permit portal (page does not say ADUs are submitted here)",
+        "url": "https://tustinca-energovpub.tylerhost.net/Apps/SelfService#/home",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "steps": [],
+      "steps_source": null,
+      "documents": [],
+      "documents_source": null,
+      "published_timelines": [],
+      "fees": [],
+      "programs": [],
+      "contact": {
+        "text": "Planning Division (714) 573-3140, TustinPlanning@tustinca.org, 300 Centennial Way, Tustin, CA 92780",
+        "status": "fetched",
+        "checked": "2026-11-07"
+      },
+      "flags": [
+        {
+          "type": "stale",
+          "text": "Tustin's ADU page cites Ordinance No. 1517 (December 2021), which predates the 2024 renumbering and the 2024-2025 state ADU changes. The city's own ADU handbook is listed as \"Coming Soon!\"."
+        },
+        {
+          "type": "missing",
+          "text": "No process steps, required forms, timelines or fees on the city's ADU page. UNKNOWN: ask the Planning Division."
+        }
+      ]
+    }
+  ]
+}

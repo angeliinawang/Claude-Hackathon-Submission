@@ -1,0 +1,393 @@
+{
+  "about": "ADU permits issued per year and median days from building permit to certificate of occupancy, per city. THIRD-PARTY data from BackyardADU.net, derived from HCD Annual Progress Report (APR) Table A2. Cite the APR for anything official. Permit-to-CO only: it does NOT include the time before the permit (design, application, plan check).",
+  "sources": {
+    "permits": "https://backyardadu.net/data/permits_ca.csv",
+    "build_times": "https://backyardadu.net/data/build_times.csv",
+    "official": "https://data.ca.gov/dataset/housing-element-annual-progress-report-apr-data-by-jurisdiction-and-year"
+  },
+  "downloaded": "2026-11-07",
+  "cities": {
+    "Irvine": {
+      "permits_by_year": [
+        {
+          "year": 2021,
+          "permits": 1,
+          "partial": null
+        },
+        {
+          "year": 2022,
+          "permits": 5,
+          "partial": null
+        },
+        {
+          "year": 2025,
+          "permits": 8,
+          "partial": null
+        }
+      ],
+      "permit_to_co": null
+    },
+    "Santa Ana": {
+      "permits_by_year": [
+        {
+          "year": 2019,
+          "permits": 57,
+          "partial": null
+        },
+        {
+          "year": 2020,
+          "permits": 64,
+          "partial": null
+        },
+        {
+          "year": 2021,
+          "permits": 133,
+          "partial": null
+        },
+        {
+          "year": 2022,
+          "permits": 170,
+          "partial": null
+        },
+        {
+          "year": 2023,
+          "permits": 199,
+          "partial": null
+        },
+        {
+          "year": 2024,
+          "permits": 196,
+          "partial": null
+        },
+        {
+          "year": 2025,
+          "permits": 258,
+          "partial": null
+        }
+      ],
+      "permit_to_co": {
+        "pairs": 473,
+        "median_days": 301,
+        "p25_days": 212,
+        "p75_days": 441,
+        "share_within_12mo": 0.624,
+        "share_within_24mo": 0.901
+      }
+    },
+    "Anaheim": {
+      "permits_by_year": [
+        {
+          "year": 2019,
+          "permits": 37,
+          "partial": null
+        },
+        {
+          "year": 2020,
+          "permits": 108,
+          "partial": null
+        },
+        {
+          "year": 2021,
+          "permits": 157,
+          "partial": null
+        },
+        {
+          "year": 2022,
+          "permits": 337,
+          "partial": null
+        },
+        {
+          "year": 2023,
+          "permits": 349,
+          "partial": null
+        },
+        {
+          "year": 2024,
+          "permits": 429,
+          "partial": null
+        },
+        {
+          "year": 2025,
+          "permits": 441,
+          "partial": null
+        }
+      ],
+      "permit_to_co": {
+        "pairs": 507,
+        "median_days": 294,
+        "p25_days": 190,
+        "p75_days": 443,
+        "share_within_12mo": 0.647,
+        "share_within_24mo": 0.923
+      }
+    },
+    "Costa Mesa": {
+      "permits_by_year": [
+        {
+          "year": 2019,
+          "permits": 6,
+          "partial": null
+        },
+        {
+          "year": 2020,
+          "permits": 19,
+          "partial": null
+        },
+        {
+          "year": 2021,
+          "permits": 43,
+          "partial": null
+        },
+        {
+          "year": 2022,
+          "permits": 69,
+          "partial": null
+        },
+        {
+          "year": 2023,
+          "permits": 98,
+          "partial": null
+        },
+        {
+          "year": 2024,
+          "permits": 92,
+          "partial": null
+        },
+        {
+          "year": 2025,
+          "permits": 89,
+          "partial": null
+        }
+      ],
+      "permit_to_co": {
+        "pairs": 102,
+        "median_days": 348,
+        "p25_days": 209,
+        "p75_days": 480,
+        "share_within_12mo": 0.51,
+        "share_within_24mo": 0.873
+      }
+    },
+    "Fullerton": {
+      "permits_by_year": [
+        {
+          "year": 2019,
+          "permits": 37,
+          "partial": null
+        },
+        {
+          "year": 2020,
+          "permits": 65,
+          "partial": null
+        },
+        {
+          "year": 2021,
+          "permits": 416,
+          "partial": null
+        },
+        {
+          "year": 2022,
+          "permits": 461,
+          "partial": null
+        },
+        {
+          "year": 2023,
+          "permits": 285,
+          "partial": null
+        },
+        {
+          "year": 2024,
+          "permits": 420,
+          "partial": null
+        },
+        {
+          "year": 2025,
+          "permits": 589,
+          "partial": null
+        }
+      ],
+      "permit_to_co": {
+        "pairs": 256,
+        "median_days": 350,
+        "p25_days": 238,
+        "p75_days": 556,
+        "share_within_12mo": 0.523,
+        "share_within_24mo": 0.879
+      }
+    },
+    "Huntington Beach": {
+      "permits_by_year": [
+        {
+          "year": 2019,
+          "permits": 28,
+          "partial": null
+        },
+        {
+          "year": 2020,
+          "permits": 31,
+          "partial": null
+        },
+        {
+          "year": 2021,
+          "permits": 60,
+          "partial": null
+        },
+        {
+          "year": 2022,
+          "permits": 91,
+          "partial": null
+        },
+        {
+          "year": 2023,
+          "permits": 84,
+          "partial": null
+        },
+        {
+          "year": 2024,
+          "permits": 115,
+          "partial": null
+        },
+        {
+          "year": 2025,
+          "permits": 87,
+          "partial": null
+        }
+      ],
+      "permit_to_co": null
+    },
+    "Garden Grove": {
+      "permits_by_year": [
+        {
+          "year": 2019,
+          "permits": 96,
+          "partial": null
+        },
+        {
+          "year": 2020,
+          "permits": 379,
+          "partial": null
+        },
+        {
+          "year": 2021,
+          "permits": 407,
+          "partial": null
+        },
+        {
+          "year": 2022,
+          "permits": 374,
+          "partial": null
+        },
+        {
+          "year": 2023,
+          "permits": 405,
+          "partial": null
+        },
+        {
+          "year": 2024,
+          "permits": 426,
+          "partial": null
+        },
+        {
+          "year": 2025,
+          "permits": 434,
+          "partial": null
+        }
+      ],
+      "permit_to_co": {
+        "pairs": 1005,
+        "median_days": 268,
+        "p25_days": 179,
+        "p75_days": 430,
+        "share_within_12mo": 0.67,
+        "share_within_24mo": 0.937
+      }
+    },
+    "Orange": {
+      "permits_by_year": [
+        {
+          "year": 2019,
+          "permits": 10,
+          "partial": null
+        },
+        {
+          "year": 2020,
+          "permits": 39,
+          "partial": null
+        },
+        {
+          "year": 2021,
+          "permits": 56,
+          "partial": null
+        },
+        {
+          "year": 2022,
+          "permits": 83,
+          "partial": null
+        },
+        {
+          "year": 2023,
+          "permits": 69,
+          "partial": null
+        },
+        {
+          "year": 2024,
+          "permits": 104,
+          "partial": null
+        },
+        {
+          "year": 2025,
+          "permits": 88,
+          "partial": null
+        }
+      ],
+      "permit_to_co": {
+        "pairs": 185,
+        "median_days": 263,
+        "p25_days": 189,
+        "p75_days": 372,
+        "share_within_12mo": 0.73,
+        "share_within_24mo": 0.978
+      }
+    },
+    "Tustin": {
+      "permits_by_year": [
+        {
+          "year": 2019,
+          "permits": 6,
+          "partial": null
+        },
+        {
+          "year": 2020,
+          "permits": 11,
+          "partial": null
+        },
+        {
+          "year": 2021,
+          "permits": 12,
+          "partial": null
+        },
+        {
+          "year": 2022,
+          "permits": 14,
+          "partial": null
+        },
+        {
+          "year": 2023,
+          "permits": 6,
+          "partial": null
+        },
+        {
+          "year": 2024,
+          "permits": 20,
+          "partial": null
+        },
+        {
+          "year": 2025,
+          "permits": 34,
+          "partial": null
+        }
+      ],
+      "permit_to_co": null
+    }
+  }
+}
