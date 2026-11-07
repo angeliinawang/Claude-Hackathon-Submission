@@ -11,13 +11,34 @@
     "source": "HCD ADU Handbook (March 2026), pages 13-14",
     "checked": "2026-11-07",
     "old_to_new": [
-      { "old": "65852.2", "new": "66310-66342 (ADU law; the Handbook does not give a one-to-one subsection map)" },
-      { "old": "65852.22", "new": "66310-66342 (JADU provisions are now in 66333 onward, per the Handbook's JADU citations)" },
-      { "old": "65852.23", "new": "66310-66342 (no one-to-one map given in the Handbook)" },
-      { "old": "65852.26", "new": "66310-66342 (no one-to-one map given in the Handbook)" },
-      { "old": "66324", "new": "66311.5 (fees)" },
-      { "old": "66327", "new": "66313.5 (HCD guideline authority)" },
-      { "old": "66332", "new": "66311.7 (unpermitted ADUs)" }
+      {
+        "old": "65852.2",
+        "new": "66310-66342 (ADU law; the Handbook does not give a one-to-one subsection map)"
+      },
+      {
+        "old": "65852.22",
+        "new": "66310-66342 (JADU provisions are now in 66333 onward, per the Handbook's JADU citations)"
+      },
+      {
+        "old": "65852.23",
+        "new": "66310-66342 (no one-to-one map given in the Handbook)"
+      },
+      {
+        "old": "65852.26",
+        "new": "66310-66342 (no one-to-one map given in the Handbook)"
+      },
+      {
+        "old": "66324",
+        "new": "66311.5 (fees)"
+      },
+      {
+        "old": "66327",
+        "new": "66313.5 (HCD guideline authority)"
+      },
+      {
+        "old": "66332",
+        "new": "66311.7 (unpermitted ADUs)"
+      }
     ]
   },
   "rules": [
@@ -40,6 +61,16 @@
       "cite": "Gov. Code §§ 66317(a)(3); 66335(a)(3), (a)(5)",
       "section": "66317",
       "handbook_page": "11, 35"
+    },
+    {
+      "id": "deemed-approved",
+      "topic": "Timeline",
+      "applies": "existing_dwelling",
+      "title": "No decision within 60 days: deemed approved",
+      "plain": "An application to create an ADU or JADU shall be deemed approved (not just subject to ministerial approval) if the local agency has not approved or denied the completed application within 60 days.",
+      "cite": "Gov. Code § 66317(a) (added by AB 3182, Chapter 198, Statutes of 2020)",
+      "section": "66317",
+      "handbook_page": "51"
     },
     {
       "id": "concurrent-new-home",

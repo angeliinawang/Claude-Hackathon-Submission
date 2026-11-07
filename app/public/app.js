@@ -115,7 +115,7 @@ const PATH_STEPS = [
 const RULE_STEP = {
   "size-setback-800": 1, "height-detached": 1, "height-attached": 1, parking: 1, "parking-jadu": 1, "owner-occ-adu": 1, "jadu-owner": 1,
   "no-deed-adu": 2, "jadu-deed": 2, "garage-demo": 2,
-  "completeness-15": 4, "decision-60": 4, "concurrent-new-home": 4, "preapproved-30": 4, ministerial: 4, coastal: 4,
+  "completeness-15": 4, "decision-60": 4, "deemed-approved": 4, "concurrent-new-home": 4, "preapproved-30": 4, ministerial: 4, coastal: 4,
   "denial-comments": 5, appeal: 5, nonconforming: 5,
   "impact-fee-750": 6, "impact-fee-over-750": 6, "impact-fee-jadu-500": 6, "utility-connection": 6, "school-fees": 6,
   co: 7, sprinklers: 7, "jadu-rental": 7,

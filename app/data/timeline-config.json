@@ -82,6 +82,12 @@
         "cite": "Gov. Code § 66317(a)(3)",
         "source": "HCD ADU Handbook (Mar 2026) pp. 11, 35",
         "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+      },
+      "deemed_approved": {
+        "days": 60,
+        "cite": "Gov. Code § 66317(a)",
+        "source": "HCD ADU Handbook (Mar 2026) p. 51 (AB 3182)",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
       }
     },
     {
@@ -99,6 +105,12 @@
         "unit": "calendar",
         "cite": "Gov. Code § 65852.27 (AB 1332)",
         "source": "HCD ADU Handbook (Mar 2026) p. 50",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+      },
+      "deemed_approved": {
+        "days": 60,
+        "cite": "Gov. Code § 66317(a)",
+        "source": "HCD ADU Handbook (Mar 2026) p. 51 (AB 3182)",
         "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
       }
     },
@@ -134,6 +146,12 @@
         "unit": "calendar",
         "cite": "Gov. Code § 66335(a)(3)",
         "source": "HCD ADU Handbook (Mar 2026) p. 11",
+        "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
+      },
+      "deemed_approved": {
+        "days": 60,
+        "cite": "Gov. Code § 66317(a)",
+        "source": "HCD ADU Handbook (Mar 2026) p. 51 (AB 3182)",
         "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf"
       }
     },
@@ -228,5 +246,6 @@
     "per_home_per_month": 1771,
     "label_type": "ASSUMPTION",
     "basis": "Derived from the brief's mock worked example: $85k of time costs per home over the ~48-month baseline ≈ $1,771/month. The example is not a real deal. Replace with your own number."
-  }
+  },
+  "business_days_note": "ASSUMPTION: business days skip Saturdays and Sundays only; state and city holidays are not excluded, so real deadlines can fall a few days later."
 }

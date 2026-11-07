@@ -39,9 +39,15 @@ Cities covered: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, 
 - `map.html?apn=35631101` deep-links to one lot.
 - All rules live in `data/screening-rules.json` (editable). The engine (`public/screening.js`) has no thresholds of its own.
 
-### Fast-path timeline (`/timeline.html`)
+### Calendar & deadlines (`/timeline.html`)
 
-Stacked bars compare the brief's **baseline** (rezoning, entitlements, plans, construction: an ASSUMPTION) with a **fast path** for the project set in the shared **Tell us about your project** panel (the same panel as the ADU guide; selections sync between the two pages and across open tabs). The fast path has no rezoning, then the statutory completeness and decision clocks for that project: ADU 15 business days + 60 days; pre-approved detached ADU + 30 days; JADU + 60 days (§ 66335); no existing house = decided with the new home's permit (unknown). Clocks for SB 9, SB 684/1123, SB 4 and AB 2011 are kept in `data/timeline-config.json` for future project types. Plans and construction are the same in both bars. Below the chart: time saved, and a carrying-cost estimate from two user inputs (homes, $/home/month), labelled ASSUMPTION. When a clock is not in our sources it shows "unknown", and savings show only an upper bound.
+Answers "Is the city late on my application, and how much is that costing me?" for the project in the shared **Tell us about your project** panel.
+
+- **Countdowns:** the city's completeness reply (15 business days, Gov. Code § 66317(a)(2)), the approve-or-deny decision (60 days, or 30 for a pre-approved detached plan), and your next paperwork goal. Missed completeness deadline = deemed complete (§ 66317(a)(2)(F)).
+- **Is the city late?** Legal-deadline bar vs. days actually elapsed since your application became complete, with an overdue marker. Past 60 days without a decision, the application is deemed approved (§ 66317(a); HCD ADU Handbook p. 51, AB 3182). A **draft** "deemed approved" confirmation or status-request email to copy: nothing is ever sent. Lost rent = your monthly rent estimate (ASSUMPTION) × months overdue.
+- **Calendar:** Week, Month, 2-month and 3-month views. Your paperwork goals in the city's listed order between your start and target dates (ASSUMPTION: spread evenly), city-published lead times (e.g. Anaheim sewer verification "up to four days") placed before the matching item, the city's legal deadlines (projected until you enter a submission date), and the city's historical median move-in. Download a `.ics` file to add it to any calendar app.
+- Example: submitted Aug 1, today Nov 7 → deadline Sep 30, 98 days so far, 38 days overdue, ≈ $2,497 at $2,000/month. Dates are saved only in the browser.
+- No existing house: no separate ADU clock (unknown), so no overdue or deemed-approved claim.
 
 ## How Claude is used
 
@@ -92,7 +98,7 @@ To rebuild the permit stats from the CSVs: `npm run stats`.
 | Claude Q&A | Working when an API key is set |
 | Printable packet | Working (browser print) |
 | Parcel screening map | Working on real public data for one demo area (2,622 lots); other areas need `npm run fetch-parcels` with a new bounding box |
-| Fast-path timeline chart | Working; durations from config, unknown clocks shown as unknown |
+| Calendar & deadlines | Working; legal clocks from state law, goals from your dates, .ics export; business days skip weekends only (holidays not excluded, ASSUMPTION) |
 
 ## Where it gets things wrong
 
