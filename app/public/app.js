@@ -34,10 +34,43 @@ function srcLine(src) {
   return `<p class="source">Source: <a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(host)}</a> · checked ${esc(src.checked)} ${chip(src.status)}</p>`;
 }
 
-function lawSrc(rule) {
-  const sec = rule.section;
-  const lawCode = sec === "17620" ? "EDC" : "GOV";
-  return `<p class="source">${esc(rule.cite)} · <a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=${lawCode}&sectionNum=${esc(sec)}" target="_blank" rel="noopener">read the law</a> · <a href="${esc(LAW.primary_source.url)}" target="_blank" rel="noopener">HCD ADU Handbook (Mar 2026)</a> p. ${esc(rule.handbook_page)} · checked ${esc(LAW.primary_source.checked)} <span class="chip state">State law</span></p>`;
+function lawUrl(section) {
+  const lawCode = section === "17620" ? "EDC" : "GOV";
+  return `https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=${lawCode}&sectionNum=${encodeURIComponent(section)}`;
+}
+
+// Citation line shown at the TOP of each box. Same size as body text or smaller, never larger.
+function citeTop(cite, tag) {
+  return `<div class="cite-top"><span class="cite">${cite}</span>${tag ? `<span class="cite-tag">${esc(tag)}</span>` : ""}</div>`;
+}
+
+// Links line shown at the BOTTOM of each box.
+function lawLinks(rule) {
+  return `<p class="source"><a href="${lawUrl(rule.section)}" target="_blank" rel="noopener">Read § ${esc(rule.section)} on leginfo</a> · <a href="${esc(LAW.primary_source.url)}" target="_blank" rel="noopener">HCD ADU Handbook (Mar 2026), p. ${esc(rule.handbook_page)}</a> · checked ${esc(LAW.primary_source.checked)}</p>`;
+}
+function lawSrc(rule) { return lawLinks(rule); }
+
+const ruleById = (id) => LAW.rules.find((r) => r.id === id);
+
+// One side of a city-vs-state comparison.
+function sideBox(side) {
+  if (side.rule) {
+    const r = ruleById(side.rule);
+    return `<div class="side side-state">${citeTop(esc(r.cite), side.who || "State law")}<p><strong>${esc(r.title)}.</strong> ${esc(r.plain)}</p>${lawLinks(r)}</div>`;
+  }
+  if (side.renumbering) {
+    return `<div class="side side-state">${citeTop("SB 477 (2024): Gov. Code §§ 66310–66342", side.who || "State law")}<p>${esc(LAW.renumbering.note)}</p><p class="source"><a href="${esc(LAW.primary_source.url)}" target="_blank" rel="noopener">HCD ADU Handbook (Mar 2026), pp. 13–14</a> · checked ${esc(LAW.renumbering.checked)}</p></div>`;
+  }
+  if (side.section) {
+    return `<div class="side side-state">${citeTop(esc(side.cite), side.who || "State law")}<p>${esc(side.text)}</p><p class="source"><a href="${lawUrl(side.section)}" target="_blank" rel="noopener">Read § ${esc(side.section)} on leginfo</a> · <a href="${esc(side.url)}" target="_blank" rel="noopener">${esc(side.source)}</a></p></div>`;
+  }
+  return `<div class="side side-city">${citeTop(esc(side.cite), side.who || "City")}<p>${esc(side.text)}</p><p class="source"><a href="${esc(side.url)}" target="_blank" rel="noopener">Open the city source</a> · checked ${esc(side.checked)} ${chip(side.status)}</p></div>`;
+}
+
+function sideCite(side) {
+  if (side.rule) return ruleById(side.rule).cite;
+  if (side.renumbering) return "Gov. Code §§ 66310–66342";
+  return side.cite;
 }
 
 // ---------- read form ----------
@@ -78,44 +111,48 @@ function applies(rule, p) {
 // ---------- tab: steps ----------
 function renderSteps(city, p) {
   const isJadu = p.type === "jadu";
+  const pre = p.preapproved && (p.type === "detached" || p.type === "garage_replace");
   const items = [];
+  const cityPage = (src, label) => src ? `<a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(label || `${city.name} ADU page`)}</a> ${chip(src.status)}` : `<span class="chip unknown">No city source</span>`;
+  const gov = (cite, section) => `<a href="${lawUrl(section)}" target="_blank" rel="noopener">${esc(cite)}</a>`;
+  const step = (cls, cite, title, body) => `<li${cls ? ` class="${cls}"` : ""}>${citeTop(cite)}${title ? `<h3>${title}</h3>` : ""}${body ? `<p>${body}</p>` : ""}</li>`;
 
-  items.push(`<li class="phase"><h3>Before you apply</h3>
-    <ul class="sub">
-      <li>Confirm your lot is eligible and which standards apply with ${esc(city.name)}'s planning division.${city.contact ? ` Contact: ${esc(city.contact.text)} ${chip(city.contact.status)}` : ""}</li>
-      ${p.coastal !== "no" ? `<li><strong>Coastal Zone${p.coastal === "unsure" ? " (not sure)" : ""}:</strong> you may need a Coastal Development Permit. ${p.coastal === "unsure" ? "Ask the city whether your parcel is in the Coastal Zone." : ""}</li>` : ""}
-      ${city.programs.length ? `<li>Look at ${esc(city.name)}'s programs: ${city.programs.map((g) => `<a href="${esc(g.url)}" target="_blank" rel="noopener">${esc(g.name)}</a>`).join("; ")}.</li>` : ""}
-      ${p.preapproved && (p.type === "detached" || p.type === "garage_replace") ? `<li>Pre-approved detached plan: state law gives the city <strong>30 days</strong> to approve or deny (Gov. Code § 65852.27).</li>` : ""}
-    </ul></li>`);
+  // Before you apply
+  items.push(step("phase", `City rule: ${cityPage(city.adu_page)}`, "Before you apply: confirm eligibility with the city",
+    `Ask ${esc(city.name)}'s planning division which local objective standards apply to your lot.${city.contact ? ` Contact: ${esc(city.contact.text)} ${chip(city.contact.status)}` : ""}${city.programs.length ? ` Programs: ${city.programs.map((g) => `<a href="${esc(g.url)}" target="_blank" rel="noopener">${esc(g.name)}</a>`).join("; ")}.` : ""}`));
+  if (p.coastal !== "no") items.push(step("phase", gov("Gov. Code § 66329", "66329"), `Coastal Zone${p.coastal === "unsure" ? " (not sure)" : ""}: Coastal Development Permit`,
+    `You may need a Coastal Development Permit; it must be decided within 60 days of a complete application.${p.coastal === "unsure" ? " Ask the city whether your parcel is in the Coastal Zone." : ""}`));
+  if (pre) items.push(step("phase", gov("Gov. Code § 65852.27", "65852.27"), "Pre-approved detached plan", "The city must approve or deny within <strong>30 days</strong> when you use a plan it (or another California agency) pre-approved."));
 
+  // City's own steps
   if (city.steps.length) {
-    items.push(...city.steps.map((s) => `<li><p>${esc(s)}</p></li>`));
+    for (const st of city.steps) {
+      const text = typeof st === "string" ? st : st.text;
+      const r = typeof st === "object" && st.state_rule ? ruleById(st.state_rule) : null;
+      const cite = `City rule: ${cityPage(city.steps_source, `${city.name} process page`)}${r ? ` <span class="cite-sep">·</span> State: ${gov(r.cite, r.section)}` : ""}`;
+      items.push(step("", cite, "", esc(text) + (r ? `<br><span class="hint">State rule: ${esc(r.title)}.</span>` : "")));
+    }
   } else {
-    items.push(`<li><h3>${esc(city.name)}'s own process: <span class="chip unknown">Unknown</span></h3>
-      <p>${esc(city.name)} does not publish step-by-step ADU instructions that our team could find. Ask the planning division for its ADU submittal checklist. Under Gov. Code § 65913.3 (AB 2234), cities must post checklists online for ADU permits.</p></li>`);
-  }
-  const stepsSrc = city.steps.length ? srcLine(city.steps_source) : "";
-
-  items.push(`<li class="phase"><h3>State clocks that start when you submit</h3>
-    <ul class="sub">
-      <li>Within <strong>15 business days</strong>: the city must tell you in writing whether the application is complete. If it doesn't, the application is deemed complete. <span class="source">Gov. Code § 66317(a)(2)</span></li>
-      ${p.existing ? `<li>Within <strong>${p.preapproved && (p.type === "detached" || p.type === "garage_replace") ? "30 days (pre-approved detached plan)" : "60 days"}</strong> of a complete application: approve or deny. <span class="source">${p.preapproved && (p.type === "detached" || p.type === "garage_replace") ? "Gov. Code § 65852.27" : "Gov. Code § 66317(a)(3)"}</span></li>` : `<li>No existing house: the city may decide the ADU together with your new house's permit. <span class="source">Gov. Code § 66317(a)(3)</span></li>`}
-      <li>If denied: a written list of what to fix, within the same period. You can appeal. <span class="source">Gov. Code § 66317(b), (d)(1)</span></li>
-      ${p.coastal !== "no" ? `<li>Coastal Development Permit: decision within <strong>60 days</strong> of a complete application. <span class="source">Gov. Code § 66329</span></li>` : ""}
-    </ul></li>`);
-
-  if (isJadu) {
-    items.push(`<li><h3>Record the JADU deed restriction</h3><p>Required by state law: it bars selling the JADU separately from the house and limits its size and attributes. <span class="source">Gov. Code § 66333(c)</span></p></li>`);
+    items.push(step("", `${gov("Gov. Code § 65913.3", "65913.3")} (AB 2234: checklists must be online)`, `${esc(city.name)}'s own process: <span class="chip unknown">Unknown</span>`,
+      `${esc(city.name)} does not publish step-by-step ADU instructions that our team could find. Ask the planning division for its ADU submittal checklist.`));
   }
 
-  items.push(`<li><h3>Build, inspections, and Certificate of Occupancy</h3><p>No one may live in the ADU until the city issues a Certificate of Occupancy. <span class="source">Gov. Code § 66328</span></p></li>`);
+  // State clocks
+  items.push(step("phase", gov("Gov. Code § 66317(a)(2)", "66317"), "Within 15 business days: completeness decision",
+    "The city must tell you in writing whether the application is complete, listing anything missing. If it doesn't, the application is deemed complete."));
+  if (p.existing) items.push(step("phase", pre ? gov("Gov. Code § 65852.27", "65852.27") : gov("Gov. Code § 66317(a)(3)", "66317"), `Within ${pre ? "30" : "60"} days: approve or deny`, "Counted from a complete application. You may ask for a delay; the clock pauses."));
+  else items.push(step("phase", gov("Gov. Code § 66317(a)(3)", "66317"), "Decided together with your new house", "With no existing house, the city may decide the ADU together with the new home's permit, still without a hearing."));
+  items.push(step("phase", gov("Gov. Code § 66317(b), (d)(1)", "66317"), "If denied: written fix-it list, and a right to appeal", "The denial must list what is deficient and how to fix it. Appeals get a written decision within 60 business days."));
 
+  if (isJadu) items.push(step("", gov("Gov. Code § 66333(c)", "66333"), "Record the JADU deed restriction", "Bars selling the JADU separately from the house and limits its size and attributes."));
+  items.push(step("", gov("Gov. Code § 66328", "66328"), "Build, inspections, and Certificate of Occupancy", "No one may live in the ADU until the city issues a Certificate of Occupancy."));
+
+  const conflicts = city.flags.filter((f) => f.type === "conflict");
   $("#tab-steps").innerHTML = `
     <h2>Your path: ${esc(TYPE_LABEL[p.type])} in ${esc(city.name)}</h2>
     ${portalBlock(city)}
     <ol class="steps">${items.join("")}</ol>
-    ${stepsSrc}
-    ${city.flags.filter((f) => f.type === "conflict").map((f) => `<div class="callout warn"><strong>Heads up: the city's own pages disagree</strong>${esc(f.text)}</div>`).join("")}`;
+    ${conflicts.map(flagBox).join("")}`;
 }
 
 function portalBlock(city) {
@@ -137,10 +174,10 @@ function renderPaperwork(city, p) {
     d.notary ? `<span class="tag notary">Notarize</span>` : "",
     d.record ? `<span class="tag record">Record with County Recorder</span>` : "",
     d.physical === false ? `<span class="tag">Plans / drawings</span>` : `<span class="tag">Form to fill out</span>`,
-    d.law_flag ? `<span class="tag law">See state-law check</span>` : "",
+    d.law_flag ? `<span class="tag law">City vs. state</span>` : "",
   ].join("");
 
-  const li = (d, i, prefix) => `<li><input type="checkbox" id="${prefix}${i}" aria-label="Done: ${esc(d.name)}"><label for="${prefix}${i}"><span class="name">${esc(d.name)}</span>${d.how ? `<br><span class="hint">${/^https?:/.test(d.how) ? `<a href="${esc(d.how)}" target="_blank" rel="noopener">Get the form</a>` : esc(d.how)}</span>` : ""}<br>${tags(d)}${d.cite ? `<span class="source"> ${esc(d.cite)}</span>` : ""}</label></li>`;
+  const li = (d, i, prefix) => `<li><input type="checkbox" id="${prefix}${i}" aria-label="Done: ${esc(d.name)}"><label for="${prefix}${i}"><span class="name">${esc(d.name)}</span>${d.how ? `<br><span class="hint">${/^https?:/.test(d.how) ? `<a href="${esc(d.how)}" target="_blank" rel="noopener">Get the form</a>` : esc(d.how)}</span>` : ""}<br>${tags(d)}${d.cite ? `<span class="source"> ${esc(d.cite)}</span>` : ""}${d.law_flag ? `<div class="mini-compare"><span><b>City:</b> ${esc(city.name)} lists this form ${chip(city.documents_source?.status)}</span><span><b>State:</b> <a href="${lawUrl(ruleById(d.law_flag).section)}" target="_blank" rel="noopener">${esc(ruleById(d.law_flag).cite)}</a>: ${esc(ruleById(d.law_flag).title)}</span></div>` : ""}</label></li>`;
 
   $("#tab-paperwork").innerHTML = `
     <div class="print-only"><h1>ADU paperwork checklist — ${esc(city.name)}</h1><p>${esc(TYPE_LABEL[p.type])}, ${p.size || "?"} sq ft. Printed from ADU Pathfinder (prototype, not legal advice). Confirm every item with the city.</p></div>
@@ -161,23 +198,40 @@ function printTab(name) {
 }
 
 // ---------- tab: state-law check ----------
+const FLAG_KINDS = { "state-law": ["bad", "City vs. state law"], "stale-citation": ["bad", "Cites old (renumbered) law"], stale: ["warn", "May be out of date"], conflict: ["warn", "City sources disagree"], missing: ["warn", "Missing information"], history: ["info", "History"], note: ["info", "Worth knowing"] };
+
+function flagBox(f) {
+  const [cls, kind] = FLAG_KINDS[f.type] || ["info", "Note"];
+  const sides = f.sides || [];
+  const isState = (sd) => sd.rule || sd.renumbering || sd.section;
+  const group = (list, who) => list.length ? `${who}: ${list.map((sd) => esc(sideCite(sd))).join(' <span class="cite-sep">+</span> ')}` : "";
+  const cityS = sides.filter((sd) => !isState(sd)), stateS = sides.filter(isState);
+  const cites = !sides.length ? (f.source ? `<a href="${esc(f.source)}" target="_blank" rel="noopener">Source</a>` : "No source to compare")
+    : stateS.length ? `${group(cityS, "City")} <span class="cite-sep">vs.</span> ${group(stateS, "State")}`
+    : cityS.map((sd) => esc(sideCite(sd))).join(' <span class="cite-sep">vs.</span> ');
+  return `<div class="callout ${cls} flag">${citeTop(cites, kind)}
+    ${f.title ? `<h3>${esc(f.title)}</h3>` : ""}<p>${esc(f.text)}</p>
+    ${sides.length ? `<div class="sides">${sides.map(sideBox).join("")}</div>` : ""}
+    ${f.source && sides.length ? `<p class="source"><a href="${esc(f.source)}" target="_blank" rel="noopener">More context</a></p>` : ""}</div>`;
+}
+
 function renderLaw(city, p) {
   const rules = LAW.rules.filter((r) => applies(r, p));
   const relevantFlags = city.flags.filter((f) => !f.rule || LAW.rules.some((r) => r.id === f.rule && applies(r, p)) || f.type === "stale-citation");
-  const kinds = { "state-law": ["bad", "Possible conflict with state law"], "stale-citation": ["bad", "Cites old (renumbered) law"], stale: ["warn", "May be out of date"], conflict: ["warn", "City sources disagree"], missing: ["warn", "Missing information"], history: ["info", "History"], note: ["info", "Worth knowing"] };
   $("#flag-count").textContent = relevantFlags.filter((f) => ["state-law", "stale-citation", "conflict"].includes(f.type)).length || "";
 
-  const sizeNote = p.type !== "jadu" && p.size > 0 ? (p.size <= 750
-    ? `<div class="callout ok"><strong>At ${p.size} sq ft, no impact fees</strong>ADUs of 750 sq ft or less are exempt from impact fees.${p.size < 500 ? " Under 500 sq ft, school impact fees do not apply either." : " Over 500 sq ft, a school district may charge school fees."}</div>`
-    : `<div class="callout warn"><strong>At ${p.size} sq ft, impact fees may apply</strong>Over 750 sq ft, impact fees are allowed but must be proportional to the main house's size. Dropping to 750 sq ft or less removes them.</div>`) : "";
+  const feeRule = p.type !== "jadu" && p.size > 0 ? ruleById(p.size <= 750 ? "impact-fee-750" : "impact-fee-over-750") : null;
+  const sizeNote = feeRule ? `<div class="callout ${p.size <= 750 ? "ok" : "warn"} flag">${citeTop(esc(feeRule.cite), "Your size")}
+    <h3>At ${p.size} sq ft, ${p.size <= 750 ? "no impact fees" : "impact fees may apply"}</h3>
+    <p>${p.size <= 750 ? "ADUs of 750 sq ft or less are exempt from impact fees." : "Over 750 sq ft, impact fees are allowed but must be proportional to the main house's size. 750 sq ft or less removes them."}${p.size < 500 ? " Under 500 sq ft, school impact fees do not apply either." : " Over 500 sq ft, a school district may charge school fees (Education Code § 17620)."}</p>${lawLinks(feeRule)}</div>` : "";
 
   $("#tab-law").innerHTML = `
     <h2>State-law check for ${esc(city.name)}</h2>
-    <p>State law sets the maximum a city can require. Where ${esc(city.name)}'s materials look out of step, we flag it. We show both sides; we don't decide who is right.</p>
-    ${relevantFlags.map((f) => `<div class="callout ${kinds[f.type]?.[0] || "info"}"><strong>${esc(kinds[f.type]?.[1] || "Note")}</strong>${esc(f.text)}${f.source ? ` <a href="${esc(f.source)}" target="_blank" rel="noopener">source</a>` : ""}</div>`).join("") || `<div class="callout ok"><strong>No conflicts flagged</strong>We did not find a mismatch in the ${esc(city.name)} materials we read. That is not the same as compliant: we only read what is linked.</div>`}
+    <p>State law sets the maximum a city can require. Where ${esc(city.name)}'s materials look out of step, we show the city's version and the state's version side by side. We don't decide who is right.</p>
+    ${relevantFlags.map(flagBox).join("") || `<div class="callout ok"><strong>No conflicts flagged</strong>We did not find a mismatch in the ${esc(city.name)} materials we read. That is not the same as compliant: we only read what is linked.</div>`}
     ${sizeNote}
     <h3 style="margin-top:1.2rem">Rules that apply to your project (${rules.length})</h3>
-    <div class="rules">${rules.map((r) => `<div class="rule"><div class="topic">${esc(r.topic)}</div><h3>${esc(r.title)}</h3><p>${esc(r.plain)}</p>${lawSrc(r)}</div>`).join("")}</div>`;
+    <div class="rules">${rules.map((r) => `<div class="rule">${citeTop(esc(r.cite), r.topic)}<h3>${esc(r.title)}</h3><p>${esc(r.plain)}</p>${lawLinks(r)}</div>`).join("")}</div>`;
 }
 
 // ---------- tab: timeline ----------

@@ -250,3 +250,23 @@ mark.old { background: var(--bad-soft); color: var(--bad); padding: 0 .15em; bor
 .stat .s { font-size: .82rem; color: var(--muted); margin-top: .2rem; }
 .cites { font-size: .85rem; }
 .cites li { margin: .3rem 0; }
+
+/* ---------- citation-first boxes ---------- */
+/* The citation sits at the top of each box. It is bold and colored to stand out,
+   but never larger than the body text (body = 1rem; citation = .9rem). */
+.cite-top { display: flex; flex-wrap: wrap; gap: .25rem .6rem; align-items: baseline; justify-content: space-between; margin: 0 0 .3rem; font-size: .9rem; line-height: 1.4; }
+.cite-top .cite { font-weight: 700; color: var(--info); font-variant-numeric: tabular-nums; }
+.cite-top .cite a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.cite-top .cite-tag { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 700; }
+.cite-sep { color: var(--muted); font-weight: 400; margin: 0 .2rem; }
+.callout.flag h3, .rule h3 { margin: .1rem 0 .3rem; font-size: 1rem; }
+.callout.flag > p { margin: .2rem 0 .5rem; }
+.sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .6rem; margin-top: .4rem; }
+.side { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: .65rem .75rem; }
+.side.side-state { border-left: 4px solid var(--info); }
+.side.side-city { border-left: 4px solid var(--warn); }
+.side.side-city .cite-top .cite { color: var(--warn); }
+.side p { margin: .2rem 0; font-size: .95rem; }
+.steps .cite-top { margin-top: .3rem; }
+.steps .cite-top .chip { font-size: .66rem; }
+.mini-compare { display: grid; gap: .15rem; margin-top: .35rem; padding: .4rem .55rem; border-radius: 6px; background: var(--bad-soft); font-size: .85rem; }
