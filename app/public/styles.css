@@ -352,3 +352,82 @@ body.embed .legend { padding: .8rem; font-size: .9rem; }
 /* Map card inside step 1 */
 .map-card .map-frame { display: block; width: 100%; height: 760px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); margin-top: .6rem; }
 .map-card .row { margin-top: .5rem; }
+
+/* ---------- compact header ---------- */
+.site-header { padding: .55rem 16px .25rem; }
+.brand { gap: .5rem; }
+.logo { width: 28px; height: 28px; }
+.brand h1 { font-size: 1.25rem; margin: 0; line-height: 1.2; }
+.brand .tagline { font-size: .85rem; }
+.site-nav a { padding: .35rem .75rem; font-size: .88rem; }
+.pf-tagline { margin: 0 0 .5rem; color: var(--muted); font-size: .92rem; font-weight: 600; }
+
+/* ---------- summary bar, second row ---------- */
+.pf-summary .city-card { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem 1.5rem; align-items: center; }
+.cc-item { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; font-size: .9rem; }
+.cc-label { color: var(--muted); font-size: .8rem; font-weight: 600; }
+.cc-link { display: inline-flex; align-items: center; gap: .3rem; font-weight: 600; }
+@media (max-width: 720px) { .pf-summary .city-card { flex-direction: column; align-items: flex-start; } }
+.ico { width: 1em; height: 1em; flex: none; vertical-align: -.15em; }
+.info-tip { position: relative; display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: help; font: inherit; }
+.info-tip:hover, .info-tip:focus-visible { color: var(--ink); }
+.info-tip::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 6px); right: -6px; width: max-content; max-width: 260px; padding: .45rem .6rem; border-radius: 6px; background: var(--ink); color: var(--bg); font-size: .78rem; font-weight: 500; line-height: 1.35; text-align: left; white-space: normal; opacity: 0; pointer-events: none; transform: translateY(2px); transition: opacity .12s, transform .12s; z-index: 5; }
+.info-tip:hover::after, .info-tip:focus-visible::after { opacity: 1; transform: none; }
+
+/* ---------- step page layout ---------- */
+.step-top { align-items: flex-start; }
+.step-title { display: flex; flex-wrap: wrap; gap: .4rem .7rem; align-items: center; min-width: 0; }
+.step-title h2 { font-size: 1.2rem; }
+.dur-chip { position: relative; font-size: .78rem; }
+.dur-chip > summary, .dur-chip.static { list-style: none; display: inline-flex; align-items: center; gap: .3rem; padding: .15rem .55rem; border-radius: 999px; border: 1px solid var(--line); background: var(--surface-2); color: var(--muted); font-weight: 600; }
+.dur-chip > summary { cursor: pointer; }
+.dur-chip > summary::-webkit-details-marker { display: none; }
+.dur-chip[open] > summary { color: var(--ink); border-color: var(--brand); }
+.dur-pop { margin-top: .4rem; padding: .3rem .8rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); font-size: .9rem; max-width: 640px; }
+.step-sec { margin-top: 1.1rem; }
+.sec-title { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 0 0 .5rem; }
+.sec-head { justify-content: space-between; }
+.sec-head h3 { margin: 0; font-size: 1rem; }
+.paperwork h4 { margin: 1rem 0 .3rem; font-size: .95rem; }
+.todo-list { margin: 0; padding-left: 1.2rem; display: grid; gap: .55rem; }
+.todo-list li::marker { color: var(--brand); }
+.td-title { font-weight: 700; }
+.td-cite { display: block; font-size: .78rem; color: var(--muted); margin-top: .1rem; }
+.td-cite a { color: inherit; }
+.btn.tel { display: inline-flex; align-items: center; gap: .35rem; padding: .25rem .7rem; font-size: .88rem; text-decoration: none; margin: .15rem 0; }
+.more > summary { cursor: pointer; font-weight: 700; margin-bottom: .4rem; }
+
+/* conflicts: collapsed alert bars */
+.alert-bar { border-radius: 10px; margin: .45rem 0; border: 1px solid transparent; }
+.alert-bar.bad { background: var(--bad-soft); }
+.alert-bar.warn { background: var(--warn-soft); }
+.alert-bar.info { background: var(--info-soft); }
+.alert-bar > summary { list-style: none; display: flex; gap: .6rem; align-items: center; padding: .6rem .8rem; cursor: pointer; font-weight: 650; }
+.alert-bar > summary::-webkit-details-marker { display: none; }
+.alert-bar > summary .ico { width: 1.15rem; height: 1.15rem; }
+.alert-bar.bad > summary .ico { color: var(--bad); }
+.alert-bar.warn > summary .ico { color: var(--warn); }
+.alert-bar.info > summary .ico { color: var(--info); }
+.ab-head { flex: 1; min-width: 0; }
+.ab-kind { font-size: .7rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 700; white-space: nowrap; }
+.alert-bar > summary::after { content: "▸"; color: var(--muted); transition: transform .15s; }
+.alert-bar[open] > summary::after { transform: rotate(90deg); }
+.ab-body { padding: 0 .8rem .8rem; }
+.ab-body > p { margin: .2rem 0 .5rem; }
+
+/* rights: collapsed rows */
+.right-row { border: 1px solid var(--line); border-radius: 8px; margin: .35rem 0; background: var(--surface-2); }
+.right-row > summary { list-style: none; display: flex; gap: .6rem; align-items: center; padding: .5rem .7rem; cursor: pointer; }
+.right-row > summary::-webkit-details-marker { display: none; }
+.right-row > summary::after { content: "▸"; margin-left: auto; color: var(--muted); transition: transform .15s; }
+.right-row[open] > summary::after { transform: rotate(90deg); }
+.cat-tag { flex: none; font-size: .66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: .05rem .35rem; background: var(--surface); }
+.rr-head { font-weight: 600; }
+.rr-body { padding: 0 .8rem .7rem; }
+.rr-body p { margin: .2rem 0; }
+.rr-body .source { font-size: .76rem; }
+
+@media print { .step-panel.printing .step-sec:not(.paperwork), .step-panel.printing .map-card { display: none !important; } }
+/* duration details float over the page instead of pushing the step header */
+.dur-pop { position: absolute; top: calc(100% + 6px); left: 0; z-index: 20; width: min(560px, calc(100vw - 48px)); box-shadow: 0 10px 30px rgba(0,0,0,.25); background: var(--surface); }
+@media (max-width: 640px) { .dur-pop { position: static; width: auto; box-shadow: none; } }

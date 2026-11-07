@@ -32,6 +32,7 @@
     <dialog class="pf-dialog" id="pf-dialog" aria-labelledby="pf-title">
       <form id="project-form" autocomplete="off">
         <h2 id="pf-title">Tell us about your project</h2>
+        <p class="pf-tagline">Your backyard home, from paperwork to keys — Orange County, CA</p>
         <p class="hint pf-intro" id="pf-intro">Answer a few questions and we'll show your path: steps, paperwork, the state rules that protect you, and a timeline.</p>
         <div class="pf-grid">
           <div class="pf-col">
