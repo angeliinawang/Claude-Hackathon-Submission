@@ -32,8 +32,7 @@
     <dialog class="pf-dialog" id="pf-dialog" aria-labelledby="pf-title">
       <form id="project-form" autocomplete="off">
         <h2 id="pf-title">Tell us about your project</h2>
-        <p class="pf-tagline">Your backyard home, from paperwork to keys — Orange County, CA</p>
-        <p class="hint pf-intro" id="pf-intro">Answer a few questions and we'll show your path: steps, paperwork, the state rules that protect you, and a timeline.</p>
+        <p class="hint pf-intro" id="pf-intro">Answer a few questions and we'll show your path.</p>
         <div class="pf-grid">
           <div class="pf-col">
             <label>City
@@ -45,24 +44,23 @@
               <label class="radio"><input type="radio" name="type" value="attached"> Attached ADU (addition to the house)</label>
               <label class="radio"><input type="radio" name="type" value="conversion"> Convert existing space (garage, room, accessory building)</label>
               <label class="radio"><input type="radio" name="type" value="garage_replace"> Tear down a detached garage &amp; build an ADU</label>
-              <label class="radio"><input type="radio" name="type" value="jadu"> Junior ADU (JADU, inside the house, up to 500 sq ft)</label>
+              <label class="radio"><input type="radio" name="type" value="jadu"> <span>Junior ADU (JADU, inside the house, up to 500 sq ft) ${UI.info("jadu")}</span></label>
             </fieldset>
           </div>
           <div class="pf-col">
             <label>Interior living space (sq ft)
               <input id="size" type="number" min="100" max="2000" step="10" value="600" inputmode="numeric">
             </label>
-            <label class="check" id="preapproved-wrap"><input id="preapproved" type="checkbox"> Using a city or state pre-approved plan</label>
+            <label class="check" id="preapproved-wrap"><input id="preapproved" type="checkbox"> <span>Using a city or state pre-approved plan ${UI.info("preapproved")}</span></label>
             <label class="check" id="shared-bath-wrap" hidden><input id="sharedbath" type="checkbox"> JADU shares a bathroom with the main house</label>
             <label class="check"><input id="existing" type="checkbox" checked> There is already a house on the lot</label>
-            <label>In the Coastal Zone?
+            <label>In the Coastal Zone? ${UI.info("coastal")}
               <select id="coastal">
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
                 <option value="unsure">Not sure</option>
               </select>
             </label>
-            <p class="hint">Not sure about the coastal zone? Ask your city's planning division; the Coastal Commission also maps it.</p>
           </div>
         </div>
         <div class="pf-actions">

@@ -7,17 +7,22 @@
   <meta name="description" content="Prototype: the paperwork, state rules and timeline for permitting an ADU in Orange County, with every fact sourced.">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <div class="proto-banner" role="note">
-    <strong>Prototype — not legal advice.</strong> Built at the Claude Impact Lab hackathon (Nov 7, 2026). Every fact links to its source; anything we could not confirm says <em>unknown</em>. Confirm with your city's planning division or a licensed professional before you act.
-  </div>
+<body class="guide">
+  <div class="proto-banner" role="note"><strong>Prototype.</strong> Not legal advice. Confirm with your city.</div>
 
   <header class="site-header">
     <div class="brand">
       <svg viewBox="0 0 32 32" aria-hidden="true" class="logo"><path d="M3 15 L13 6 L23 15 V27 H3 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M19 27 V19 H29 V27 Z" fill="currentColor" opacity=".85"/><path d="M17 20.5 L24 14 L31 20.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
       <h1>ADU Pathfinder</h1>
     </div>
-    <nav class="site-nav" aria-label="Pages"><a href="/" aria-current="page">ADU guide</a><a href="/map.html">Screening map</a><a href="/timeline.html">Calendar &amp; deadlines</a></nav>
+    <div class="pro-menu">
+      <button type="button" class="pro-btn" data-menu-toggle aria-controls="pro-menu" aria-expanded="false" aria-haspopup="true">For cities &amp; builders <span aria-hidden="true">▾</span></button>
+      <ul class="pro-list" id="pro-menu" hidden>
+        <li><a href="/map.html">Screening map</a></li>
+        <li><a href="/timeline.html">Fast-path timeline</a></li>
+        <li><button type="button" data-view="stale">Old-law checker</button></li>
+      </ul>
+    </div>
   </header>
 
   <main class="wide">
@@ -26,56 +31,64 @@
     <section class="results" aria-live="polite">
       <div class="empty" id="empty">
         <h2>Pick your city to start</h2>
-        <p>We'll build your step-by-step path, a printable paperwork checklist, the state rules that protect you, and a realistic timeline for <strong>9 Orange County cities</strong>: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, Irvine, Orange, Santa Ana and Tustin.</p>
+        <p>We'll show your steps, the paperwork to gather, the rules that protect you, and how long each step takes, for 9 Orange County cities.</p>
       </div>
 
       <div id="output" class="path-layout" hidden>
-        <aside class="path-nav panel" aria-label="Your path">
-          <h2 class="path-nav-title">Your path</h2>
+        <aside class="path-nav panel" id="path-nav" aria-label="Your steps">
+          <div class="pn-head">
+            <h2 class="path-nav-title">Your steps</h2>
+            <button type="button" class="pn-toggle" id="pn-toggle" aria-controls="path-nav" aria-expanded="true" aria-label="Close the steps panel"><span aria-hidden="true">«</span></button>
+          </div>
           <ol class="ps-list" id="ps-list"></ol>
-          <h2 class="path-nav-title tools-title">Tools</h2>
-          <ul class="ps-tools">
-            <li><button type="button" class="ps-tool" data-view="stale">Old-law checker</button></li>
-            <li><button type="button" class="ps-tool" data-view="ask">Ask a question</button></li>
-          </ul>
+          <div class="pn-foot" id="pn-foot"></div>
         </aside>
 
         <div class="path-content">
-        <div class="path-head" id="path-head"></div>
-        <div class="tab-panel step-panel" id="step-1"></div>
-        <div class="tab-panel step-panel" id="step-2" hidden></div>
-        <div class="tab-panel step-panel" id="step-3" hidden></div>
-        <div class="tab-panel step-panel" id="step-4" hidden></div>
-        <div class="tab-panel step-panel" id="step-5" hidden></div>
-        <div class="tab-panel step-panel" id="step-6" hidden></div>
-        <div class="tab-panel step-panel" id="step-7" hidden></div>
-        <div class="tab-panel" id="view-stale" hidden>
-          <h2>Is that city form citing old law?</h2>
-          <p>California renumbered ADU law in 2024 (SB 477): <code>65852.2</code>, <code>65852.22</code>, <code>65852.23</code> and <code>65852.26</code> became <strong>Gov Code 66310–66342</strong>, and in 2025 <code>66324</code>, <code>66327</code>, <code>66332</code> became <code>66311.5</code>, <code>66313.5</code>, <code>66311.7</code>. Paste text from a city checklist, handout or letter and we'll flag old section numbers.</p>
-          <textarea id="stale-input" rows="7" placeholder="Paste text from a city ADU checklist, e.g. “JADU covenant per Government Code Section 65852.22 …”"></textarea>
-          <div class="row"><button class="btn" id="stale-run">Check text</button><button class="btn ghost" id="stale-sample">Try a sample</button></div>
-          <div id="stale-out"></div>
-          <p class="source">Source: HCD ADU Handbook (March 2026), pp. 13–14. <a href="https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf" target="_blank" rel="noopener">PDF</a> · checked 2026-11-07</p>
-        </div>
+          <div class="tab-panel step-panel" id="step-1"></div>
+          <div class="tab-panel step-panel" id="step-2" hidden></div>
+          <div class="tab-panel step-panel" id="step-3" hidden></div>
+          <div class="tab-panel step-panel" id="step-4" hidden></div>
+          <div class="tab-panel step-panel" id="step-5" hidden></div>
+          <div class="tab-panel step-panel" id="step-6" hidden></div>
+          <div class="tab-panel step-panel" id="step-7" hidden></div>
 
-        <section class="tab-panel ask" id="view-ask" hidden>
-          <h2>Ask a question <span class="pill">Claude</span></h2>
-          <p class="hint">Answers come only from the sourced data on this page, with citations. If our sources don't say, it answers “unknown”.</p>
-          <form id="ask-form">
-            <textarea id="ask-input" rows="2" placeholder="e.g. Do I have to pay school fees for a 600 sq ft ADU in Anaheim?"></textarea>
-            <div class="row"><button class="btn" type="submit" id="ask-btn">Ask</button><span class="hint" id="ask-status"></span></div>
-          </form>
-          <div id="ask-out" class="answer" hidden></div>
-        </section>
+          <div class="tab-panel" id="view-stale" hidden>
+            <div class="row"><button type="button" class="btn ghost" data-back-to-steps>← Back to your steps</button></div>
+            <h2>Old-law checker</h2>
+            <p>California renumbered ADU law in 2024 (SB 477): <code>65852.2</code>, <code>65852.22</code>, <code>65852.23</code> and <code>65852.26</code> became <strong>Gov Code 66310–66342</strong>, and in 2025 <code>66324</code>, <code>66327</code>, <code>66332</code> became <code>66311.5</code>, <code>66313.5</code>, <code>66311.7</code>. Paste text from a city checklist, handout or letter and we'll flag old section numbers.</p>
+            <textarea id="stale-input" rows="7" placeholder="Paste text from a city ADU checklist, e.g. “JADU covenant per Government Code Section 65852.22 …”"></textarea>
+            <div class="row"><button class="btn" id="stale-run">Check text</button><button class="btn ghost" id="stale-sample">Try a sample</button></div>
+            <div id="stale-out"></div>
+            <p class="source">Source: HCD ADU Handbook (March 2026), pp. 13–14. <a href="https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf" target="_blank" rel="noopener">PDF</a> · checked 2026-11-07</p>
+            <div id="city-vs-state"></div>
+          </div>
+
+          <section class="tab-panel ask" id="view-ask" hidden>
+            <div class="row"><button type="button" class="btn ghost" data-back-to-steps>← Back to your steps</button></div>
+            <h2>Ask a question <span class="pill">Claude</span></h2>
+            <p class="hint">Answers come only from the sourced data in this guide, with citations. If our sources don't say, it answers “unknown”.</p>
+            <form id="ask-form">
+              <textarea id="ask-input" rows="2" placeholder="e.g. Do I have to pay school fees for a 600 sq ft ADU in Anaheim?"></textarea>
+              <div class="row"><button class="btn" type="submit" id="ask-btn">Ask</button><span class="hint" id="ask-status"></span></div>
+            </form>
+            <div id="ask-out" class="answer" hidden></div>
+          </section>
         </div>
       </div>
     </section>
   </main>
 
+  <dialog class="src-dialog" id="src-dialog" aria-labelledby="src-title">
+    <div class="src-head"><h2 id="src-title">Sources</h2><button type="button" class="btn ghost" id="src-close" aria-label="Close sources">Close</button></div>
+    <div id="src-body"></div>
+  </dialog>
+
   <footer class="site-footer">
-    <p><strong>Sources:</strong> HCD ADU Handbook (March 2026); California Government Code via <a href="https://leginfo.legislature.ca.gov" target="_blank" rel="noopener">leginfo</a>; each city's own ADU pages (linked per item); ADU permit and build-time data from <a href="https://backyardadu.net/data/" target="_blank" rel="noopener">BackyardADU.net</a> (third party, derived from HCD Annual Progress Reports). No personal information is collected or stored. This tool never submits anything to a city.</p>
+    <p><strong>Sources:</strong> HCD ADU Handbook (March 2026); California Government Code via <a href="https://leginfo.legislature.ca.gov" target="_blank" rel="noopener">leginfo</a>; each city's own ADU pages; ADU data from <a href="https://backyardadu.net/data/" target="_blank" rel="noopener">BackyardADU.net</a> (from HCD Annual Progress Reports). Each step's "Sources" button lists its sources. No personal information is collected. This tool never submits anything to a city.</p>
   </footer>
 
+  <script src="ui.js"></script>
   <script src="project-form.js"></script>
   <script src="app.js"></script>
 </body>

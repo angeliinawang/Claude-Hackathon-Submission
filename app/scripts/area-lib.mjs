@@ -25,14 +25,14 @@ const PAUSE_MS = 1500;
 async function arcgisQuery(url, params, label, log) {
   for (let attempt = 1; ; attempt++) {
     try {
-      const res = await fetch(`${url}/query`, { method: "POST", headers: { ...UA, "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams({ f: "json", ...params }) });
+      const res = await fetch(`${url}/query`, { method: "POST", headers: { ...UA, "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams({ f: "json", ...params }), signal: AbortSignal.timeout(90000) });
       const body = await res.json();
       if (body.error) throw new Error(JSON.stringify(body.error));
       return body;
     } catch (err) {
-      if (attempt >= 3) throw err;
-      log(`${label}: retry ${attempt} after error: ${err.message}`);
-      await sleep(3000 * attempt);
+      if (attempt >= 4) throw err;
+      log(`${label}: the server is slow, retrying (${attempt} of 3)…`);
+      await sleep(5000 * attempt);
     }
   }
 }
@@ -51,10 +51,13 @@ export async function fetchLayer(key, area, cacheDir, { refresh = false, log = (
   const cacheFile = path.join(cacheDir, `${key}.json`);
   if (!refresh && fs.existsSync(cacheFile)) return JSON.parse(fs.readFileSync(cacheFile, "utf8"));
   const { url, fields, pageSize } = LAYERS[key];
+  // County layers (parcels, flood, fire) are only used for joining, so query them by the area's
+  // bounding box: lighter for the county server than a long polygon. Zoning keeps the exact shape.
+  const queryArea = key !== "zoning" && area.kind === "polygon" ? { kind: "envelope", bbox: area.bbox } : area;
   const features = [];
   for (let offset = 0; ; offset += pageSize) {
     const body = await arcgisQuery(url, {
-      where: "1=1", ...geometryParams(area), spatialRel: "esriSpatialRelIntersects", outSR: "4326",
+      where: "1=1", ...geometryParams(queryArea), spatialRel: "esriSpatialRelIntersects", outSR: "4326",
       outFields: fields, returnGeometry: "true", geometryPrecision: "6", resultOffset: String(offset), resultRecordCount: String(pageSize),
     }, key, log);
     features.push(...(body.features || []));

@@ -552,3 +552,102 @@ body.embed .legend { padding: .8rem; font-size: .9rem; }
 .spinner { display: inline-block; width: .9em; height: .9em; border: 2px solid var(--line); border-top-color: var(--brand); border-radius: 50%; animation: spin .8s linear infinite; vertical-align: -.1em; margin-right: .3rem; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+
+/* =====================================================================
+   Homeowner guide redesign (body.guide)
+   ===================================================================== */
+.guide .proto-banner { padding: .45rem 16px; font-size: .88rem; }
+
+/* header menu */
+.pro-menu { position: relative; }
+.pro-btn { font: inherit; font-size: .85rem; font-weight: 600; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: .35rem .8rem; cursor: pointer; }
+.pro-btn:hover, .pro-btn[aria-expanded="true"] { color: var(--ink); border-color: var(--brand); }
+.pro-list { position: absolute; right: 0; top: calc(100% + 6px); z-index: 40; list-style: none; margin: 0; padding: .35rem; min-width: 200px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,.18); }
+.pro-list a, .pro-list button { display: block; width: 100%; text-align: left; font: inherit; font-size: .92rem; color: var(--ink); text-decoration: none; background: transparent; border: 0; border-radius: 6px; padding: .5rem .65rem; cursor: pointer; }
+.pro-list a:hover, .pro-list button:hover, .pro-list a:focus-visible, .pro-list button:focus-visible { background: var(--brand-soft); }
+
+/* sidebar (collapsible) */
+.guide .path-layout { grid-template-columns: 270px minmax(0, 1fr); }
+.guide .path-layout.nav-collapsed { grid-template-columns: 56px minmax(0, 1fr); }
+.pn-head { display: flex; align-items: center; justify-content: space-between; gap: .4rem; margin: 0 .2rem .5rem .4rem; }
+.pn-head .path-nav-title { margin: 0; }
+.pn-toggle { flex: none; width: 2rem; height: 2rem; display: grid; place-items: center; font: inherit; font-size: 1.05rem; font-weight: 700; color: var(--muted); background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
+.pn-toggle:hover { color: var(--ink); border-color: var(--brand); }
+.guide .ps { display: flex; align-items: center; gap: .3rem; position: static; }
+.guide .ps-btn { flex: 1; min-width: 0; padding-right: .5rem; align-items: center; }
+.guide .ps-done { position: static; flex: none; padding-right: .3rem; }
+.guide .ps.done .ps-num { background: var(--ok-soft); color: var(--ok); border-color: var(--ok); font-weight: 800; }
+.guide .ps.active .ps-num { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+.pn-foot { margin-top: .8rem; padding-top: .7rem; border-top: 1px solid var(--line); }
+.pn-foot:empty { display: none; }
+.pn-link { font: inherit; font-size: .88rem; color: var(--brand); background: none; border: 0; padding: .2rem .4rem; cursor: pointer; text-decoration: underline; }
+.nav-collapsed .path-nav { padding: .6rem .35rem; }
+.nav-collapsed .pn-head { justify-content: center; margin: 0 0 .5rem; }
+.nav-collapsed .path-nav-title, .nav-collapsed .ps-text, .nav-collapsed .ps-done, .nav-collapsed .pn-foot { display: none; }
+.nav-collapsed .ps-btn { justify-content: center; padding: .35rem 0; }
+.nav-collapsed .ps.active .ps-btn { background: transparent; border-color: transparent; }
+@media (max-width: 860px) {
+  .guide .path-layout, .guide .path-layout.nav-collapsed { grid-template-columns: minmax(0, 1fr); }
+  .nav-collapsed .ps-list { display: flex; flex-wrap: wrap; gap: .2rem; justify-content: center; }
+  .nav-collapsed .ps { flex: none; }
+}
+
+/* step page */
+.step-head { display: flex; gap: .8rem; align-items: flex-start; justify-content: space-between; }
+.step-kicker { margin: 0; font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.step-head h2 { font-size: 1.45rem; margin: .1rem 0 .4rem; }
+.step-head h2:focus { outline: none; }
+.src-btn { flex: none; font-size: .85rem; padding: .35rem .8rem; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .8rem; margin-top: 1rem; }
+.tile { border: 1px solid var(--line); border-radius: 12px; padding: .9rem 1rem; background: var(--surface-2); }
+.tile-big { font-size: 1.9rem; font-weight: 800; line-height: 1.1; color: var(--brand); font-variant-numeric: tabular-nums; }
+.tile-label { font-weight: 650; margin-top: .25rem; }
+.tile-small { font-size: .88rem; color: var(--muted); margin-top: .35rem; }
+.guide .todo-list { gap: .8rem; }
+.td-body { display: block; }
+.td-actions { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .45rem; }
+.btn.act { display: inline-flex; align-items: center; gap: .35rem; font-size: .86rem; padding: .3rem .75rem; text-decoration: none; }
+.soft-note { display: flex; gap: .6rem; align-items: flex-start; margin-top: 1rem; padding: .75rem .9rem; border-radius: 10px; background: var(--info-soft); color: var(--ink); }
+.soft-note > .ico { flex: none; width: 1.1rem; height: 1.1rem; margin-top: .15rem; color: var(--info); }
+.soft-note p { margin: 0; }
+.guide .map-card { border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.2rem; background: linear-gradient(135deg, var(--brand-soft), var(--surface-2)); }
+.guide .map-card h3 { font-size: 1.15rem; margin: 0 0 .3rem; }
+.guide .map-card p { margin: 0; }
+.city-steps { margin: .3rem 0 0; padding-left: 1.4rem; display: grid; gap: .45rem; }
+.city-steps .hint { display: block; }
+.more-btn { margin-top: .6rem; font-size: .86rem; padding: .3rem .75rem; }
+.step-nav { display: flex; justify-content: space-between; gap: .6rem; flex-wrap: wrap; margin-top: 1.6rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+
+/* paperwork */
+.guide .docs label { display: flex; flex-direction: column; gap: .15rem; cursor: pointer; }
+.doc-what { font-size: .9rem; color: var(--muted); }
+.doc-how { font-size: .85rem; }
+.doc-tags { margin-top: .1rem; }
+.tag.nc { border-color: transparent; background: var(--warn-soft); color: var(--warn); font-weight: 600; }
+
+/* sources dialog */
+.src-dialog { width: min(680px, calc(100vw - 32px)); max-height: calc(100vh - 48px); padding: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+.src-dialog::backdrop { background: rgba(10, 16, 18, .55); }
+.src-head { position: sticky; top: 0; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .9rem 1.1rem; background: var(--surface); border-bottom: 1px solid var(--line); }
+.src-head h2 { margin: 0; font-size: 1.05rem; }
+#src-body { padding: .3rem 1.1rem 1.1rem; }
+#src-body h3 { font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 1rem 0 .3rem; }
+.src-list { margin: 0; padding-left: 1.1rem; display: grid; gap: .4rem; font-size: .9rem; }
+.src-meta { color: var(--muted); font-size: .8rem; }
+
+/* info (ⓘ) buttons + popover */
+.info-btn { display: inline-grid; place-items: center; width: 1.15rem; height: 1.15rem; margin: 0 .1rem; padding: 0; vertical-align: .05em; font: italic 700 .72rem/1 Georgia, "Times New Roman", serif; color: var(--info); background: var(--info-soft); border: 1px solid currentColor; border-radius: 50%; cursor: pointer; }
+.info-btn:hover, .info-btn[aria-expanded="true"] { background: var(--info); color: var(--surface); }
+.info-pop { position: absolute; z-index: 60; padding: .7rem .85rem; border-radius: 10px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,.22); font-size: .9rem; line-height: 1.45; }
+.info-pop p { margin: 0 0 .25rem; }
+.info-pop p:last-child { margin: 0; }
+
+@media print {
+  .guide .step-panel.printing .step-head, .guide .step-panel.printing .tiles, .guide .step-panel.printing .todo, .guide .step-panel.printing .rights, .guide .step-panel.printing .step-nav { display: none !important; }
+  .pro-menu, .src-dialog { display: none !important; }
+}
+.guide .path-layout { grid-template-columns: 300px minmax(0, 1fr); }
+.guide .step-title { display: block; }
+.guide .step-title .dur-chip { display: inline-flex; }
+.todo-list > li.li-note { list-style: none; margin-left: -1.2rem; }
+.todo-list > li.li-note .soft-note { margin-top: 0; }

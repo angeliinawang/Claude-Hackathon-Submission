@@ -16,15 +16,14 @@ A first-time homeowner in one Orange County city who wants to add a backyard hom
 
 ## What we built
 
-A web app (no build step) with five views:
+A web app (no build step). The **homeowner guide** (`/`) is written for someone with no legal or planning background:
 
-| View | What it shows |
-|---|---|
-| **Your steps** | Where to submit, the city's own steps in order, then the state clocks (15-business-day completeness check, 60-day decision or 30 days for pre-approved detached plans, coastal permit), JADU deed restriction, Certificate of Occupancy |
-| **Paperwork** | Every form and document the city lists, tagged *Sign / Notarize / Record with County Recorder*, with links to the forms; state-required documents for your project; a printable packet |
-| **State-law check** | Only the state rules that apply to *your* project (type, size, coastal, pre-approved plan, shared bathroom), plus flags: stale citations, possible conflicts with state law, and city pages that disagree with each other |
-| **Timeline** | State legal maximums, city-published step times, and the city's real median build time (permit to Certificate of Occupancy) and ADU permits per year from Annual Progress Report data |
-| **Old-law checker** | Paste text from any city form; it highlights renumbered ADU sections (65852.2, .22, .23, .26, 66324, 66327, 66332) and shows the current numbers |
+- A first-run pop-up asks about the project (city, type, size, house on the lot, coastal zone); a summary bar with **Edit project**, a tap-to-call planning number (or "Find contact info ↗") and the city's ADU page stays on top.
+- A collapsible sidebar shows **7 steps**: Before you apply, Gather paperwork, Submit, City review, Corrections or denial, Fees, Build and move in, with a plain duration when one is known (e.g. "Up to about 3 months", "Typically about 10 months") and a Done checkbox.
+- Each step page: big **number tiles** where a number is the point (15 business days / 60 days; $0 or "Maybe" fees; typical months to move in), **What to do** in at most 3 plain bullets with action buttons, **Your rights for this step** as collapsed rows (plain headline; original wording and citation inside), and Back/Next.
+- Step 1 links to the screening map; Step 2 has the printable **paperwork checklist** with one plain line per item ("what it is, who prepares it") and "Not yet confirmed" tags.
+- Every citation, dataset and city source for a step sits behind its **Sources** button, with checked dates and "Not yet confirmed" where it applies. Terms like ADU, JADU, setbacks or deemed complete have a small **ⓘ** with a 1–2 sentence plain definition.
+- **For cities & builders** menu: Screening map, Fast-path timeline (deadline calendar), and the **Old-law checker** (paste text to flag renumbered ADU sections; also lists each city's City-vs-state comparisons).
 
 Cities covered: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, Irvine, Orange, Santa Ana, Tustin.
 
@@ -37,6 +36,7 @@ Cities covered: Anaheim, Costa Mesa, Fullerton, Garden Grove, Huntington Beach, 
 - Click a lot to see its APN, address, zoning, score, and every test with its result, reason and citation.
 - Filters: minimum acreage, a specific path, hide hazard lots, with a running "X of Y lots shown" count.
 - `map.html?apn=35631101` deep-links to one lot.
+- **Any Orange County ZIP:** type a ZIP and the server fetches that ZIP's lots on demand from the same layers (listed in `lanes/1-find-it/data/DATA-SOURCES.md`), clipped to the U.S. Census 2020 ZIP Code Tabulation Area (an approximation of the USPS ZIP). Orange County is checked against SCAG's Orange County layer. One ZIP at a time, paced requests, a 20,000-lot cap, cached in `data/zips/` (git-ignored). `map.html?zip=92808` deep-links. First load takes ~30–60 s; the county parcel server sometimes times out, in which case the page says to try again.
 - All rules live in `data/screening-rules.json` (editable). The engine (`public/screening.js`) has no thresholds of its own.
 
 ### Calendar & deadlines (`/timeline.html`)
