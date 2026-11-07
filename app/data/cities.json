@@ -26,7 +26,10 @@
         "Log in to or create an account in IrvineReady!.",
         "Start a new submittal (green plus button) and choose Project Type \"For Permitting--Other\".",
         "Upload the application package and submit online.",
-        "City reviews for completeness (about 2 business days). You are notified if more is needed.",
+        {
+          "text": "City reviews for completeness (about 2 business days). You are notified if more is needed.",
+          "state_rule": "completeness-15"
+        },
         "Pay fees through the link the city emails you.",
         "After payment, the project is processed for review."
       ],
@@ -131,7 +134,22 @@
         {
           "type": "state-law",
           "text": "Irvine's submittal list includes a notarized, recorded Covenant. HCD's Handbook (p. 21) says a local agency cannot impose a deed restriction on an ADU (it is required for a JADU). Ask Planning what the covenant covers and which law it relies on.",
-          "rule": "no-deed-adu"
+          "rule": "no-deed-adu",
+          "title": "City asks for an ADU covenant; state law bars ADU deed restrictions",
+          "sides": [
+            {
+              "who": "Irvine says",
+              "text": "The ADU submittal list includes a Covenant, obtained from Planning, notarized and recorded with the County of Orange Recorder.",
+              "cite": "City of Irvine, \"Project: Constructing an ADU\" submittal list",
+              "url": "https://cityofirvine.gov/building-permits-and-inspections/project-constructing-accessory-dwelling-unit-adu",
+              "status": "fetched",
+              "checked": "2026-11-07"
+            },
+            {
+              "who": "State law",
+              "rule": "no-deed-adu"
+            }
+          ]
         },
         {
           "type": "missing",
@@ -218,7 +236,26 @@
       "flags": [
         {
           "type": "conflict",
-          "text": "Santa Ana's own pages disagree: one step page says pre-approved projects may only be submitted over-the-counter with paper copies; another says pre-approved plans can only be submitted via electronic plan check. Call Planning at (714) 647-5804 (number from the city page summary) before you go."
+          "text": "Santa Ana's own pages disagree: one step page says pre-approved projects may only be submitted over-the-counter with paper copies; another says pre-approved plans can only be submitted via electronic plan check. Call Planning at (714) 647-5804 (number from the city page summary) before you go.",
+          "title": "Santa Ana's own pages disagree on how to submit",
+          "sides": [
+            {
+              "who": "Santa Ana page (Step 3)",
+              "text": "Pre-approved projects may only be submitted over-the-counter with paper copies of all documents.",
+              "cite": "City of Santa Ana FAQ, \"Step 3: Application Submittal\"",
+              "url": "https://santa-ana.org/question/step-3-application-submittal",
+              "status": "snippet",
+              "checked": "2026-11-07"
+            },
+            {
+              "who": "Santa Ana page (Step 2)",
+              "text": "Projects using the Pre-Approved ADU Plans can only submit via electronic plan check; staff may take up to 3 business days to respond to the request.",
+              "cite": "City of Santa Ana FAQ, \"Step 2: Submit a request for an electronic plan check\"",
+              "url": "https://www.santa-ana.org/question/step-2-submit-a-request-for-an-electronic-plan-check/",
+              "status": "snippet",
+              "checked": "2026-11-07"
+            }
+          ]
         }
       ]
     },
@@ -324,7 +361,26 @@
         {
           "type": "stale-citation",
           "text": "Anaheim's November 2025 ADU checklist still cites Gov Code 65852.2 and 65852.22 for the JADU covenant. Those sections were renumbered to 66310-66342 by SB 477 (2024). The current JADU deed restriction rule is Gov Code 66333(c).",
-          "rule": "jadu-deed"
+          "rule": "jadu-deed",
+          "title": "Checklist cites renumbered JADU law",
+          "sides": [
+            {
+              "who": "Anaheim says",
+              "text": "The November 2025 ADU Submittal Requirements Checklist cites Gov. Code 65852.2 and 65852.22 for the JADU covenant.",
+              "cite": "Anaheim ADU Submittal Requirements Checklist (Nov 2025)",
+              "url": "https://www.anaheim.net/DocumentCenter/View/35053/Accessory-Dwelling-Unit-Submittal-Requirements-Checklist",
+              "status": "repo-verified",
+              "checked": "2026-11-06"
+            },
+            {
+              "who": "State law (current numbering)",
+              "rule": "jadu-deed"
+            },
+            {
+              "who": "State law",
+              "renumbering": true
+            }
+          ]
         }
       ]
     },
@@ -381,7 +437,25 @@
       "flags": [
         {
           "type": "stale",
-          "text": "Costa Mesa's pre-engineered ADU page said plans were \"coming soon\" (early 2025). Confirm whether they are available now."
+          "text": "Costa Mesa's pre-engineered ADU page said plans were \"coming soon\" (early 2025). Confirm whether they are available now.",
+          "sides": [
+            {
+              "who": "Costa Mesa says",
+              "text": "Pre-engineered ADU plans were listed as \"coming soon\" (early 2025).",
+              "cite": "Costa Mesa, Pre-Engineered ADUs page",
+              "url": "https://www.costamesaca.gov/government/departments-and-divisions/economic-and-development-services/planning/accessory-dwelling-units-adu/pre-engineered-adus",
+              "status": "repo-verified",
+              "checked": "2026-11-06"
+            },
+            {
+              "who": "State law",
+              "text": "Local agencies had to develop a program for preapproved ADU plans by January 1, 2025.",
+              "cite": "Gov. Code § 65852.27 (AB 1332)",
+              "url": "https://www.hcd.ca.gov/sites/default/files/docs/policy-and-research/adu-handbook-update.pdf",
+              "source": "HCD ADU Handbook (Mar 2026) pp. 13, 50",
+              "section": "65852.27"
+            }
+          ]
         }
       ]
     },
@@ -421,7 +495,22 @@
       "flags": [
         {
           "type": "stale-citation",
-          "text": "Older Fullerton ordinance documents say the ADU/JADU rules follow Gov Code 65852.2 and 65852.22 (now renumbered to 66310-66342). The city's ADU page links Ordinance 3343 (June 17, 2025); check which one is current."
+          "text": "Older Fullerton ordinance documents say the ADU/JADU rules follow Gov Code 65852.2 and 65852.22 (now renumbered to 66310-66342). The city's ADU page links Ordinance 3343 (June 17, 2025); check which one is current.",
+          "title": "Older ordinance documents cite renumbered ADU law",
+          "sides": [
+            {
+              "who": "Fullerton says",
+              "text": "Ordinance documents say the ADU/JADU provisions follow Gov. Code 65852.2 and 65852.22.",
+              "cite": "City of Fullerton ordinance document (Title 15, Section 15.04)",
+              "url": "https://cityoffullerton.com/home/showpublisheddocument/555/637431713222930000",
+              "status": "snippet",
+              "checked": "2026-11-07"
+            },
+            {
+              "who": "State law",
+              "renumbering": true
+            }
+          ]
         },
         {
           "type": "missing",
@@ -475,11 +564,27 @@
         {
           "type": "history",
           "text": "In February 2023 the city voted to stop accepting ADU and SB 9 applications; the state sued March 8, 2023 and the council resumed processing March 21, 2023. The city page now says it provides ministerial review for all ADUs and JADUs.",
-          "source": "https://www.hcd.ca.gov/about-hcd/newsroom/california-sues-huntington-beach-violating-state-housing-element-law"
+          "source": "https://www.hcd.ca.gov/about-hcd/newsroom/california-sues-huntington-beach-violating-state-housing-element-law",
+          "title": "2023 ADU application freeze and state lawsuit"
         },
         {
           "type": "stale-citation",
-          "text": "The city page describes state ADU law as \"effective January 1, 2020\" and cites no current Gov Code sections. State ADU law has changed several times since (now Gov Code 66310-66342)."
+          "text": "The city page describes state ADU law as \"effective January 1, 2020\" and cites no current Gov Code sections. State ADU law has changed several times since (now Gov Code 66310-66342).",
+          "title": "City page describes state ADU law as of 2020",
+          "sides": [
+            {
+              "who": "Huntington Beach says",
+              "text": "Refers to \"new State ADU and JADU laws ... effective January 1, 2020\" and cites no current Gov. Code sections.",
+              "cite": "City of Huntington Beach ADU page",
+              "url": "https://www.huntingtonbeachca.gov/departments/community_development/planning_zoning/accessory_dwelling_units_%28adus%29.php",
+              "status": "fetched",
+              "checked": "2026-11-07"
+            },
+            {
+              "who": "State law",
+              "renumbering": true
+            }
+          ]
         },
         {
           "type": "missing",
@@ -576,7 +681,22 @@
         {
           "type": "note",
           "text": "Garden Grove's 1,000 sf pre-approved plan is over 750 sq ft, so impact fees may apply (proportionally) under Gov Code 66311.5(c). The 447, 630 and 750 sf plans are at or under 750 sq ft and exempt from impact fees.",
-          "rule": "impact-fee-750"
+          "rule": null,
+          "title": "1,000 sq ft pre-approved plan is over the impact-fee exemption",
+          "sides": [
+            {
+              "who": "Garden Grove says",
+              "text": "City pre-approved ADU plans come in 447, 630, 750 and 1,000 sq ft sizes.",
+              "cite": "Garden Grove ADU Go page",
+              "url": "https://ggcity.org/adu-go",
+              "status": "fetched",
+              "checked": "2026-11-07"
+            },
+            {
+              "who": "State law",
+              "rule": "impact-fee-over-750"
+            }
+          ]
         }
       ]
     },
@@ -596,7 +716,10 @@
       "steps": [
         "Complete the ADU or JADU Project Application (typed and signed) and the submittal checklist.",
         "A planner reviews materials before acceptance; incomplete applications are not accepted.",
-        "City acts on the application within 60 days of it being deemed complete."
+        {
+          "text": "City acts on the application within 60 days of it being deemed complete.",
+          "state_rule": "decision-60"
+        }
       ],
       "steps_source": {
         "url": "https://www.cityoforange.org/home/showpublisheddocument/5096/638672551774300000",
@@ -666,7 +789,22 @@
       "flags": [
         {
           "type": "stale",
-          "text": "Tustin's ADU page cites Ordinance No. 1517 (December 2021), which predates the 2024 renumbering and the 2024-2025 state ADU changes. The city's own ADU handbook is listed as \"Coming Soon!\"."
+          "text": "Tustin's ADU page cites Ordinance No. 1517 (December 2021), which predates the 2024 renumbering and the 2024-2025 state ADU changes. The city's own ADU handbook is listed as \"Coming Soon!\".",
+          "title": "ADU ordinance predates recent state changes",
+          "sides": [
+            {
+              "who": "Tustin says",
+              "text": "ADU rules are in Ordinance No. 1517 (December 2021), amending Tustin City Code 9279.",
+              "cite": "Tustin ADU page; Ordinance No. 1517",
+              "url": "https://www.tustinca.org/DocumentCenter/View/8093",
+              "status": "fetched",
+              "checked": "2026-11-07"
+            },
+            {
+              "who": "State law",
+              "renumbering": true
+            }
+          ]
         },
         {
           "type": "missing",

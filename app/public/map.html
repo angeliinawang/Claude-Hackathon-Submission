@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parcel Screening Map</title>
+  <meta name="description" content="Prototype: screens lots against state approval paths (ADU, SB 9, SB 684, SB 1123, AB 2011, SB 4) using public zoning and hazard data. Screening only, not a legal determination.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="proto-banner" role="note"><strong>Screening only — not a legal determination.</strong> Prototype built at the Claude Impact Lab (Nov 7, 2026). A lot that "passes" here still needs a planner, a title search and a site visit.</div>
+
+  <header class="site-header">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" aria-hidden="true" class="logo"><path d="M3 15 L13 6 L23 15 V27 H3 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M19 27 V19 H29 V27 Z" fill="currentColor" opacity=".85"/><path d="M17 20.5 L24 14 L31 20.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <div>
+        <h1>Parcel screening map</h1>
+        <p class="tagline">How many fast approval paths could plausibly apply to each lot?</p>
+      </div>
+    </div>
+    <nav class="site-nav" aria-label="Pages"><a href="/">ADU guide</a><a href="/map.html" aria-current="page">Screening map</a><a href="/timeline.html">Fast-path timeline</a></nav>
+  </header>
+
+  <main class="wide">
+    <section class="panel map-controls" aria-label="Filters">
+      <label>Minimum lot size (acres)
+        <input id="f-acres" type="number" min="0" step="0.05" value="0" inputmode="decimal">
+      </label>
+      <label>Approval path
+        <select id="f-path"><option value="">Any path (show all lots)</option></select>
+      </label>
+      <label class="check"><input id="f-hazard" type="checkbox"> Hide lots in hazard zones</label>
+      <p class="count" id="count" aria-live="polite">Loading…</p>
+    </section>
+
+    <div class="map-wrap">
+      <div id="map" role="region" aria-label="Map of screened lots"></div>
+      <div class="legend panel" id="legend"></div>
+    </div>
+
+    <p class="caption" id="caption"></p>
+
+    <details class="panel how">
+      <summary>How the screen works</summary>
+      <div id="how"></div>
+    </details>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="screening.js"></script>
+  <script src="map.js"></script>
+</body>
+</html>

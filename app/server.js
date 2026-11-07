@@ -48,7 +48,7 @@ DATA (JSON):
 <cities>${JSON.stringify(cities)}</cities>
 <city_stats>${JSON.stringify(stats)}</city_stats>`;
 
-const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml", ".csv": "text/csv; charset=utf-8" };
+const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml", ".csv": "text/csv; charset=utf-8", ".geojson": "application/geo+json; charset=utf-8" };
 
 function send(res, status, body, type = "application/json; charset=utf-8") {
   res.writeHead(status, { "Content-Type": type, "Cache-Control": "no-store" });
