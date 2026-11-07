@@ -18,3 +18,7 @@ build/
 .next/
 .DS_Store
 *.zip
+
+# screening map: ZIPs fetched on demand (regenerate via the map page)
+app/data/zips/
+app/data/raw/zips/

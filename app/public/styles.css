@@ -214,7 +214,7 @@ mark.old { background: var(--bad-soft); color: var(--bad); padding: 0 .15em; bor
 .how h3 { margin-top: 1rem; font-size: .95rem; }
 
 /* Leaflet popup (always light surface from Leaflet) */
-.pp { font: 13px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #1f2a2e; }
+.pp { font: 13px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #1f2a2e; max-height: min(55vh, 460px); overflow-y: auto; overscroll-behavior: contain; padding-right: .4rem; margin-right: -.4rem; }
 .pp .muted { color: #5d6b70; }
 .pp-head { border-bottom: 1px solid #e2ddd2; padding-bottom: .4rem; margin-bottom: .4rem; }
 .pp-score { margin-top: .35rem; display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; }
@@ -541,3 +541,14 @@ body.embed .legend { padding: .8rem; font-size: .9rem; }
 .ag.soon .ag-when { color: var(--warn); }
 .ag.late .ag-when, .ag.late .ag-title { color: var(--ev-late); }
 .ag p { margin: .2rem 0; }
+
+/* ---------- screening map: ZIP bar ---------- */
+.zip-bar { margin-bottom: .8rem; }
+.zip-form { display: flex; flex-wrap: wrap; gap: .5rem .8rem; align-items: end; }
+.zip-form label { margin: 0; font-weight: 600; font-size: .9rem; flex: 0 1 220px; }
+.zip-form input { width: 100%; font: inherit; color: var(--ink); background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: .5rem .65rem; margin-top: .3rem; letter-spacing: .05em; }
+.zip-status { margin: .6rem 0 0; }
+.zip-err { color: var(--bad); font-weight: 600; }
+.spinner { display: inline-block; width: .9em; height: .9em; border: 2px solid var(--line); border-top-color: var(--brand); border-radius: 50%; animation: spin .8s linear infinite; vertical-align: -.1em; margin-right: .3rem; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }

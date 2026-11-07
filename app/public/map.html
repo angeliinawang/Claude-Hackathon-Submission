@@ -23,6 +23,18 @@
   </header>
 
   <main class="wide">
+    <section class="panel zip-bar" aria-label="Area">
+      <form id="zip-form" class="zip-form" autocomplete="off">
+        <label>ZIP code (Orange County)
+          <input id="zip" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" list="zip-list" placeholder="e.g. 92808" aria-describedby="zip-status">
+        </label>
+        <datalist id="zip-list"></datalist>
+        <button class="btn" type="submit" id="zip-go">Load ZIP</button>
+        <button type="button" class="btn ghost" id="zip-demo" hidden>Back to demo area</button>
+      </form>
+      <p class="hint zip-status" id="zip-status" aria-live="polite"></p>
+    </section>
+
     <section class="panel map-controls" aria-label="Filters">
       <label>Minimum lot size (acres)
         <input id="f-acres" type="number" min="0" step="0.05" value="0" inputmode="decimal">

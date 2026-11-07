@@ -8,6 +8,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import Anthropic from "@anthropic-ai/sdk";
+import { buildArea, countInArea, fetchZcta, ZCTA_URL } from "./scripts/area-lib.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT) || 3000;
@@ -102,10 +103,81 @@ async function handleAsk(req, res) {
   }
 }
 
+// ---------- Screening map: fetch one Orange County ZIP on demand ----------
+// Uses the same public layers as the demo area (SCAG zoning, OC Parcels, OC Floodplains, OC fire
+// zones; see lanes/1-find-it/data/DATA-SOURCES.md), clipped to the Census ZIP Code Tabulation Area.
+// One ZIP at a time, cached on disk, capped in size: no bulk scraping.
+const ZIP_DIR = path.join(here, "data", "zips");
+const ZIP_RAW = path.join(here, "data", "raw", "zips");
+const MAX_LOTS = 20000;
+const zipJobs = new Map(); // zip -> { state, message, error, lots, started }
+let zipRunning = null;
+
+const zipFile = (zip) => path.join(ZIP_DIR, `${zip}.geojson`);
+function cachedZips() {
+  if (!fs.existsSync(ZIP_DIR)) return [];
+  return fs.readdirSync(ZIP_DIR).filter((f) => /^\d{5}\.json$/.test(f)).map((f) => JSON.parse(fs.readFileSync(path.join(ZIP_DIR, f), "utf8"))).sort((a, b) => a.zip.localeCompare(b.zip));
+}
+function zipStatus(zip) {
+  if (fs.existsSync(zipFile(zip))) {
+    const info = fs.existsSync(path.join(ZIP_DIR, `${zip}.json`)) ? JSON.parse(fs.readFileSync(path.join(ZIP_DIR, `${zip}.json`), "utf8")) : {};
+    return { zip, state: "done", url: `/data/zips/${zip}.geojson`, ...info };
+  }
+  return { zip, state: "idle", ...(zipJobs.get(zip) || {}) };
+}
+
+async function runZipJob(zip) {
+  const job = { state: "running", message: "Looking up the ZIP boundary (U.S. Census)…", started: Date.now() };
+  zipJobs.set(zip, job);
+  zipRunning = zip;
+  const log = (m) => { job.message = m; };
+  try {
+    const cacheDir = path.join(ZIP_RAW, zip);
+    const zcta = await fetchZcta(zip, cacheDir, { log });
+    if (!zcta) throw Object.assign(new Error(`ZIP ${zip} was not found in the Census ZIP Code Tabulation Areas.`), { user: true });
+    const area = { kind: "polygon", rings: zcta.rings, bbox: zcta.bbox };
+    log("Checking that the ZIP has Orange County lots (SCAG)…");
+    const count = await countInArea("zoning", area, log);
+    if (!count) throw Object.assign(new Error(`ZIP ${zip} has no lots in SCAG's Orange County zoning layer. Only Orange County ZIPs are supported.`), { user: true });
+    if (count > MAX_LOTS) throw Object.assign(new Error(`ZIP ${zip} has about ${count.toLocaleString()} lots, above this prototype's limit of ${MAX_LOTS.toLocaleString()} (kept low so we don't load public servers heavily).`), { user: true });
+    job.expected = count;
+    log(`Fetching about ${count.toLocaleString()} lots…`);
+    const geo = await buildArea({
+      studyArea: { name: `ZIP ${zip}`, bbox: zcta.bbox, zip },
+      area, cacheDir, clipRings: zcta.rings, log,
+      extraMeta: { zip_boundary: { zip, rings: zcta.rings, land_sq_mi: zcta.land_sq_mi, source: ZCTA_URL, fetched: zcta.fetched, note: "2020 Census ZIP Code Tabulation Area. ZCTAs approximate USPS ZIP delivery areas; lots are kept when their center falls inside." } },
+    });
+    if (!geo.features.length) throw Object.assign(new Error(`No Orange County lots fell inside ZIP ${zip}.`), { user: true });
+    fs.mkdirSync(ZIP_DIR, { recursive: true });
+    fs.writeFileSync(zipFile(zip), JSON.stringify(geo));
+    const cities = [...new Set(geo.features.map((f) => f.properties.city).filter(Boolean))].sort();
+    fs.writeFileSync(path.join(ZIP_DIR, `${zip}.json`), JSON.stringify({ zip, lots: geo.features.length, cities, generated: geo.metadata.generated }));
+    zipJobs.delete(zip);
+  } catch (err) {
+    job.state = "error";
+    job.error = err.user ? err.message : "Could not fetch this ZIP from the public map services. Try again in a minute.";
+    if (!err.user) console.error(`ZIP ${zip} fetch failed:`, err);
+  } finally {
+    zipRunning = null;
+  }
+}
+
+function handleZip(req, res, zip) {
+  if (!/^\d{5}$/.test(zip)) return send(res, 400, { state: "error", error: "Enter a 5-digit ZIP code." });
+  const status = zipStatus(zip);
+  if (req.method === "GET" || status.state === "done" || status.state === "running") return send(res, 200, status);
+  if (zipRunning && zipRunning !== zip) return send(res, 409, { zip, state: "busy", error: `Another ZIP (${zipRunning}) is loading. Try again when it finishes.` });
+  runZipJob(zip);
+  return send(res, 202, zipStatus(zip));
+}
+
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   if (req.method === "POST" && url.pathname === "/api/ask") return handleAsk(req, res);
   if (req.method === "GET" && url.pathname === "/api/status") return send(res, 200, { qa: hasKey });
+  if (req.method === "GET" && url.pathname === "/api/zips") return send(res, 200, { zips: cachedZips(), max_lots: MAX_LOTS });
+  const zm = url.pathname.match(/^\/api\/zip\/([^/]+)$/);
+  if (zm && (req.method === "GET" || req.method === "POST")) return handleZip(req, res, zm[1]);
   if (req.method !== "GET") return send(res, 405, { error: "Method not allowed" });
   if (url.pathname.startsWith("/data/")) return serveFile(res, path.join(here, "data"), url.pathname.slice(6));
   return serveFile(res, path.join(here, "public"), url.pathname === "/" ? "index.html" : url.pathname.slice(1));

@@ -245,7 +245,6 @@ function buildPath(city, p) {
     <h3>Check your lot's zoning and hazards</h3>
     <p>Zoning and hazard zones decide which approval paths are open to a lot. The screening map tests real lots against six state paths (ADU, SB 9, SB 684, SB 1123, AB 2011, SB 4) and outlines lots in flood or fire hazard zones. Click a lot to see every test, its result and its citation. Rules: <a href="/data/screening-rules.json" target="_blank" rel="noopener">screening-rules.json</a> (HCD fact sheets, April 2026).</p>
     <div class="callout ${inDemoArea ? "info" : "warn"}"><strong>Coverage: one demo area only</strong>Anaheim Hills and nearby unincorporated land along the Santa Ana River (2,622 lots). ${inDemoArea ? "Part of Anaheim is in the demo area; if your lot is outside it, check Anaheim's zoning map and ask the planning division." : `${esc(city.name)} is not covered yet. For your lot, check ${esc(city.name)}'s zoning map and ask the planning division.`}</div>
-    <div id="map-slot"></div>
     <div class="row"><a class="btn ghost" href="/map.html" target="_blank" rel="noopener">Open the full map</a><span class="hint">Screening only — not a legal determination.</span></div>
   </div>`);
 
@@ -355,7 +354,6 @@ let LAST = null;
 function renderPath(city, p) {
   const B = buildPath(city, p);
   const { DUR, flagCount } = B;
-  parkMap(); // keep the embedded map alive while step 1 is re-rendered
   for (const s of PATH_STEPS) {
     const n = s.n;
     const next = PATH_STEPS.find((x) => x.n === n + 1);
@@ -380,34 +378,6 @@ function renderPath(city, p) {
   const pb = $("#print-btn"); if (pb) pb.onclick = () => printTab(2);
   LAST = { DUR, flagCount };
   renderSidebar(DUR, flagCount);
-  attachMap();
-}
-
-// One embedded map, created once and placed in step 1's slot (lazy: loads when step 1 is shown).
-// The map does not depend on the project, so re-renders move the same iframe instead of
-// reloading it (moveBefore keeps its state where the browser supports it).
-let MAP_FRAME = null;
-function mapPark() {
-  let park = $("#map-park");
-  if (!park) { park = document.createElement("div"); park.id = "map-park"; park.hidden = true; document.body.appendChild(park); }
-  return park;
-}
-function moveFrame(target) {
-  if (MAP_FRAME.isConnected && typeof target.moveBefore === "function") target.moveBefore(MAP_FRAME, null);
-  else target.appendChild(MAP_FRAME);
-}
-function parkMap() { if (MAP_FRAME && MAP_FRAME.isConnected) moveFrame(mapPark()); }
-function attachMap() {
-  const slot = $("#map-slot");
-  if (!slot) return;
-  if (!MAP_FRAME) {
-    MAP_FRAME = document.createElement("iframe");
-    MAP_FRAME.className = "map-frame";
-    MAP_FRAME.title = "Parcel screening map (demo area)";
-    MAP_FRAME.loading = "lazy";
-    MAP_FRAME.src = "/map.html?embed=1";
-  }
-  moveFrame(slot);
 }
 
 function printTab(n) {
